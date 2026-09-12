@@ -1,0 +1,29 @@
+/* ===================================================
+   YASH ENTERPRISES - ADMIN DASHBOARD CSS
+   bestcctvservice.com/admin
+=================================================== */
+
+/* Dark scrollbars for admin table */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Admin Metric Card Hover */
+.admin-stat-card {
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.admin-stat-card:hover {
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+}

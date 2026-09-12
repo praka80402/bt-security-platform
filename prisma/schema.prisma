@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  STAFF
+  TECHNICIAN
+}
+
+enum ProductCategory {
+  CCTV_CAMERA
+  NVR_DVR
+  BIOMETRIC_ATTENDANCE
+  ACCESS_CONTROL
+  ACCESSORIES
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  CONVERTED
+  CLOSED
+}
+
+enum TicketStatus {
+  PENDING
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum AmcStatus {
+  ACTIVE
+  EXPIRING_SOON
+  EXPIRED
+}
+
+model AdminUser {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("admin_users")
+}
+
+model Product {
+  id             Int             @id @default(autoincrement())
+  name           String
+  slug           String          @unique
+  category       ProductCategory
+  brand          String          // CP Plus, Hikvision, eSSL, Dahua, Matrix, etc.
+  modelNumber    String?
+  price          Decimal?        @db.Decimal(10, 2)
+  description    String?         @db.Text
+  features       String?         @db.Text // Stored as JSON string or comma-separated
+  imageUrl       String?
+  inStock        Boolean         @default(true)
+  featured       Boolean         @default(false)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@map("products")
+}
+
+model Lead {
+  id          Int        @id @default(autoincrement())
+  name        String
+  phone       String
+  email       String?
+  serviceType String     // e.g., "CCTV Installation", "Biometric Attendance", "Repair"
+  message     String?    @db.Text
+  status      LeadStatus @default(NEW)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@map("leads")
+}
+
+model ServiceTicket {
+  id               Int          @id @default(autoincrement())
+  ticketNumber     String       @unique // e.g., TKT-1001
+  customerName     String
+  phone            String
+  address          String       @db.Text
+  city             String?      @default("Local")
+  serviceType      String       // CCTV_INSTALL, REPAIR, BIOMETRIC_SETUP, AMC_VISIT
+  issueDescription String       @db.Text
+  status           TicketStatus @default(PENDING)
+  technicianName   String?
+  technicianPhone  String?
+  scheduledDate    DateTime?
+  resolutionNotes  String?      @db.Text
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  @@map("service_tickets")
+}
+
+model AmcContract {
+  id              Int       @id @default(autoincrement())
+  contractNumber  String    @unique // e.g., AMC-2026-001
+  customerName    String
+  companyName     String?
+  phone           String
+  email           String?
+  address         String    @db.Text
+  planType        String    // Standard, Silver, Gold, Corporate
+  totalCameras    Int       @default(0)
+  totalBiometrics Int       @default(0)
+  amount          Decimal?  @db.Decimal(10, 2)
+  startDate       DateTime
+  endDate         DateTime
+  status          AmcStatus @default(ACTIVE)
+  notes           String?   @db.Text
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("amc_contracts")
+}
