@@ -35,10 +35,10 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-amber-400 via-yellow-400 to-amber-300 text-slate-950 py-10 md:py-14 border-b border-amber-500/40">
-      {/* Radiant light ambient glow */}
-      <div className="absolute top-0 right-1/4 w-[600px] h-[350px] bg-white/40 blur-[110px] pointer-events-none rounded-full" />
-      <div className="absolute bottom-0 left-10 w-[400px] h-[250px] bg-amber-200/50 blur-[90px] pointer-events-none rounded-full" />
+    <section className="relative overflow-hidden bg-white text-slate-900 py-12 md:py-16 border-b border-slate-200">
+      {/* Subtle light ambient glow */}
+      <div className="absolute top-0 right-1/4 w-[600px] h-[350px] bg-blue-50/70 blur-[110px] pointer-events-none rounded-full" />
+      <div className="absolute bottom-0 left-10 w-[400px] h-[250px] bg-amber-50/50 blur-[90px] pointer-events-none rounded-full" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
@@ -48,11 +48,11 @@ export default function Hero() {
             
             {/* Top Badge & Slogan */}
             <div className="flex flex-wrap items-center gap-3">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-950 text-amber-300 text-xs font-black tracking-wide shadow-md">
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-black tracking-wide shadow-sm">
+                <Sparkles className="w-3.5 h-3.5 text-blue-600" />
                 #1 CCTV &amp; Biometric Service Provider
               </div>
-              <span className="text-xs font-extrabold text-blue-900 bg-white/70 px-3 py-1 rounded-full border border-amber-300 shadow-sm">
+              <span className="text-xs font-extrabold text-slate-700 bg-slate-100 px-3 py-1 rounded-full border border-slate-200 shadow-sm">
                 🛡️ Safety You Can See. Service You Can Trust.
               </span>
             </div>
@@ -60,25 +60,25 @@ export default function Hero() {
             {/* Main Headline (Strictly 2 lines) */}
             <h1 className="text-3xl sm:text-4xl md:text-[42px] lg:text-[46px] font-black tracking-tight text-slate-950 leading-[1.2]">
               <span className="block">Securing Homes &amp; Businesses</span>
-              <span className="block text-blue-900 underline decoration-blue-600/40">With Smart Technology</span>
+              <span className="block text-blue-600 underline decoration-blue-500/30">With Smart Technology</span>
             </h1>
 
             {/* Subtext */}
-            <p className="text-slate-900 font-medium text-lg leading-relaxed max-w-2xl">
-              <strong className="text-slate-950 font-black">Yash Enterprises</strong> brings you crystal-clear HD/IP CCTV cameras, AI-powered biometric attendance, and fast doorstep repair with verified engineers.
+            <p className="text-slate-600 font-medium text-base sm:text-lg leading-relaxed max-w-2xl">
+              <strong className="text-slate-900 font-black">Yash Enterprises</strong> brings you crystal-clear HD/IP CCTV cameras, AI-powered biometric attendance, and fast doorstep repair with verified engineers.
             </p>
 
             {/* Badges in Clean Light White Pills */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-              <div className="flex items-center gap-2.5 text-xs font-bold text-slate-900 bg-white/95 px-3.5 py-2.5 rounded-xl shadow-sm border border-amber-200/80">
+              <div className="flex items-center gap-2.5 text-xs font-bold text-slate-800 bg-slate-50 px-3.5 py-2.5 rounded-xl shadow-sm border border-slate-200">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                 <span>Same-Day Installation</span>
               </div>
-              <div className="flex items-center gap-2.5 text-xs font-bold text-slate-900 bg-white/95 px-3.5 py-2.5 rounded-xl shadow-sm border border-amber-200/80">
+              <div className="flex items-center gap-2.5 text-xs font-bold text-slate-800 bg-slate-50 px-3.5 py-2.5 rounded-xl shadow-sm border border-slate-200">
                 <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0" />
                 <span>1-Year Warranty</span>
               </div>
-              <div className="flex items-center gap-2.5 text-xs font-bold text-slate-900 bg-white/95 px-3.5 py-2.5 rounded-xl shadow-sm border border-amber-200/80">
+              <div className="flex items-center gap-2.5 text-xs font-bold text-slate-800 bg-slate-50 px-3.5 py-2.5 rounded-xl shadow-sm border border-slate-200">
                 <Clock className="w-4 h-4 text-amber-600 shrink-0" />
                 <span>Doorstep Repair in 4 Hrs</span>
               </div>
@@ -89,26 +89,26 @@ export default function Hero() {
               <button
                 type="button"
                 onClick={openCallModal}
-                className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-slate-950 hover:bg-slate-900 text-amber-300 hover:text-white font-black shadow-xl transition transform hover:-translate-y-0.5 cursor-pointer"
+                className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black shadow-lg shadow-blue-600/25 transition transform hover:-translate-y-0.5 cursor-pointer"
               >
-                <PhoneCall className="w-5 h-5 text-amber-400" />
+                <PhoneCall className="w-5 h-5 text-white" />
                 <span>Call: +91 93089 07319</span>
               </button>
               <a
                 href="#services"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/90 hover:bg-white text-slate-950 font-bold border border-amber-400/80 shadow-md transition"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold border border-slate-300 shadow-sm transition"
               >
-                <Wrench className="w-5 h-5 text-blue-700" />
+                <Wrench className="w-5 h-5 text-slate-700" />
                 <span>Explore Services</span>
               </a>
             </div>
           </div>
 
-          {/* Right Column: Instant Quote Form (Pure White Card on Yellow) */}
+          {/* Right Column: Instant Quote Form (Pure Clean White Card) */}
           <div className="lg:col-span-5 lg:pt-0">
-            <div className="bg-white border-4 border-amber-200/90 p-6 sm:p-8 rounded-3xl shadow-2xl relative text-slate-900">
+            <div className="bg-white border border-slate-200 p-6 sm:p-8 rounded-3xl shadow-xl relative text-slate-900">
               <div className="mb-6">
-                <span className="text-xs uppercase font-black tracking-wider text-amber-700 block">Quick Inquiry</span>
+                <span className="text-xs uppercase font-black tracking-wider text-blue-600 block">Quick Inquiry</span>
                 <h3 className="text-2xl font-black text-slate-950 mt-0.5">Book Free Site Survey</h3>
                 <p className="text-xs text-slate-500 mt-1">Get custom quotation within 30 minutes</p>
               </div>
@@ -137,7 +137,7 @@ export default function Hero() {
                       placeholder="e.g. Ramesh Kumar"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white text-sm"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm shadow-sm"
                     />
                   </div>
 
@@ -149,7 +149,7 @@ export default function Hero() {
                       placeholder="e.g. 9308907319"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white text-sm"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm shadow-sm"
                     />
                   </div>
 
@@ -158,7 +158,7 @@ export default function Hero() {
                     <select
                       value={formData.serviceType}
                       onChange={(e) => setFormData({ ...formData, serviceType: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white text-sm cursor-pointer"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm cursor-pointer shadow-sm"
                     >
                       <option value="CCTV Installation">CCTV Installation (Home / Office)</option>
                       <option value="CCTV Repair">CCTV Repair & Troubleshooting</option>
@@ -176,7 +176,7 @@ export default function Hero() {
                       placeholder="e.g. 4 cameras needed for retail shop"
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white text-sm"
+                      className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm shadow-sm"
                     />
                   </div>
 

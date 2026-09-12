@@ -8,6 +8,7 @@ import {
   Wrench, 
   Package, 
   FileText, 
+  Building2,
   LogOut, 
   Shield, 
   Globe 
@@ -29,6 +30,7 @@ export default function AdminSidebar() {
     { label: "Service Tickets", href: "/admin/tickets", icon: Wrench },
     { label: "Product Catalog", href: "/admin/products", icon: Package },
     { label: "AMC Contracts", href: "/admin/amc", icon: FileText },
+    { label: "Clients Marquee", href: "/admin/clients", icon: Building2 },
   ];
 
   return (

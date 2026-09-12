@@ -1,4 +1,6 @@
 import Hero from "@/components/public/Hero";
+import EcosystemSection from "@/components/public/EcosystemSection";
+import ClientsMarquee from "@/components/public/ClientsMarquee";
 import Link from "next/link";
 import { 
   Camera, 
@@ -24,8 +26,8 @@ export default async function HomePage() {
     <>
       <Hero />
 
-      {/* Brand Logos Trust Bar (Light Warm Yellow Theme) */}
-      <section className="bg-amber-100/80 border-b border-amber-200/80 py-8 px-4">
+      {/* Brand Logos Trust Bar (Clean Light Theme) */}
+      <section className="bg-slate-50 border-b border-slate-200 py-8 px-4">
         <div className="max-w-7xl mx-auto">
           <p className="text-center text-xs uppercase font-extrabold tracking-widest text-slate-700 mb-6">
             Authorized Sales, Installation & Service Partner For Leading Brands
@@ -57,7 +59,7 @@ export default async function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Service Card 1 */}
-          <div className="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all space-y-4 group">
+          <div id="service-cctv" className="scroll-mt-24 bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all space-y-4 group">
             <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition">
               <Camera className="w-6 h-6" />
             </div>
@@ -77,7 +79,7 @@ export default async function HomePage() {
           </div>
 
           {/* Service Card 2 */}
-          <div className="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all space-y-4 group">
+          <div id="service-biometric" className="scroll-mt-24 bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all space-y-4 group">
             <div className="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center group-hover:bg-sky-600 group-hover:text-white transition">
               <Fingerprint className="w-6 h-6" />
             </div>
@@ -97,7 +99,7 @@ export default async function HomePage() {
           </div>
 
           {/* Service Card 3 */}
-          <div className="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all space-y-4 group">
+          <div id="service-repair" className="scroll-mt-24 bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all space-y-4 group">
             <div className="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition">
               <Wrench className="w-6 h-6" />
             </div>
@@ -117,7 +119,7 @@ export default async function HomePage() {
           </div>
 
           {/* Service Card 4 */}
-          <div className="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all space-y-4 group">
+          <div id="service-amc" className="scroll-mt-24 bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all space-y-4 group">
             <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition">
               <FileCheck className="w-6 h-6" />
             </div>
@@ -137,7 +139,7 @@ export default async function HomePage() {
           </div>
 
           {/* Service Card 5 */}
-          <div className="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all space-y-4 group">
+          <div id="service-storage" className="scroll-mt-24 bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all space-y-4 group">
             <div className="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition">
               <HardDrive className="w-6 h-6" />
             </div>
@@ -255,7 +257,7 @@ export default async function HomePage() {
       </section>
 
       {/* Why Choose Yash Enterprises Banner */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="pt-14 pb-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-r from-blue-700 via-blue-800 to-indigo-900 rounded-3xl text-white p-8 sm:p-14 shadow-2xl relative overflow-hidden">
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-8 space-y-4">
@@ -301,6 +303,12 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Continuous Loop Clients Marquee */}
+      <ClientsMarquee />
+
+      {/* The Yash Security Ecosystem Section (Right Above Footer) */}
+      <EcosystemSection />
     </>
   );
 }

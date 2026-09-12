@@ -1,4 +1,4 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -20,4 +20,24 @@ body {
 }
 .transition-card:hover {
   transform: translateY(-4px);
+}
+
+/* Infinite continuous marquee ticker */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 52s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
