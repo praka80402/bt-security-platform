@@ -17,10 +17,15 @@ import { db } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const featuredProducts = await db.product.findMany({
-    where: { featured: true },
-    take: 4,
-  });
+  let featuredProducts: any[] = [];
+  try {
+    featuredProducts = await db.product.findMany({
+      where: { featured: true },
+      take: 4,
+    });
+  } catch (error) {
+    console.error("Database query failed in HomePage:", error);
+  }
 
   return (
     <>

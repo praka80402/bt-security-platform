@@ -13,10 +13,15 @@ export default async function ProductsPage({
   if (searchParams.category) where.category = searchParams.category;
   if (searchParams.brand) where.brand = searchParams.brand;
 
-  const products = await db.product.findMany({
-    where,
-    orderBy: { createdAt: "desc" },
-  });
+  let products: any[] = [];
+  try {
+    products = await db.product.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.error("Database query failed in ProductsPage:", error);
+  }
 
   const categories = [
     { label: "All Products", value: "" },
