@@ -1,4 +1,4 @@
-﻿export type ProductCategory =
+export type ProductCategory =
   | "CCTV_CAMERA"
   | "NVR_DVR"
   | "BIOMETRIC_ATTENDANCE"
@@ -45,6 +45,7 @@ export interface ServiceTicketItem {
   serviceType: string;
   issueDescription: string;
   status: TicketStatus;
+  priority?: string;
   technicianName?: string | null;
   technicianPhone?: string | null;
   scheduledDate?: string | null;

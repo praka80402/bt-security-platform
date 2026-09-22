@@ -43,3 +43,9 @@ docs/
 cookies.txt
 
 
+
+.env
+.env.local
+
+# Cache
+*.tsbuildinfo

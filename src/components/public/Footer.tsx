@@ -69,22 +69,28 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
-                <span>Yash Enterprises, Main Market Road, Commercial Complex, Ground Floor</span>
+                <span>Plot No:-139, Lakhni bigha, Hanuman Asthan Near Sarvodya, City:- Patna- 801105</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-blue-500 shrink-0" />
-                <span>+91 93089 07319</span>
+                <span>+91 9308907319</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-blue-500 shrink-0" />
-                <span>yashenterprises.cctv@gmail.com</span>
+                <span>yash@bestcctvservice.com</span>
               </li>
             </ul>
+            <div className="mt-6 p-4 rounded-xl bg-slate-900 border border-slate-800">
+              <h5 className="text-xs font-bold text-white mb-2 uppercase tracking-wide text-blue-400">Our Service Areas in Bihar</h5>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                <strong className="text-slate-300">Patna (Head Office)</strong>, Ara, Buxar, Hajipur, Chapra, Muzaffarpur, Masaurhi, Gaya, Barh, and Bakhtiarpur.
+              </p>
+            </div>
           </div>
         </div>
 
         <div className="pt-8 border-t border-slate-800 text-xs flex flex-col md:flex-row justify-between items-center gap-4">
-          <p>© 2026 Yash Enterprises (bestcctvservice.com). All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Yash Enterprises (bestcctvservice.com). All rights reserved.</p>
           <div className="flex items-center gap-6">
             <Link href="/track" className="hover:text-white">Track Repair Status</Link>
             <Link href="/admin/login" className="hover:text-white text-slate-500">Admin Login</Link>

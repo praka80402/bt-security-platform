@@ -2,9 +2,16 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Yash Enterprises | Best CCTV Service & Biometric Attendance Solutions",
-  description: "Official portal for Yash Enterprises (bestcctvservice.com). HD & IP CCTV installation, biometric attendance systems, door access control, and 24/7 AMC maintenance.",
-  keywords: "best cctv service, cctv installation, biometric attendance, cp plus, hikvision, essl, yash enterprises, amc cctv",
+  metadataBase: new URL('https://bestcctvservice.com'),
+  title: "Yash Enterprises | CCTV Installation & Biometric Services in Patna, Bihar",
+  description: "Yash Enterprises (bestcctvservice.com) provides top CCTV installation, biometric attendance, and AMC maintenance in Patna, Ara, Buxar, Hajipur, Chapra, Muzaffarpur, Masaurhi, Gaya, Barh, and Bakhtiarpur.",
+  keywords: "cctv installation patna, biometric attendance bihar, cp plus dealer patna, hikvision patna, yash enterprises, amc cctv patna, best cctv service bihar",
+  alternates: {
+    canonical: '/',
+  },
+  verification: {
+    google: 'YOUR_GOOGLE_SEARCH_CONSOLE_VERIFICATION_TAG_HERE', // User needs to replace this
+  }
 };
 
 export default function RootLayout({

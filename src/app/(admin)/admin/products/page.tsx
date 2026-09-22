@@ -22,6 +22,8 @@ export default function AdminProductsPage() {
     featured: false,
   });
 
+  const [deleteConfirm, setDeleteConfirm] = useState<{show: boolean, id: number | null}>({show: false, id: null});
+
   const fetchProducts = async () => {
     setLoading(true);
     try {
@@ -70,18 +72,48 @@ export default function AdminProductsPage() {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    if (!confirm("Are you sure you want to remove this product?")) return;
+  const confirmDelete = async () => {
+    if (!deleteConfirm.id) return;
     try {
-      await fetch(`/api/products/${id}`, { method: "DELETE" });
+      await fetch(`/api/products/${deleteConfirm.id}`, { method: "DELETE" });
       fetchProducts();
     } catch (err) {
       console.error(err);
+    } finally {
+      setDeleteConfirm({ show: false, id: null });
     }
   };
 
   return (
     <div className="space-y-6">
+
+      {/* Delete Confirmation Modal */}
+      {deleteConfirm.show && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6 w-full max-w-sm shadow-2xl text-center">
+            <div className="w-16 h-16 bg-rose-500/20 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Trash2 className="w-8 h-8" />
+            </div>
+            <h3 className="text-lg font-bold text-white mb-2">Delete Product?</h3>
+            <p className="text-slate-400 text-sm mb-6">Are you sure you want to remove this product? This action cannot be undone.</p>
+            <div className="flex gap-3">
+              <button 
+                onClick={() => setDeleteConfirm({ show: false, id: null })}
+                className="flex-1 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-sm font-semibold transition"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={confirmDelete}
+                className="flex-1 px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-sm font-bold transition shadow-lg shadow-rose-500/20"
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-white">Product Inventory</h1>
@@ -156,7 +188,7 @@ export default function AdminProductsPage() {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <button
-                      onClick={() => handleDelete(p.id)}
+                      onClick={() => setDeleteConfirm({show: true, id: p.id})}
                       className="p-1.5 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition"
                       title="Delete Product"
                     >

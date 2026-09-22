@@ -7,7 +7,7 @@ standalone_dir = os.path.join(base_dir, '.next', 'standalone')
 
 # 1. Copy our robust standalone server.js
 shutil.copy2(
-    r'C:\Users\patha\.gemini\antigravity\brain\18b1d004-8208-4d03-b761-fd6b8353b196\scratch\standalone_server.js',
+    os.path.join(base_dir, 'standalone_server.js'),
     os.path.join(standalone_dir, 'server.js')
 )
 
@@ -38,7 +38,14 @@ PassengerAppEnv production
 with open(os.path.join(standalone_dir, '.htaccess'), 'w', encoding='utf-8') as f:
     f.write(htaccess_content)
 
-# 5. Zip
+# 5. Remove any local .env files so they don't overwrite the live server's DB credentials
+env_files_to_remove = ['.env', '.env.local', '.env.production', '.env.development']
+for env_file in env_files_to_remove:
+    env_path = os.path.join(standalone_dir, env_file)
+    if os.path.exists(env_path):
+        os.remove(env_path)
+
+# 6. Zip
 zip_path = os.path.join(base_dir, 'bestcctv_standalone.zip')
 if os.path.exists(zip_path):
     os.remove(zip_path)

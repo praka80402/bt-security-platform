@@ -158,18 +158,22 @@ export default function AdminClientsPage() {
     }
   };
 
-  const handleDelete = async (id: number, name: string) => {
-    if (!confirm(`Are you sure you want to remove client "${name}"?`)) return;
+  const [deleteConfirm, setDeleteConfirm] = useState<{show: boolean, id: number | null, name: string}>({show: false, id: null, name: ""});
+
+  const confirmDelete = async () => {
+    if (!deleteConfirm.id) return;
     try {
-      const res = await fetch(`/api/clients/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/clients/${deleteConfirm.id}`, { method: "DELETE" });
       if (res.ok) {
-        setClients(clients.filter((c) => c.id !== id));
+        setClients(clients.filter((c) => c.id !== deleteConfirm.id));
       } else {
         alert("Failed to delete client");
       }
     } catch (err) {
       console.error(err);
       alert("Error deleting client");
+    } finally {
+      setDeleteConfirm({ show: false, id: null, name: "" });
     }
   };
 
@@ -199,6 +203,34 @@ export default function AdminClientsPage() {
 
   return (
     <div className="space-y-6">
+
+      {/* Delete Confirmation Modal */}
+      {deleteConfirm.show && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6 w-full max-w-sm shadow-2xl text-center">
+            <div className="w-16 h-16 bg-rose-500/20 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Trash2 className="w-8 h-8" />
+            </div>
+            <h3 className="text-lg font-bold text-white mb-2">Delete Client?</h3>
+            <p className="text-slate-400 text-sm mb-6">Are you sure you want to remove client "{deleteConfirm.name}"? This action cannot be undone.</p>
+            <div className="flex gap-3">
+              <button 
+                onClick={() => setDeleteConfirm({ show: false, id: null, name: "" })}
+                className="flex-1 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-sm font-semibold transition"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={confirmDelete}
+                className="flex-1 px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-sm font-bold transition shadow-lg shadow-rose-500/20"
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
         <div>
@@ -366,7 +398,7 @@ export default function AdminClientsPage() {
                       <Edit3 className="w-3.5 h-3.5" /> Edit
                     </button>
                     <button
-                      onClick={() => handleDelete(client.id, client.name)}
+                      onClick={() => setDeleteConfirm({ show: true, id: client.id, name: client.name })}
                       className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-red-500 hover:bg-red-50 text-xs font-bold transition"
                       title="Delete client"
                     >
@@ -445,7 +477,7 @@ export default function AdminClientsPage() {
                         <Edit3 className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => handleDelete(client.id, client.name)}
+                        onClick={() => setDeleteConfirm({ show: true, id: client.id, name: client.name })}
                         className="p-2 rounded-lg text-red-500 hover:bg-red-50 transition"
                         title="Delete client"
                       >

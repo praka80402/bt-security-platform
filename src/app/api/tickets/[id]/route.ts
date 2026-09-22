@@ -1,10 +1,14 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { requireAuth } from "@/lib/auth";
 
 export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const { error } = await requireAuth(req, ["ADMIN", "STAFF", "TECHNICIAN"]);
+  if (error) return error;
+
   try {
     const ticketId = parseInt(params.id, 10);
     if (isNaN(ticketId)) {
@@ -26,8 +30,8 @@ export async function PATCH(
     });
 
     return NextResponse.json({ success: true, ticket: updatedTicket });
-  } catch (error) {
-    console.error("Update ticket error:", error);
+  } catch (err) {
+    console.error("Update ticket error:", err);
     return NextResponse.json({ error: "Failed to update ticket" }, { status: 500 });
   }
 }

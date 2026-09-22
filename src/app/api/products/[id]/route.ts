@@ -1,5 +1,6 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { requireAdmin } from "@/lib/auth";
 
 export async function GET(
   req: NextRequest,
@@ -13,7 +14,8 @@ export async function GET(
 
     if (!product) return NextResponse.json({ error: "Product not found" }, { status: 404 });
     return NextResponse.json({ product });
-  } catch (error) {
+  } catch (err) {
+    console.error(err);
     return NextResponse.json({ error: "Failed to fetch product" }, { status: 500 });
   }
 }
@@ -22,11 +24,15 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const { error } = await requireAdmin(req);
+  if (error) return error;
+
   try {
     const id = parseInt(params.id, 10);
     await db.product.delete({ where: { id } });
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (err) {
+    console.error(err);
     return NextResponse.json({ error: "Failed to delete product" }, { status: 500 });
   }
 }

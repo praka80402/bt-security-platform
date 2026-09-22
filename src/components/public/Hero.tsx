@@ -50,7 +50,7 @@ export default function Hero() {
             <div className="flex flex-wrap items-center gap-3">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-black tracking-wide shadow-sm">
                 <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-                #1 CCTV &amp; Biometric Service Provider
+                #1 CCTV &amp; Biometric Service in Patna, Bihar
               </div>
               <span className="text-xs font-extrabold text-slate-700 bg-slate-100 px-3 py-1 rounded-full border border-slate-200 shadow-sm">
                 🛡️ Safety You Can See. Service You Can Trust.
@@ -60,12 +60,12 @@ export default function Hero() {
             {/* Main Headline (Strictly 2 lines) */}
             <h1 className="text-3xl sm:text-4xl md:text-[42px] lg:text-[46px] font-black tracking-tight text-slate-950 leading-[1.2]">
               <span className="block">Securing Homes &amp; Businesses</span>
-              <span className="block text-blue-600 underline decoration-blue-500/30">With Smart Technology</span>
+              <span className="block text-blue-600 underline decoration-blue-500/30">Across Patna &amp; Beyond</span>
             </h1>
 
             {/* Subtext */}
             <p className="text-slate-600 font-medium text-base sm:text-lg leading-relaxed max-w-2xl">
-              <strong className="text-slate-900 font-black">Yash Enterprises</strong> brings you crystal-clear HD/IP CCTV cameras, AI-powered biometric attendance, and fast doorstep repair with verified engineers.
+              <strong className="text-slate-900 font-black">Yash Enterprises</strong> brings you crystal-clear HD/IP CCTV cameras, AI-powered biometric attendance, and fast doorstep repair with verified engineers in Patna, Ara, Buxar, Hajipur, Chapra, Muzaffarpur, Masaurhi, Gaya, Barh, and Bakhtiarpur.
             </p>
 
             {/* Badges in Clean Light White Pills */}

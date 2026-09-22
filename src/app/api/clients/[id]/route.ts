@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { requireStaff, requireAdmin } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -8,6 +9,9 @@ export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const { error } = await requireStaff(req);
+  if (error) return error;
+
   try {
     const id = parseInt(params.id);
     if (isNaN(id)) {
@@ -20,18 +24,18 @@ export async function PUT(
     const updated = await db.client.update({
       where: { id },
       data: {
-        ...(name && { name: name.trim() }),
-        ...(category && { category: category.trim() }),
-        ...(badge && { badge: badge.trim() }),
-        ...(logoUrl !== undefined && { logoUrl }),
+        ...(name && { name: String(name).trim().slice(0, 100) }),
+        ...(category && { category: String(category).trim().slice(0, 50) }),
+        ...(badge && { badge: String(badge).trim().slice(0, 50) }),
+        ...(logoUrl !== undefined && { logoUrl: logoUrl ? String(logoUrl).slice(0, 300) : null }),
         ...(sortOrder !== undefined && { sortOrder: parseInt(sortOrder) }),
         ...(isActive !== undefined && { isActive }),
       },
     });
 
     return NextResponse.json({ client: updated });
-  } catch (error) {
-    console.error("Failed to update client:", error);
+  } catch (err) {
+    console.error("Failed to update client:", err);
     return NextResponse.json({ error: "Failed to update client" }, { status: 500 });
   }
 }
@@ -41,6 +45,9 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const { error } = await requireAdmin(req);
+  if (error) return error;
+
   try {
     const id = parseInt(params.id);
     if (isNaN(id)) {
@@ -52,8 +59,8 @@ export async function DELETE(
     });
 
     return NextResponse.json({ message: "Client removed successfully" });
-  } catch (error) {
-    console.error("Failed to delete client:", error);
+  } catch (err) {
+    console.error("Failed to delete client:", err);
     return NextResponse.json({ error: "Failed to delete client" }, { status: 500 });
   }
 }

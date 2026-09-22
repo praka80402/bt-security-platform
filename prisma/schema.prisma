@@ -51,6 +51,7 @@ model AdminUser {
   role         Role     @default(ADMIN)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  sessions     Session[]
 
   @@map("admin_users")
 }
@@ -98,6 +99,7 @@ model ServiceTicket {
   serviceType      String       // CCTV_INSTALL, REPAIR, BIOMETRIC_SETUP, AMC_VISIT
   issueDescription String       @db.Text
   status           TicketStatus @default(PENDING)
+  priority         String       @default("Normal") // Normal, High, Urgent
   technicianName   String?
   technicianPhone  String?
   scheduledDate    DateTime?
@@ -144,3 +146,78 @@ model Client {
   @@map("clients")
 }
 
+
+
+enum QuotationType {
+  CCTV
+  BIOMETRIC
+  FIRE
+  OTHER
+}
+
+enum QuotationStatus {
+  DRAFT
+  SENT
+  ACCEPTED
+  REJECTED
+}
+
+model Quotation {
+  id             Int             @id @default(autoincrement())
+  quotationNo    String          @unique
+  type           QuotationType
+  status         QuotationStatus @default(DRAFT)
+
+  customerName   String
+  companyName    String?
+  phone          String
+  email          String?
+  address        String?         @db.Text
+
+  subTotal       Decimal         @db.Decimal(10, 2)
+  discount       Decimal?        @default(0) @db.Decimal(10, 2)
+  taxAmount      Decimal?        @default(0) @db.Decimal(10, 2)
+  totalAmount    Decimal         @db.Decimal(10, 2)
+
+  notes          String?         @db.Text
+  terms          String?         @db.Text
+
+  items          QuotationItem[]
+
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@map("quotations")
+}
+
+model QuotationItem {
+  id          Int       @id @default(autoincrement())
+  quotationId Int
+  quotation   Quotation @relation(fields: [quotationId], references: [id], onDelete: Cascade)
+
+  name        String
+  description String?
+  quantity    Int
+  unitPrice   Decimal   @db.Decimal(10, 2)
+  totalPrice  Decimal   @db.Decimal(10, 2)
+
+  @@map("quotation_items")
+}
+
+/// Active login sessions. A token is only valid while its row exists here,
+/// so logout or deleting a user kills their access immediately.
+model Session {
+  id           Int      @id @default(autoincrement())
+  tokenHash    String   @unique @db.VarChar(64)
+  userId       Int
+  user         AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userAgent    String?  @db.Text
+  ipAddress    String?  @db.VarChar(64)
+  expiresAt    DateTime
+  lastUsedAt   DateTime @default(now())
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("sessions")
+}

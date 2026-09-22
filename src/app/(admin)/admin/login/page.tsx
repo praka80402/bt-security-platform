@@ -7,8 +7,8 @@ import Link from "next/link";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("admin@bestcctvservice.com");
-  const [password, setPassword] = useState("admin123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -25,10 +25,10 @@ export default function AdminLoginPage() {
       });
       const data = await res.json();
 
-      if (res.ok && data.token) {
-        localStorage.setItem("adminToken", data.token);
-        localStorage.setItem("adminUser", JSON.stringify(data.user));
-        router.push("/admin");
+      if (res.ok && data.success) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const nextUrl = urlParams.get("next") || "/admin";
+        router.push(nextUrl);
       } else {
         setErrorMsg(data.error || "Invalid credentials");
       }
@@ -46,8 +46,12 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md relative z-10">
         {/* Brand Header */}
         <div className="text-center mb-8 space-y-2">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-700 to-sky-500 flex items-center justify-center text-white mx-auto shadow-lg shadow-blue-600/30">
-            <Shield className="w-8 h-8" />
+          <div className="flex items-center justify-center mx-auto mb-4">
+            <img 
+              src="/images/logo.png" 
+              alt="Yash Enterprises Logo" 
+              className="h-24 sm:h-28 w-auto object-contain drop-shadow-lg"
+            />
           </div>
           <h1 className="text-2xl font-black text-white tracking-tight">
             Yash Enterprises
@@ -75,6 +79,7 @@ export default function AdminLoginPage() {
                 <input
                   type="email"
                   required
+                  placeholder="admin@bestcctvservice.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-slate-950/70 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
@@ -89,6 +94,7 @@ export default function AdminLoginPage() {
                 <input
                   type="password"
                   required
+                  placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-slate-950/70 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
@@ -108,14 +114,9 @@ export default function AdminLoginPage() {
 
           <div className="mt-6 pt-6 border-t border-slate-800/80 text-center">
             <Link href="/" className="text-xs text-slate-400 hover:text-white transition">
-              ← Return to Customer Website
+              &larr; Return to Customer Website
             </Link>
           </div>
-        </div>
-
-        {/* Demo Credentials hint */}
-        <div className="mt-4 p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-[11px] text-slate-400 text-center">
-          Default Login: <span className="text-blue-400 font-mono">admin@bestcctvservice.com</span> / Password: <span className="text-blue-400 font-mono">admin123</span>
         </div>
       </div>
     </div>

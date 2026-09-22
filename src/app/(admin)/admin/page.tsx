@@ -1,15 +1,16 @@
 import { db } from "@/lib/db";
-import { Users, Wrench, Package, FileText, ArrowUpRight, ArrowRight } from "lucide-react";
+import { Users, Wrench, Package, FileText, ArrowUpRight, ArrowRight, ClipboardList } from "lucide-react";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
-  const [totalLeads, totalTickets, totalProducts, totalAmc] = await Promise.all([
+  const [totalLeads, totalTickets, totalProducts, totalAmc, totalQuotations] = await Promise.all([
     db.lead.count(),
     db.serviceTicket.count(),
     db.product.count(),
     db.amcContract.count(),
+    db.quotation.count(),
   ]);
 
   const recentLeads = await db.lead.findMany({
@@ -32,7 +33,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* KPI Cards (Entire cards are clickable) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
         
         {/* Leads KPI Card */}
         <Link
@@ -48,6 +49,23 @@ export default async function AdminDashboardPage() {
           </div>
           <div className="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center group-hover:scale-110 transition">
             <Users className="w-6 h-6" />
+          </div>
+        </Link>
+
+        {/* Quotations KPI Card (New 5th Card) */}
+        <Link
+          href="/admin/quotations"
+          className="bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-purple-500/50 p-5 rounded-2xl flex items-center justify-between transition-all group shadow-md"
+        >
+          <div>
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Quotations</span>
+            <span className="text-3xl font-black text-white mt-1 block">{totalQuotations}</span>
+            <span className="text-xs text-purple-400 font-semibold flex items-center gap-1 mt-2 group-hover:translate-x-1 transition">
+              Manage Quotes <ArrowRight className="w-3.5 h-3.5" />
+            </span>
+          </div>
+          <div className="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center group-hover:scale-110 transition">
+            <ClipboardList className="w-6 h-6" />
           </div>
         </Link>
 

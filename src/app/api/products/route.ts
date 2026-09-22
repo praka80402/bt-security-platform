@@ -1,5 +1,6 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { requireStaff } from "@/lib/auth";
 
 // GET /api/products (Public / Mobile App catalog with optional filter ?category=...&brand=...)
 export async function GET(req: NextRequest) {
@@ -20,13 +21,17 @@ export async function GET(req: NextRequest) {
     });
 
     return NextResponse.json({ products });
-  } catch (error) {
+  } catch (err) {
+    console.error("Products GET error:", err);
     return NextResponse.json({ error: "Failed to fetch products" }, { status: 500 });
   }
 }
 
 // POST /api/products (Admin creates new product)
 export async function POST(req: NextRequest) {
+  const { error } = await requireStaff(req);
+  if (error) return error;
+
   try {
     const body = await req.json();
     const { name, category, brand, modelNumber, price, description, features, imageUrl, inStock, featured } = body;
@@ -39,28 +44,28 @@ export async function POST(req: NextRequest) {
     }
 
     // Generate slug
-    const baseSlug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    const baseSlug = String(name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
     const slug = `${baseSlug}-${Date.now().toString().slice(-4)}`;
 
     const product = await db.product.create({
       data: {
-        name,
+        name: String(name).trim().slice(0, 150),
         slug,
         category,
-        brand,
-        modelNumber: modelNumber || null,
+        brand: String(brand).trim().slice(0, 50),
+        modelNumber: modelNumber ? String(modelNumber).slice(0, 50) : null,
         price: price ? parseFloat(price) : null,
-        description: description || null,
+        description: description ? String(description).slice(0, 2000) : null,
         features: typeof features === "string" ? features : JSON.stringify(features || []),
-        imageUrl: imageUrl || null,
+        imageUrl: imageUrl ? String(imageUrl).slice(0, 300) : null,
         inStock: inStock !== undefined ? inStock : true,
         featured: featured !== undefined ? featured : false,
       },
     });
 
     return NextResponse.json({ success: true, product }, { status: 201 });
-  } catch (error) {
-    console.error("Create product error:", error);
+  } catch (err) {
+    console.error("Create product error:", err);
     return NextResponse.json({ error: "Failed to create product" }, { status: 500 });
   }
 }
