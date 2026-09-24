@@ -1,8 +1,38 @@
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { Shield, Printer } from "lucide-react";
 import { getAuthUserServer } from "@/lib/auth";
 import crypto from "crypto";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { quotationNo: string };
+}): Promise<Metadata> {
+  const quotationNo = params.quotationNo.toUpperCase();
+  const quotation = await db.quotation.findUnique({
+    where: { quotationNo },
+  });
+
+  if (!quotation) {
+    return { title: "Quotation Not Found" };
+  }
+
+  const typeMap: Record<string, string> = {
+    CCTV: "CCTV Setup",
+    BIOMETRIC: "Biometric Setup",
+    FIRE: "Fire Alarm Setup",
+    OTHER: "Security Setup",
+  };
+  
+  const typeStr = typeMap[quotation.type] || quotation.type;
+  const cName = quotation.companyName ? `${quotation.companyName} - ` : (quotation.customerName ? `${quotation.customerName} - ` : "");
+  
+  return {
+    title: `${cName}${typeStr} Quotation`,
+  };
+}
 
 export default async function PublicQuotationPage({
   params,
@@ -228,3 +258,4 @@ export default async function PublicQuotationPage({
     </div>
   );
 }
+

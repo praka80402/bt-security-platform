@@ -14,7 +14,13 @@ export default function ViewQuotationPage() {
     fetch(`/api/admin/quotations/${id}`)
       .then(res => res.json())
       .then(data => {
-        if (data.success) setQuotation(data.quotation);
+        if (data.success) {
+          setQuotation(data.quotation);
+          const typeMap: any = { CCTV: "CCTV Setup", BIOMETRIC: "Biometric Setup", FIRE: "Fire Alarm Setup", OTHER: "Security Setup" };
+          const t = typeMap[data.quotation.type] || data.quotation.type;
+          const c = data.quotation.companyName ? `${data.quotation.companyName} - ` : (data.quotation.customerName ? `${data.quotation.customerName} - ` : "");
+          document.title = `${c}${t} Quotation`;
+        }
         setLoading(false);
       });
   }, [id]);
@@ -251,3 +257,4 @@ export default function ViewQuotationPage() {
     </div>
   );
 }
+
