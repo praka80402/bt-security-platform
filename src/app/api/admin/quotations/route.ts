@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireStaff } from '@/lib/auth';
+import crypto from 'crypto';
 
 export async function POST(req: NextRequest) {
   const { error } = await requireStaff(req);
@@ -21,9 +22,11 @@ export async function POST(req: NextRequest) {
       const quotationNo = `YE-QT-${new Date().getFullYear()}-${String(nextId).padStart(3, '0')}`;
 
       try {
+        const publicToken = crypto.randomBytes(16).toString("hex");
         newQuotation = await db.quotation.create({
           data: {
             quotationNo,
+            publicToken,
             type,
             customerName: String(customerName || 'Unknown Client').slice(0, 120),
             companyName: companyName ? String(companyName).slice(0, 120) : null,

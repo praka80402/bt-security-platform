@@ -1,8 +1,16 @@
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { Shield, Printer } from "lucide-react";
+import { getAuthUserServer } from "@/lib/auth";
+import crypto from "crypto";
 
-export default async function PublicQuotationPage({ params }: { params: { quotationNo: string } }) {
+export default async function PublicQuotationPage({
+  params,
+  searchParams,
+}: {
+  params: { quotationNo: string };
+  searchParams: { k?: string };
+}) {
   const quotationNo = params.quotationNo.toUpperCase();
   
   const quotation = await db.quotation.findUnique({
@@ -10,7 +18,20 @@ export default async function PublicQuotationPage({ params }: { params: { quotat
     include: { items: true },
   });
 
-  if (!quotation) {
+  const user = await getAuthUserServer();
+  let tokenOk = false;
+
+  if (quotation?.publicToken && searchParams.k) {
+    try {
+      const dbToken = Buffer.from(quotation.publicToken);
+      const queryToken = Buffer.from(searchParams.k.padEnd(quotation.publicToken.length).slice(0, quotation.publicToken.length));
+      tokenOk = crypto.timingSafeEqual(dbToken, queryToken);
+    } catch (e) {
+      tokenOk = false;
+    }
+  }
+
+  if (!quotation || (!user && !tokenOk)) {
     notFound();
   }
 

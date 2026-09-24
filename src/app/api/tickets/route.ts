@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { requireAuth } from "@/lib/auth";
+import { requireAuth, getAuthUser } from "@/lib/auth";
 
 // GET /api/tickets?phone=... OR ?ticketNumber=... OR (no query = admin list)
 export async function GET(req: NextRequest) {
@@ -15,7 +15,6 @@ export async function GET(req: NextRequest) {
       });
       if (!ticket) return NextResponse.json({ error: "Ticket not found" }, { status: 404 });
       
-      const { getAuthUser } = require("@/lib/auth");
       const user = await getAuthUser(req);
       if (!user) {
         // Redact PII (Name, Phone, Address, City) for public tracking
@@ -28,7 +27,6 @@ export async function GET(req: NextRequest) {
             priority: ticket.priority,
             scheduledDate: ticket.scheduledDate,
             technicianName: ticket.technicianName,
-            resolutionNotes: ticket.resolutionNotes,
             createdAt: ticket.createdAt,
             issueDescription: ticket.issueDescription
           }
@@ -45,10 +43,23 @@ export async function GET(req: NextRequest) {
         return NextResponse.json(
           { error: "Please enter your full 10-digit phone number" }, { status: 400 });
       }
+
+      const user = await getAuthUser(req);
       const tickets = await db.serviceTicket.findMany({
         where: { phone: phone.trim() },
         orderBy: { createdAt: "desc" },
         take: 20,
+        select: user ? undefined : {
+          id: true,
+          ticketNumber: true,
+          serviceType: true,
+          status: true,
+          priority: true,
+          scheduledDate: true,
+          technicianName: true,
+          createdAt: true,
+          issueDescription: true
+        }
       });
       return NextResponse.json({ tickets });
     }

@@ -41,7 +41,7 @@ export default function ViewQuotationPage() {
   };
 
   const handleWhatsApp = () => {
-    const text = `Hello ${quotation.customerName},%0A%0AHere is your quotation (${quotation.quotationNo}) from Yash Enterprises.%0ATotal Amount: Rs. ${quotation.totalAmount}%0A%0AClick the link below to view and download your full quotation invoice:%0Ahttps://bestcctvservice.com/quote/${quotation.quotationNo}%0A%0APlease let us know if you approve.%0A%0AThank You.`;
+    const text = `Hello ${quotation.customerName},%0A%0AHere is your quotation (${quotation.quotationNo}) from Yash Enterprises.%0ATotal Amount: Rs. ${quotation.totalAmount}%0A%0AClick the link below to view and download your full quotation invoice:%0Ahttps://bestcctvservice.com/quote/${quotation.quotationNo}?k=${quotation.publicToken || ''}%0A%0APlease let us know if you approve.%0A%0AThank You.`;
     window.open(`https://api.whatsapp.com/send?text=${text}`, "_blank");
   };
 

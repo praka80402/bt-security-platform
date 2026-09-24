@@ -41,3 +41,11 @@ body {
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* Hide floating buttons on mobile when a form input is focused */
+@media (max-width: 768px) {
+  body:has(input:focus, textarea:focus, select:focus) .floating-actions {
+    opacity: 0;
+    pointer-events: none;
+  }
+}

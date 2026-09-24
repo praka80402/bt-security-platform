@@ -165,6 +165,7 @@ enum QuotationStatus {
 model Quotation {
   id             Int             @id @default(autoincrement())
   quotationNo    String          @unique
+  publicToken    String?         @unique @db.VarChar(32)
   type           QuotationType
   status         QuotationStatus @default(DRAFT)
 

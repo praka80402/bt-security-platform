@@ -176,3 +176,16 @@ export function clearSessionCookie(res: NextResponse) {
   });
   return res;
 }
+
+import { cookies } from 'next/headers';
+export async function getAuthUserServer(): Promise<AuthUser | null> {
+  const cookieToken = cookies().get(SESSION_COOKIE)?.value;
+  if (!cookieToken) return null;
+  if (!verifyToken(cookieToken)) return null;
+  const session = await db.session.findUnique({
+    where: { tokenHash: hashToken(cookieToken) },
+    select: { user: { select: { id: true, name: true, email: true, role: true } } }
+  });
+  if (!session?.user) return null;
+  return session.user as AuthUser;
+}
