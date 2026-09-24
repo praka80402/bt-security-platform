@@ -58,7 +58,7 @@ const NODES = [
 
 export default function EcosystemSection() {
   return (
-    <section className="bg-[#0f1219] py-24 px-4 text-center overflow-hidden">
+    <section className="bg-[#0f1219] pt-10 pb-24 px-4 text-center overflow-hidden">
       <div className="max-w-4xl mx-auto space-y-4 mb-16">
         <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">The Yash Ecosystem</h2>
         <p className="text-slate-400 text-sm md:text-base max-w-2xl mx-auto">
