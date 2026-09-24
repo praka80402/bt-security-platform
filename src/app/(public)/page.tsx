@@ -1,4 +1,5 @@
 import Hero from "@/components/public/Hero";
+import ServiceAreas from "@/components/public/ServiceAreas";
 import EcosystemSection from "@/components/public/EcosystemSection";
 import ClientsMarquee from "@/components/public/ClientsMarquee";
 import Link from "next/link";
@@ -315,7 +316,8 @@ export default async function HomePage() {
       <ClientsMarquee />
 
       {/* The Yash Security Ecosystem Section (Right Above Footer) */}
-      <EcosystemSection />
+      <ServiceAreas />
+        <EcosystemSection />
     </>
   );
 }
