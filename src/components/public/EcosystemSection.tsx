@@ -58,15 +58,15 @@ const NODES = [
 
 export default function EcosystemSection() {
   return (
-    <section className="relative bg-slate-50 pt-16 pb-24 px-4 text-center overflow-hidden border-t border-slate-200 relative z-10">
-      <div className="max-w-4xl mx-auto space-y-4 mb-16 relative z-30">
+    <section className="relative bg-slate-50 pt-12 pb-4 px-4 text-center overflow-hidden border-t border-slate-200 relative z-10">
+      <div className="max-w-4xl mx-auto space-y-4 mb-10 relative z-30">
         <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">The Yash Ecosystem</h2>
         <p className="text-slate-600 text-sm md:text-base max-w-2xl mx-auto">
           A unified platform where hardware, software, networks, and intelligence function as one system
         </p>
       </div>
 
-      <div className="relative w-full max-w-lg md:max-w-2xl mx-auto aspect-square z-30">
+      <div className="relative w-full max-w-lg md:max-w-2xl mx-auto aspect-square z-30 -mb-16 md:-mb-28">
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none"
           viewBox="0 0 100 100"
