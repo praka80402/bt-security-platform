@@ -62,7 +62,8 @@ export default async function ClientsMarquee() {
             return (
               <div
                 key={`${client.id}-${idx}`}
-                className="w-[220px] sm:w-[240px] shrink-0 bg-emerald-50/80 hover:bg-emerald-100/70 rounded-2xl border border-emerald-200/90 shadow-sm hover:shadow-md hover:border-emerald-400 transition-all duration-200 p-3.5 flex flex-col justify-between group cursor-default"
+                aria-hidden={idx >= clients.length ? "true" : undefined}
+                className="w-[220px] sm:w-[240px] shrink-0 bg-emerald-50/80 hover:bg-emerald-100/70 rounded-2xl border border-emerald-200/90 shadow-sm hover:shadow-md hover: hover:border-emerald-400 transition-all duration-200 p-3.5 flex flex-col justify-between group cursor-default"
               >
                 <div>
                   {/* Top Bar: Icon, Sort Order & Active Status */}

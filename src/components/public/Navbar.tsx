@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { Shield, Phone, MessageSquare, Menu, X, Wrench, Clock, ShieldCheck } from "lucide-react";
 import { useCallModal } from "@/context/CallModalContext";
@@ -43,10 +44,13 @@ export default function Navbar() {
           <div className="flex items-center gap-6 lg:gap-10">
             <Link href="/" className="flex items-center gap-3.5 group shrink-0">
               <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-[68px] md:h-[68px] rounded-2xl bg-white p-1 shadow-md shadow-slate-200 border border-slate-200/80 flex items-center justify-center group-hover:scale-105 transition overflow-hidden">
-                <img
+                <Image
                   src="/images/logo.png"
                   alt="Yash Enterprises Logo"
+                  width={96}
+                  height={96}
                   className="w-full h-full object-contain drop-shadow-sm"
+                  priority
                 />
               </div>
               <div>
@@ -103,7 +107,7 @@ export default function Navbar() {
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold shadow-md shadow-[#25D366]/20 transition shrink-0 whitespace-nowrap"
             >
-              <img src="/images/whatsapp.svg" alt="WhatsApp" className="w-4 h-4 object-contain" />
+              <Image src="/images/whatsapp.svg" alt="WhatsApp" width={16} height={16} className="object-contain" />
               <span>WhatsApp Quote</span>
             </a>
           </div>

@@ -1,6 +1,13 @@
 import { db } from "@/lib/db";
 import { Camera, Filter, CheckCircle2, MessageSquare } from "lucide-react";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "CCTV Cameras & Biometric Systems in Patna — CP Plus, Hikvision, eSSL",
+  description: "Browse our complete catalog of CCTV cameras, NVRs, biometric attendance systems, and fire alarms. Top brands available at Yash Enterprises Patna.",
+  alternates: { canonical: "/products" },
+};
 
 export const dynamic = "force-dynamic";
 

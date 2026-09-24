@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Shield, Phone, Mail, MapPin, CheckCircle } from "lucide-react";
 
 export default function Footer() {
@@ -10,7 +11,7 @@ export default function Footer() {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-white p-1 flex items-center justify-center overflow-hidden shrink-0 shadow">
-                <img src="/images/logo.png" alt="Yash Enterprises Logo" className="w-full h-full object-contain" />
+                <Image src="/images/logo.png" alt="Yash Enterprises Logo" width={48} height={48} className="w-full h-full object-contain" />
               </div>
               <div>
                 <span className="text-xl font-black tracking-tight text-white block leading-tight">

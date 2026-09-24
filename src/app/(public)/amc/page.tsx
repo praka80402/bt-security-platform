@@ -1,4 +1,12 @@
 import { CheckCircle2, Shield, MessageSquare, Award, Clock } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "CCTV AMC Plans in Patna — Silver, Gold & Corporate | Yash Enterprises",
+  description:
+    "Annual maintenance contracts for CCTV in Patna from ₹3,499/year. Quarterly visits, 4-hour priority response, genuine spares. Serving Patna, Ara, Buxar, Hajipur and across Bihar.",
+  alternates: { canonical: "/amc" },
+};
 
 export default function AmcPage() {
   const plans = [

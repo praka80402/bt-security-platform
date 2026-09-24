@@ -186,9 +186,10 @@ export default async function HomePage() {
       </section>
 
       {/* Featured Products Showcase */}
-      <section className="bg-slate-100/70 py-20 border-y border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+      {featuredProducts.length > 0 && (
+        <section className="bg-slate-100/70 py-20 border-y border-slate-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
             <div>
               <span className="text-xs uppercase font-extrabold tracking-widest text-blue-600">
                 Genuine & Certified
@@ -260,6 +261,7 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Why Choose Yash Enterprises Banner */}
       <section className="pt-14 pb-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
