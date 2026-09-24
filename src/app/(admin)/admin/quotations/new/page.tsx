@@ -314,7 +314,7 @@ export default function CreateQuotationPage() {
                   <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
                     <input 
                       type="text" 
-                      placeholder="Item Name" 
+                      aria-label="Item name" placeholder="Item Name" 
                       value={item.name}
                       onChange={(e) => updateItem(item.id, 'name', e.target.value)}
                       className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white" 
@@ -332,7 +332,7 @@ export default function CreateQuotationPage() {
                     ) : (
                       <input 
                         type="text" 
-                        placeholder="Description / Spec" 
+                        aria-label="Item description" placeholder="Description / Spec" 
                         value={item.description}
                         onChange={(e) => updateItem(item.id, 'description', e.target.value)}
                         className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white" 
@@ -342,8 +342,9 @@ export default function CreateQuotationPage() {
 
                   <div className="flex gap-3 w-full sm:w-auto">
                     <div className="w-20">
-                      <label className="text-[10px] text-slate-500 uppercase block mb-1">Qty</label>
+                      <label htmlFor={`item-${index}-qty`} className="text-[10px] text-slate-500 uppercase block mb-1">Qty</label>
                       <input 
+                        id={`item-${index}-qty`}
                         type="number" 
                         min="1" 
                         value={item.qty}
@@ -352,8 +353,9 @@ export default function CreateQuotationPage() {
                       />
                     </div>
                     <div className="w-28">
-                      <label className="text-[10px] text-slate-500 uppercase block mb-1">Price (₹)</label>
+                      <label htmlFor={`item-${index}-price`} className="text-[10px] text-slate-500 uppercase block mb-1">Price (₹)</label>
                       <input 
+                        id={`item-${index}-price`}
                         type="number" 
                         value={item.price === 0 ? "" : item.price}
                         onChange={(e) => updateItem(item.id, 'price', parseInt(e.target.value) || 0)}
@@ -369,6 +371,7 @@ export default function CreateQuotationPage() {
 
                   <button 
                     onClick={() => removeItem(item.id)}
+                    aria-label="Remove item"
                     className="p-2 text-slate-600 hover:text-rose-400 hover:bg-rose-500/10 rounded transition sm:mt-4"
                   >
                     <Trash2 className="w-4 h-4" />

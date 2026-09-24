@@ -129,8 +129,9 @@ export default function ServicesPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Your Full Name *</label>
+                    <label htmlFor="svc-name" className="block text-xs font-bold text-slate-700 mb-1">Your Full Name *</label>
                     <input
+                      id="svc-name"
                       type="text"
                       required
                       placeholder="e.g. Rajesh Kumar"
@@ -140,8 +141,9 @@ export default function ServicesPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Mobile Phone Number *</label>
+                    <label htmlFor="svc-phone" className="block text-xs font-bold text-slate-700 mb-1">Mobile Phone Number *</label>
                     <input
+                      id="svc-phone"
                       type="tel"
                       required
                       placeholder="e.g. 9308907319"
@@ -153,8 +155,9 @@ export default function ServicesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Service Required *</label>
+                  <label htmlFor="svc-service" className="block text-xs font-bold text-slate-700 mb-1">Service Required *</label>
                   <select
+                    id="svc-service"
                     value={formData.serviceType}
                     onChange={(e) => setFormData({ ...formData, serviceType: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
@@ -170,8 +173,9 @@ export default function ServicesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Premises Address *</label>
+                  <label htmlFor="svc-address" className="block text-xs font-bold text-slate-700 mb-1">Premises Address *</label>
                   <textarea
+                    id="svc-address"
                     rows={2}
                     required
                     placeholder="Shop/Flat/Plot No., Society Name, Landmark, Street"
@@ -182,8 +186,9 @@ export default function ServicesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Problem / Requirement Description *</label>
+                  <label htmlFor="svc-problem" className="block text-xs font-bold text-slate-700 mb-1">Problem / Requirement Description *</label>
                   <textarea
+                    id="svc-problem"
                     rows={3}
                     required
                     placeholder="e.g. 2 dome cameras are showing black screen, DVR is continuously beeping..."

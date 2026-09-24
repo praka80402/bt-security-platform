@@ -152,7 +152,21 @@ export default function AdminProductsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800">
-              {products.map((p) => (
+              {products.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="py-12 text-center">
+                    <p className="text-slate-400 text-sm">No products in the catalog yet.</p>
+                    <p className="text-slate-500 text-xs mt-1">Products added here appear on the public catalog and the homepage.</p>
+                    <button 
+                      onClick={() => setShowAddModal(true)} 
+                      className="mt-4 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold transition"
+                    >
+                      Add your first product
+                    </button>
+                  </td>
+                </tr>
+              ) : (
+                products.map((p) => (
                 <tr key={p.id} className="hover:bg-slate-800/40 transition">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
@@ -176,7 +190,7 @@ export default function AdminProductsPage() {
                   </td>
                   <td className="px-6 py-4 text-xs">
                     <span className="font-bold text-slate-200">{p.brand}</span>
-                    <span className="text-slate-500 block">{p.modelNumber || "—"}</span>
+                    <span className="text-slate-500 block">{p.modelNumber || "-"}</span>
                   </td>
                   <td className="px-6 py-4 font-bold text-white text-sm whitespace-nowrap">
                     {p.price ? `₹${Number(p.price).toLocaleString("en-IN")}` : "Custom"}
@@ -196,7 +210,8 @@ export default function AdminProductsPage() {
                     </button>
                   </td>
                 </tr>
-              ))}
+              ))
+            )}
             </tbody>
           </table>
         </div>
@@ -261,7 +276,7 @@ export default function AdminProductsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Price (₹ INR)</label>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Price (â‚¹ INR)</label>
                   <input
                     type="number"
                     placeholder="e.g. 2450"
@@ -328,3 +343,6 @@ export default function AdminProductsPage() {
     </div>
   );
 }
+
+
+

@@ -109,7 +109,7 @@ export default function Hero() {
             <div className="bg-white border border-slate-200 p-6 sm:p-8 rounded-3xl shadow-xl relative text-slate-900">
               <div className="mb-6">
                 <span className="text-xs uppercase font-black tracking-wider text-blue-600 block">Quick Inquiry</span>
-                <h3 className="text-2xl font-black text-slate-950 mt-0.5">Book Free Site Survey</h3>
+                <h2 className="text-2xl font-black text-slate-950 mt-0.5">Book Free Site Survey</h2>
                 <p className="text-xs text-slate-500 mt-1">Get custom quotation within 30 minutes</p>
               </div>
 
@@ -130,8 +130,9 @@ export default function Hero() {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Your Full Name *</label>
+                    <label htmlFor="hero-name" className="block text-xs font-bold text-slate-700 mb-1">Your Full Name *</label>
                     <input
+                      id="hero-name"
                       type="text"
                       required
                       placeholder="e.g. Ramesh Kumar"
@@ -142,8 +143,9 @@ export default function Hero() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Mobile Number *</label>
+                    <label htmlFor="hero-phone" className="block text-xs font-bold text-slate-700 mb-1">Mobile Number *</label>
                     <input
+                      id="hero-phone"
                       type="tel"
                       required
                       placeholder="e.g. 9308907319"
@@ -154,8 +156,9 @@ export default function Hero() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Required Service *</label>
+                    <label htmlFor="hero-service" className="block text-xs font-bold text-slate-700 mb-1">Required Service *</label>
                     <select
+                      id="hero-service"
                       value={formData.serviceType}
                       onChange={(e) => setFormData({ ...formData, serviceType: e.target.value })}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm cursor-pointer shadow-sm"
@@ -170,8 +173,9 @@ export default function Hero() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Details (No. of Cameras / Location)</label>
+                    <label htmlFor="hero-details" className="block text-xs font-bold text-slate-700 mb-1">Details (No. of Cameras / Location)</label>
                     <textarea
+                      id="hero-details"
                       rows={2}
                       placeholder="e.g. 4 cameras needed for retail shop"
                       value={formData.message}

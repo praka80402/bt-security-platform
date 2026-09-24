@@ -49,3 +49,27 @@ body {
     pointer-events: none;
   }
 }
+
+/* 44px of hit area, same visual size. Apply to small inline links. */
+.tap-target {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* For links inside a tight bar, use padding instead so the row stays compact */
+.tap-target-tight {
+  position: relative;
+}
+.tap-target-tight::after {
+  content: "";
+  position: absolute;
+  inset: -12px -8px;
+}
+
+/* The floating actions occupy roughly 56px wide x 120px tall at bottom-6 right-6.
+   Reserve that space at the end of the page on phones so nothing sits under them. */
+@media (max-width: 768px) {
+  main { padding-bottom: 120px; }
+  form { padding-bottom: 24px; }
+}

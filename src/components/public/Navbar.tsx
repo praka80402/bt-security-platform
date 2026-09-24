@@ -25,11 +25,11 @@ export default function Navbar() {
             </span>
           </div>
           <div className="flex items-center gap-5 text-xs">
-            <Link href="/track" className="hover:text-sky-400 flex items-center gap-1 font-semibold text-slate-300">
+            <Link href="/track" className="tap-target-tight hover:text-sky-400 flex items-center gap-1 font-semibold text-slate-300">
               <Clock className="w-3.5 h-3.5 text-sky-400" /> Track Service
             </Link>
             <span className="text-slate-700">|</span>
-            <Link href="/admin/login" className="hover:text-slate-100 text-slate-400 font-medium">
+            <Link href="/admin/login" className="tap-target-tight hover:text-slate-100 text-slate-400 font-medium">
               Staff / Admin
             </Link>
           </div>
