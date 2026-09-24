@@ -59,14 +59,14 @@ const NODES = [
 export default function EcosystemSection() {
   return (
     <section className="relative bg-slate-50 pt-12 pb-4 px-4 text-center overflow-hidden border-t border-slate-200 relative z-10">
-      <div className="max-w-4xl mx-auto space-y-4 mb-10 relative z-30">
+      <div className="max-w-4xl mx-auto space-y-4 mb-2 md:mb-2 relative z-30">
         <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">The Yash Ecosystem</h2>
         <p className="text-slate-600 text-sm md:text-base max-w-2xl mx-auto">
           A unified platform where hardware, software, networks, and intelligence function as one system
         </p>
       </div>
 
-      <div className="relative w-full max-w-lg md:max-w-2xl mx-auto aspect-square z-30 -mb-16 md:-mb-28">
+      <div className="relative w-full max-w-lg md:max-w-2xl mx-auto aspect-square z-30 -mt-2 md:-mt-6 -mb-8 md:-mb-16">
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none"
           viewBox="0 0 100 100"
@@ -90,6 +90,7 @@ export default function EcosystemSection() {
                 y2={node.coords.y2}
                 stroke="#cbd5e1"
                 strokeWidth="0.5"
+                strokeDasharray="2 2"
               />
               <circle r="1" fill={node.glowColor}>
                 <animate attributeName="cx" values={`50;${node.coords.x2}`} dur="3s" begin={`${i * 0.4}s`} repeatCount="indefinite" />
@@ -100,9 +101,36 @@ export default function EcosystemSection() {
           ))}
         </svg>
 
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-24 h-24 md:w-32 md:h-32 rounded-full border border-slate-200 bg-white flex items-center justify-center shadow-xl">
-          <div className="text-slate-900 font-black text-xl md:text-2xl leading-tight">
-            YASH<br/><span className="text-blue-600">CCTV</span>
+        {/* CSS Animations */}
+        <style>{`
+          @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10% { transform: scale(1.08); }
+            20% { transform: scale(1); }
+            30% { transform: scale(1.08); }
+            40% { transform: scale(1); }
+          }
+          .animate-heartbeat {
+            animation: heartbeat 2s ease-in-out infinite;
+          }
+          @keyframes sonar {
+            0% { transform: scale(1); opacity: 0.3; }
+            100% { transform: scale(3.5); opacity: 0; }
+          }
+          .animate-sonar {
+            animation: sonar 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+          }
+        `}</style>
+
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-24 h-24 md:w-32 md:h-32">
+          {/* Outer Sonar Pulse (Larger & Slower) */}
+          <div className="absolute inset-0 rounded-full animate-sonar bg-blue-500"></div>
+          
+          {/* Inner Heartbeat Hub */}
+          <div className="relative w-full h-full rounded-full border border-slate-200 bg-white flex items-center justify-center shadow-xl animate-heartbeat">
+            <div className="text-slate-900 font-black text-xl md:text-2xl leading-tight">
+              YASH<br/><span className="text-blue-600">CCTV</span>
+            </div>
           </div>
         </div>
 
