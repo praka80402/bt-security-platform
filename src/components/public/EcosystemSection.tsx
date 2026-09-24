@@ -58,7 +58,7 @@ const NODES = [
 
 export default function EcosystemSection() {
   return (
-    <section className="bg-[#0f1219] pt-10 pb-24 px-4 text-center overflow-hidden">
+    <section className="relative bg-gradient-to-b from-[#0a0f18] to-[#1a2332] pt-16 pb-24 px-4 text-center overflow-hidden border-t border-slate-800 border-b-4 border-b-blue-600 relative z-10 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
       <div className="max-w-4xl mx-auto space-y-4 mb-16">
         <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">The Yash Ecosystem</h2>
         <p className="text-slate-400 text-sm md:text-base max-w-2xl mx-auto">
@@ -154,6 +154,10 @@ export default function EcosystemSection() {
           </div>
         ))}
       </div>
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-20"><svg className="relative block w-full h-[40px] md:h-[60px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M1200 120L0 16.48 0 0 1200 0 1200 120z" fill="#020617"></path></svg></div>
     </section>
   );
 }
+
+
+
