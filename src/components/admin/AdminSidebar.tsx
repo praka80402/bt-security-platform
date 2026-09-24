@@ -12,7 +12,8 @@ import {
   LogOut, 
   Shield, 
   Globe,
-  X
+  X,
+  BarChart
 } from "lucide-react";
 
 export default function AdminSidebar({ onClose }: { onClose?: () => void }) {
@@ -38,6 +39,7 @@ export default function AdminSidebar({ onClose }: { onClose?: () => void }) {
     { label: "Product Catalog", href: "/admin/products", icon: Package },
     { label: "AMC Contracts", href: "/admin/amc", icon: FileText },
     { label: "Clients Marquee", href: "/admin/clients", icon: Building2 },
+    { label: "Data & Reports", href: "/admin/reports", icon: BarChart },
     { label: "Team / Staff", href: "/admin/team", icon: Shield },
   ];
 
