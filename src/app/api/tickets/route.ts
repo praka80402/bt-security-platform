@@ -14,6 +14,27 @@ export async function GET(req: NextRequest) {
         where: { ticketNumber: ticketNumber.trim().toUpperCase() },
       });
       if (!ticket) return NextResponse.json({ error: "Ticket not found" }, { status: 404 });
+      
+      const { getAuthUser } = require("@/lib/auth");
+      const user = await getAuthUser(req);
+      if (!user) {
+        // Redact PII (Name, Phone, Address, City) for public tracking
+        return NextResponse.json({ 
+          ticket: {
+            id: ticket.id,
+            ticketNumber: ticket.ticketNumber,
+            serviceType: ticket.serviceType,
+            status: ticket.status,
+            priority: ticket.priority,
+            scheduledDate: ticket.scheduledDate,
+            technicianName: ticket.technicianName,
+            resolutionNotes: ticket.resolutionNotes,
+            createdAt: ticket.createdAt,
+            issueDescription: ticket.issueDescription
+          }
+        });
+      }
+
       return NextResponse.json({ ticket });
     }
 

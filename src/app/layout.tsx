@@ -8,9 +8,6 @@ export const metadata: Metadata = {
   keywords: "cctv installation patna, biometric attendance bihar, cp plus dealer patna, hikvision patna, yash enterprises, amc cctv patna, best cctv service bihar",
   alternates: {
     canonical: '/',
-  },
-  verification: {
-    google: 'YOUR_GOOGLE_SEARCH_CONSOLE_VERIFICATION_TAG_HERE', // User needs to replace this
   }
 };
 
