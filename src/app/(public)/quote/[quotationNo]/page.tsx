@@ -1,112 +1,68 @@
-"use client";
+import { notFound } from "next/navigation";
+import { db } from "@/lib/db";
+import { Shield, Printer } from "lucide-react";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { ArrowLeft, Download, FileText, Send, Share2, Mail, Loader2, FileDown } from "lucide-react";
-import { useParams } from "next/navigation";
+export default async function PublicQuotationPage({ params }: { params: { quotationNo: string } }) {
+  const quotationNo = params.quotationNo.toUpperCase();
+  
+  const quotation = await db.quotation.findUnique({
+    where: { quotationNo },
+    include: { items: true },
+  });
 
-export default function ViewQuotationPage() {
-  const { id } = useParams();
-  const [quotation, setQuotation] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(`/api/admin/quotations/${id}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) setQuotation(data.quotation);
-        setLoading(false);
-      });
-  }, [id]);
-
-  if (loading) return <div className="flex h-96 items-center justify-center text-slate-400"><Loader2 className="w-8 h-8 animate-spin" /></div>;
-  if (!quotation) return <div className="text-center text-rose-400 mt-20">Quotation not found!</div>;
-
-  const handlePrintPDF = () => {
-    window.print();
-  };
-
-  const handleDownloadWord = () => {
-    const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
-    const footer = "</body></html>";
-    const sourceHTML = header + document.getElementById("quotation-content")?.innerHTML + footer;
-    
-    const source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
-    const fileDownload = document.createElement("a");
-    document.body.appendChild(fileDownload);
-    fileDownload.href = source;
-    fileDownload.download = `${quotation.quotationNo}.doc`;
-    fileDownload.click();
-    document.body.removeChild(fileDownload);
-  };
-
-  const handleWhatsApp = () => {
-    const text = `Hello ${quotation.customerName},%0A%0AHere is your quotation (${quotation.quotationNo}) from Yash Enterprises.%0ATotal Amount: Rs. ${quotation.totalAmount}%0A%0AClick the link below to view and download your full quotation invoice:%0Ahttps://bestcctvservice.com/quote/${quotation.quotationNo}%0A%0APlease let us know if you approve.%0A%0AThank You.`;
-    window.open(`https://api.whatsapp.com/send?text=${text}`, "_blank");
-  };
-
-  const handleEmail = () => {
-    const subject = encodeURIComponent(`Quotation ${quotation.quotationNo} - Yash Enterprises`);
-    const body = encodeURIComponent(`Hello ${quotation.customerName},\n\nPlease find the details of your quotation below:\nTotal Amount: Rs. ${quotation.totalAmount}\n\nThank You,\nYash Enterprises`);
-    window.location.href = `mailto:${quotation.email || ''}?subject=${subject}&body=${body}`;
-  };
+  if (!quotation) {
+    notFound();
+  }
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="bg-slate-100 min-h-screen py-8 px-4 font-sans print:bg-white print:p-0 print:py-0">
+      
       {/* Top Action Bar (Hidden in Print) */}
-      <div className="print:hidden flex flex-col md:flex-row items-center justify-between gap-4 bg-slate-900 border border-slate-800 p-4 rounded-xl">
-        <div className="flex items-center gap-4">
-          <Link href="/admin/quotations" className="p-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white transition">
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
-          <div>
-            <h1 className="text-xl font-bold text-white">{quotation.quotationNo}</h1>
-            <p className="text-slate-400 text-xs">View & Share Quotation</p>
-          </div>
+      <div className="print:hidden max-w-4xl mx-auto mb-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900 p-4 rounded-xl shadow-lg">
+        <div className="text-center sm:text-left">
+          <h1 className="text-xl font-bold text-white">{quotation.quotationNo}</h1>
+          <p className="text-slate-400 text-xs">Official Quotation from Yash Enterprises</p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <button onClick={handleWhatsApp} className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-lg transition">
-            <Share2 className="w-4 h-4" /> WhatsApp
-          </button>
-          <button onClick={handleEmail} className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg transition">
-            <Mail className="w-4 h-4" /> Email
-          </button>
-          <button onClick={handlePrintPDF} className="flex items-center gap-2 px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold rounded-lg transition">
-            <FileText className="w-4 h-4" /> PDF / Print
-          </button>
-          <button onClick={handleDownloadWord} className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition">
-            <FileDown className="w-4 h-4" /> Word
-          </button>
-        </div>
+        <button 
+          className="flex items-center justify-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg transition shadow-md w-full sm:w-auto"
+        >
+          <Printer className="w-4 h-4" /> Print / Save as PDF
+        </button>
       </div>
 
       {/* Printable Quotation Area */}
       <div id="quotation-content" className="bg-white text-slate-900 p-6 md:p-8 rounded-xl max-w-4xl mx-auto shadow-2xl print:shadow-none print:m-0 print:p-0 relative overflow-hidden">
         
-        {/* Subtle Background Watermark */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none select-none print:opacity-[0.05]">
-          <img src="/images/logo.png" alt="watermark" className="w-[500px]" />
+        {/* Faded Background Watermark Logo */}
+        <div className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
+          <Shield className="w-96 h-96" />
         </div>
 
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start border-b-2 border-blue-600 pb-4 mb-4 relative z-10 gap-4">
-          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
-            <img src="/images/logo.png" alt="Yash Enterprises Logo" className="w-20 h-auto object-contain mt-1" />
+        {/* Header Section */}
+        <div className="flex flex-col sm:flex-row justify-between items-start mb-6 border-b-2 border-slate-100 pb-4 relative z-10 gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 bg-blue-600 text-white rounded-2xl flex items-center justify-center shadow-lg transform -rotate-2 shrink-0">
+              <Shield className="w-10 h-10" />
+            </div>
             <div>
-              <h1 className="text-xl sm:text-2xl font-black text-blue-700 tracking-tight">YASH ENTERPRISES</h1>
-              <p className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-0.5 mb-1.5">CCTV, Biometric & Fire Safety Solutions</p>
-              <div className="text-[10px] text-slate-700 font-medium leading-snug max-w-sm space-y-0.5">
-                <p>
-                  <span className="font-bold text-slate-800">Address:</span> Plot No:-139, Lakhni bigha, Hanuman Asthan <br className="hidden sm:block" />
-                  Near Sarvodya, City:- Patna- 801105
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 tracking-tight leading-none">
+                YASH ENTERPRISES
+              </h1>
+              <p className="text-[10px] sm:text-[11px] font-bold text-blue-600 uppercase tracking-widest mt-1">
+                {process.env.NEXT_PUBLIC_BRAND_TAGLINE || "Best CCTV Service & Biometric Solutions"}
+              </p>
+              <div className="mt-2 space-y-0.5 text-xs font-medium text-slate-600 leading-tight max-w-[320px]">
+                <p>Plot No:-139, Lakhni bigha, Hanuman Asthan Near Sarvodya, City:- Patna- 801105</p>
+                <p>State: Bihar, Code: 10 , India</p>
+                <p className="font-bold text-slate-800 flex flex-wrap items-center gap-2 mt-1">
+                  <span>Phone: {process.env.NEXT_PUBLIC_PHONE}</span>
+                  <span className="text-slate-300 hidden sm:inline">|</span>
+                  <span>GSTIN: 10BJMPP3497A1ZC</span>
                 </p>
-                <p><span className="font-bold text-slate-800">State Name:</span> Bihar, Code: 10 , India</p>
-                <p><span className="font-bold text-slate-800">GSTIN/UIN:</span> 10BJMPP3497A1ZC</p>
-                <p className="flex flex-wrap items-center justify-center sm:justify-start gap-1"><span className="font-bold text-slate-800">Email:</span> yash@bestcctvservice.com <span className="hidden sm:inline">&nbsp;|&nbsp;</span> <span className="font-bold text-slate-800">Phone:</span> +91 9308907319</p>
               </div>
             </div>
           </div>
-          <div className="flex flex-col items-start sm:items-end w-full sm:w-auto">
+          <div className="flex flex-col items-start sm:items-end w-full sm:w-auto mt-2 sm:mt-0">
             <div className="flex flex-col items-start w-full sm:w-auto">
               <h2 className="text-xl sm:text-2xl font-black text-slate-800 uppercase tracking-widest bg-blue-50 py-1 px-2 rounded-lg border border-blue-100 mb-2 w-full sm:w-auto text-center sm:text-left">
                 Quotation

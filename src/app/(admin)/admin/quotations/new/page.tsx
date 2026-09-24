@@ -24,9 +24,9 @@ export default function CreateQuotationPage() {
   const loadCCTVTemplate = (cameraType: string) => {
     if (cameraType === "HD") {
       setItems([
-        { id: 1, name: "DVR", description: "4 Channel", qty: 1, price: 0, options: ["4 Channel", "8 Channel", "16 Channel", "32 Channel", "64 Channel"] },
-        { id: 2, name: "HD Dome Camera", description: "2MP Indoor", qty: 2, price: 0, options: ["2MP Indoor", "5MP Indoor", "2MP ColorVu", "5MP ColorVu"] },
-        { id: 3, name: "HD Bullet Camera", description: "2MP Outdoor", qty: 2, price: 0, options: ["2MP Outdoor", "5MP Outdoor", "2MP ColorVu", "5MP ColorVu"] },
+        { id: 1, name: "DVR", description: "4 Channel 2.4MP", qty: 1, price: 0, options: ["4 Channel 2.4MP", "4 Channel 5MP", "8 Channel 2.4MP", "8 Channel 5MP", "16 Channel 2.4MP", "16 Channel 5MP"] },
+        { id: 2, name: "HD Dome Camera", description: "2.4MP Basic", qty: 2, price: 0, options: ["2.4MP Basic", "2.4MP with Audio", "2.4MP Color+Audio", "5MP Basic", "5MP with Audio", "5MP Color+Audio"] },
+        { id: 3, name: "HD Bullet Camera", description: "2.4MP Basic", qty: 2, price: 0, options: ["2.4MP Basic", "2.4MP with Audio", "2.4MP Color+Audio", "5MP Basic", "5MP with Audio", "5MP Color+Audio"] },
         { id: 4, name: "Hard Disk", description: "1TB Surveillance", qty: 1, price: 0, options: ["500GB Surveillance", "1TB Surveillance", "2TB Surveillance", "4TB Surveillance", "8TB Surveillance"] },
         { id: 5, name: "Power Supply", description: "4 CH SMPS", qty: 1, price: 0, options: ["4 CH SMPS", "8 CH SMPS", "16 CH SMPS"] },
         { id: 6, name: "Wire Roll (3+1 CCTV Cable)", description: "Per Bundle (90m)", qty: 1, price: 0, options: null },
@@ -36,8 +36,8 @@ export default function CreateQuotationPage() {
     } else if (cameraType === "IP") {
       setItems([
         { id: 1, name: "NVR", description: "4 Channel", qty: 1, price: 0, options: ["4 Channel", "8 Channel", "16 Channel", "32 Channel", "64 Channel"] },
-        { id: 2, name: "IP Dome Camera", description: "2MP IP Indoor", qty: 2, price: 0, options: ["2MP IP Indoor", "4MP IP Indoor", "8MP (4K) IP Indoor"] },
-        { id: 3, name: "IP Bullet Camera", description: "2MP IP Outdoor", qty: 2, price: 0, options: ["2MP IP Outdoor", "4MP IP Outdoor", "8MP (4K) IP Outdoor"] },
+        { id: 2, name: "IP Dome Camera", description: "2MP IP Basic", qty: 2, price: 0, options: ["2MP IP Basic", "2MP IP with Audio", "2MP IP Color+Audio", "5MP IP Basic", "5MP IP with Audio", "5MP IP Color+Audio"] },
+        { id: 3, name: "IP Bullet Camera", description: "2MP IP Basic", qty: 2, price: 0, options: ["2MP IP Basic", "2MP IP with Audio", "2MP IP Color+Audio", "5MP IP Basic", "5MP IP with Audio", "5MP IP Color+Audio"] },
         { id: 4, name: "Hard Disk", description: "1TB Surveillance", qty: 1, price: 0, options: ["1TB Surveillance", "2TB Surveillance", "4TB Surveillance", "8TB Surveillance"] },
         { id: 5, name: "POE Switch", description: "4 Port POE", qty: 1, price: 0, options: ["4 Port POE", "8 Port POE", "16 Port POE", "24 Port POE"] },
         { id: 6, name: "Wire Roll (CAT6 Cable)", description: "Per Bundle (90m) / Box (305m)", qty: 1, price: 0, options: ["Bundle (90m)", "Box (305m)"] },
@@ -355,7 +355,7 @@ export default function CreateQuotationPage() {
                       <label className="text-[10px] text-slate-500 uppercase block mb-1">Price (₹)</label>
                       <input 
                         type="number" 
-                        value={item.price}
+                        value={item.price === 0 ? "" : item.price}
                         onChange={(e) => updateItem(item.id, 'price', parseInt(e.target.value) || 0)}
                         className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white text-right" 
                       />
@@ -388,7 +388,7 @@ export default function CreateQuotationPage() {
                   <span className="text-slate-400">Discount (₹):</span>
                   <input 
                     type="number" 
-                    value={discount}
+                    value={discount === 0 ? "" : discount}
                     onChange={(e) => setDiscount(parseInt(e.target.value) || 0)}
                     className="w-24 bg-slate-900 border border-slate-700 rounded p-1 text-sm text-white text-right" 
                   />
