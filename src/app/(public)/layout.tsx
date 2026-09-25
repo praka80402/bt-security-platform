@@ -17,21 +17,26 @@ export default function PublicLayout({
     "url": "https://bestcctvservice.com",
     "telephone": "+919308907319",
     "email": "yash@bestcctvservice.com",
+    "foundingDate": "2016-12-01",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Plot No:-139, Lakhni bigha, Hanuman Asthan Near Sarvodya",
+      "streetAddress": "Plot No. 139, Amod Path, Adampur, Near Hanuman Asthan, Khagaul",
       "addressLocality": "Patna",
       "addressRegion": "Bihar",
       "postalCode": "801105",
       "addressCountry": "IN"
     },
     "areaServed": [
-      "Patna", "Ara", "Buxar", "Hajipur", "Chapra", 
-      "Muzaffarpur", "Masaurhi", "Gaya", "Barh", "Bakhtiarpur"
+      "Patna", "Khagaul", "Arrah", "Buxar", "Hajipur", "Chapra",
+      "Muzaffarpur", "Masaurhi", "Barh", "Bakhtiarpur",
+      "Jehanabad", "Nalanda", "Gaya", "Gopalganj"
     ],
     "priceRange": "$$",
-    "openingHours": "Mo,Tu,We,Th,Fr,Sa,Su 09:00-20:00",
-    "description": "Top CCTV installation, biometric attendance, and AMC maintenance in Patna and across Bihar."
+    "openingHours": "Mo,Tu,We,Th,Fr,Sa,Su 09:00-21:00",
+    "sameAs": [
+      "https://g.page/r/CTM5PhyYtmlZEBM"
+    ],
+    "description": "CCTV installation, biometric attendance and AMC maintenance in Patna and across Bihar. Authorised for CP Plus, Hikvision, Dahua, eSSL and Matrix."
   };
 
   return (
@@ -40,7 +45,8 @@ export default function PublicLayout({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="flex flex-col min-h-screen">`n        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-blue-600 focus:text-white focus:font-bold focus:shadow-xl">Skip to content</a>
+      <div className="flex flex-col min-h-screen">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-blue-600 focus:text-white focus:font-bold focus:shadow-xl">Skip to content</a>
         <Navbar />
         <main id="main-content" className="flex-1">{children}</main>
         <Footer />

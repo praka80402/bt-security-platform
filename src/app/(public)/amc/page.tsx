@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "CCTV AMC Plans in Patna — Silver, Gold & Corporate | Yash Enterprises",
   description:
-    "Annual maintenance contracts for CCTV in Patna from ₹3,499/year. Quarterly visits, 4-hour priority response, genuine spares. Serving Patna, Ara, Buxar, Hajipur and across Bihar.",
+    "Annual maintenance contracts for CCTV in Patna from ₹3,499/year. Quarterly visits, 4-hour priority response, genuine spares. Serving Patna, Khagaul, Arrah, Buxar, Hajipur, Chapra, Muzaffarpur, Masaurhi, Barh, Bakhtiarpur, Jehanabad, Nalanda, Gaya, and Gopalganj.",
   alternates: { canonical: "/amc" },
 };
 

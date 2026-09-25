@@ -103,7 +103,7 @@ export default async function PublicQuotationPage({
                 {process.env.NEXT_PUBLIC_BRAND_TAGLINE || "Best CCTV Service & Biometric Solutions"}
               </p>
               <div className="mt-2 space-y-0.5 text-xs font-medium text-slate-600 leading-tight max-w-[320px]">
-                <p>Plot No:-139, Lakhni bigha, Hanuman Asthan Near Sarvodya, City:- Patna- 801105</p>
+                <p>Plot No. 139, Amod Path, Adampur, Near Hanuman Asthan, Khagaul, Patna, Bihar 801105</p>
                 <p>State: Bihar, Code: 10 , India</p>
                 <p className="font-bold text-slate-800 flex flex-wrap items-center gap-2 mt-1">
                   <span>Phone: {process.env.NEXT_PUBLIC_PHONE}</span>

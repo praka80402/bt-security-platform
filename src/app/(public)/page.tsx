@@ -1,4 +1,4 @@
-import Hero from "@/components/public/Hero";
+﻿import Hero from "@/components/public/Hero";
 import ServiceAreas from "@/components/public/ServiceAreas";
 import EcosystemSection from "@/components/public/EcosystemSection";
 import ClientsMarquee from "@/components/public/ClientsMarquee";
@@ -288,8 +288,8 @@ export default async function HomePage() {
                   <div className="text-xs text-blue-200 mt-0.5">Active AMC Contracts</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-black text-white">4.9 ★</div>
-                  <div className="text-xs text-blue-200 mt-0.5">Customer Rating</div>
+                  <div className="text-3xl font-black text-white">Since 2016</div>
+                  <div className="text-xs text-blue-200 mt-0.5">Serving Patna &amp; Bihar</div>
                 </div>
               </div>
             </div>

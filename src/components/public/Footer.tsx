@@ -70,7 +70,7 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
-                <span>Plot No:-139, Lakhni bigha, Hanuman Asthan Near Sarvodya, City:- Patna- 801105</span>
+                <span>Plot No. 139, Amod Path, Adampur, Near Hanuman Asthan, Khagaul, Patna, Bihar 801105</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-blue-500 shrink-0" />
@@ -81,10 +81,20 @@ export default function Footer() {
                 <span>yash@bestcctvservice.com</span>
               </li>
             </ul>
+            
+            <a
+              href="https://g.page/r/CTM5PhyYtmlZEBM/review"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition"
+            >
+              Review us on Google
+            </a>
+
             <div className="mt-6 p-4 rounded-xl bg-slate-900 border border-slate-800">
               <h5 className="text-xs font-bold text-white mb-2 uppercase tracking-wide text-blue-400">Our Service Areas in Bihar</h5>
               <p className="text-xs text-slate-400 leading-relaxed">
-                <strong className="text-slate-300">Patna (Head Office)</strong>, Ara, Buxar, Hajipur, Chapra, Muzaffarpur, Masaurhi, Gaya, Barh, and Bakhtiarpur.
+                <strong className="text-slate-300">Patna (Head Office)</strong>, Khagaul, Arrah, Buxar, Hajipur, Chapra, Muzaffarpur, Masaurhi, Barh, Bakhtiarpur, Jehanabad, Nalanda, Gaya, and Gopalganj.
               </p>
             </div>
           </div>

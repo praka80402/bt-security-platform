@@ -5,15 +5,19 @@ import { ShieldCheck, Award, Clock, ThumbsUp, MapPin } from "lucide-react";
 
 const CITIES = [
   { name: "Patna (HQ)", x: 50, y: 55, color: "bg-blue-500" },
-  { name: "Hajipur", x: 52, y: 43, color: "bg-emerald-500" },
-  { name: "Muzaffarpur", x: 58, y: 25, color: "bg-purple-500" },
-  { name: "Chapra", x: 35, y: 44, color: "bg-pink-500" },
-  { name: "Ara", x: 30, y: 60, color: "bg-orange-500" },
+  { name: "Khagaul", x: 47, y: 57, color: "bg-blue-400" },
+  { name: "Arrah", x: 30, y: 60, color: "bg-orange-500" },
   { name: "Buxar", x: 12, y: 65, color: "bg-red-500" },
+  { name: "Hajipur", x: 52, y: 43, color: "bg-emerald-500" },
+  { name: "Chapra", x: 35, y: 44, color: "bg-pink-500" },
+  { name: "Muzaffarpur", x: 58, y: 25, color: "bg-purple-500" },
   { name: "Masaurhi", x: 48, y: 72, color: "bg-teal-500" },
-  { name: "Gaya", x: 42, y: 88, color: "bg-yellow-500" },
-  { name: "Bakhtiarpur", x: 65, y: 56, color: "bg-indigo-500" },
   { name: "Barh", x: 75, y: 58, color: "bg-cyan-500" },
+  { name: "Bakhtiarpur", x: 65, y: 56, color: "bg-indigo-500" },
+  { name: "Jehanabad", x: 45, y: 78, color: "bg-rose-500" },
+  { name: "Nalanda", x: 60, y: 75, color: "bg-amber-500" },
+  { name: "Gaya", x: 42, y: 88, color: "bg-yellow-500" },
+  { name: "Gopalganj", x: 20, y: 20, color: "bg-lime-500" },
 ];
 
 export default function ServiceAreas() {

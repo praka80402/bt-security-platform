@@ -65,7 +65,7 @@ export default function Hero() {
 
             {/* Subtext */}
             <p className="text-slate-600 font-medium text-base sm:text-lg leading-relaxed max-w-2xl">
-              <strong className="text-slate-900 font-black">Yash Enterprises</strong> brings you crystal-clear HD/IP CCTV cameras, AI-powered biometric attendance, and fast doorstep repair with verified engineers in Patna, Ara, Buxar, Hajipur, Chapra, Muzaffarpur, Masaurhi, Gaya, Barh, and Bakhtiarpur.
+              <strong className="text-slate-900 font-black">Yash Enterprises</strong> brings you crystal-clear HD/IP CCTV cameras, AI-powered biometric attendance, and fast doorstep repair with verified engineers in Patna, Khagaul, Arrah, Buxar, Hajipur, Chapra, Muzaffarpur, Masaurhi, Barh, Bakhtiarpur, Jehanabad, Nalanda, Gaya, and Gopalganj.
             </p>
 
             {/* Badges in Clean Light White Pills */}
