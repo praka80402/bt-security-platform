@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   verification: {
-    google: 'PASTE_THE_TAG_FROM_SEARCH_CONSOLE_HERE',
+    google: 'ZDa0zwVqkIt_-4tmvclUzPgS8PI4IM4RcEUXN9gWzUI',
   }
 };
 
