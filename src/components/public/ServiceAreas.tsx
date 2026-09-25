@@ -92,8 +92,17 @@ export default function ServiceAreas() {
 
           {/* Abstract Map Area */}
           <div className="relative w-full aspect-square md:aspect-[4/3] bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-inner">
-            {/* Grid Pattern */}
-            <div className="absolute inset-0 opacity-[0.4]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #cbd5e1 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
+            
+            {/* Bihar Map Silhouette Background */}
+            <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" className="absolute inset-0 w-full h-full text-slate-100 opacity-[0.85] pointer-events-none" aria-hidden="true">
+              <path 
+                d="M 10.0,64.2 L 12.7,69.3 L 21.5,70.6 L 22.3,72.3 L 23.8,72.1 L 25.9,72.0 L 26.2,73.9 L 28.8,75.8 L 31.5,74.3 L 34.4,72.5 L 38.3,73.7 L 40.8,73.0 L 46.2,71.4 L 48.9,67.4 L 58.2,71.2 L 66.1,71.0 L 71.9,63.8 L 77.1,59.7 L 80.0,59.6 L 83.0,60.2 L 81.5,57.9 L 82.8,57.0 L 83.8,56.2 L 85.1,56.3 L 85.9,56.7 L 86.2,56.0 L 85.7,54.9 L 86.0,54.1 L 85.2,52.9 L 84.4,52.4 L 83.7,52.0 L 83.9,51.4 L 83.6,51.1 L 83.7,50.7 L 82.5,50.4 L 82.5,49.6 L 82.8,48.9 L 83.7,47.4 L 84.5,47.3 L 84.8,46.8 L 85.0,46.4 L 85.5,45.9 L 86.3,45.7 L 86.7,45.3 L 87.1,44.9 L 87.5,44.5 L 88.8,43.9 L 89.4,43.1 L 89.7,43.2 L 90.0,42.8 L 89.4,42.4 L 89.6,41.7 L 88.9,40.8 L 88.5,40.2 L 88.6,39.6 L 88.0,39.8 L 86.8,40.3 L 85.9,42.1 L 85.3,42.6 L 83.1,41.0 L 80.4,41.6 L 74.4,42.7 L 72.7,42.0 L 69.1,40.0 L 63.1,40.7 L 56.9,38.9 L 53.3,37.8 L 52.7,37.9 L 52.2,38.5 L 50.8,38.9 L 48.7,37.0 L 45.0,35.5 L 41.4,36.3 L 38.8,34.4 L 37.5,34.4 L 36.6,33.5 L 34.7,32.5 L 33.9,32.3 L 33.3,32.1 L 31.3,31.4 L 31.6,30.9 L 31.8,30.3 L 32.0,28.8 L 25.4,26.0 L 22.7,24.0 L 20.9,25.3 L 20.5,28.8 L 21.0,31.4 L 24.8,36.1 L 21.0,40.0 L 21.3,41.5 L 23.2,44.3 L 24.2,48.5 L 30.7,52.1 L 27.8,53.1 L 21.9,54.4 L 18.1,57.5 L 16.7,58.1 L 15.2,59.1 L 12.8,60.0 L 10.5,62.0 Z" 
+                fill="currentColor" 
+                stroke="#cbd5e1" 
+                strokeWidth="0.5"
+                transform="translate(0, -5) scale(1.05)"
+              />
+            </svg>
             
             {/* Connection Lines (from Patna to others) */}
             <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-50">
