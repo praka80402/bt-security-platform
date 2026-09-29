@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Wrench, Phone, MapPin, UserCheck, RefreshCw, CheckCircle2, Plus, X } from "lucide-react";
+import { Wrench, Phone, MapPin, UserCheck, RefreshCw, CheckCircle2, Plus, X, Share2, MessageCircle } from "lucide-react";
 import { ServiceTicketItem } from "@/types";
 
 export default function AdminTicketsPage() {
@@ -79,6 +79,31 @@ export default function AdminTicketsPage() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleShareTicket = (t: ServiceTicketItem, target: 'customer' | 'tech' | 'anyone') => {
+    let text = "";
+    let targetPhone = "";
+
+    if (target === 'customer') {
+      text = `Dear ${t.customerName},\n\nYour service ticket *${t.ticketNumber}* has been assigned to our engineer *${t.technicianName || "one of our technicians"}*.\n\n*Contact:* ${t.technicianPhone || "Will be shared soon"}\n\nThey will reach out to you shortly.\n- Yash Enterprises`;
+      if (t.phone) targetPhone = t.phone.replace(/\D/g, "");
+    } else {
+      text = `*New Service Assignment: ${t.ticketNumber}*\n*Priority:* ${t.priority || "Normal"}\n*Customer:* ${t.customerName}\n*Phone:* ${t.phone}\n*Address:* ${t.address}\n*Issue:* ${t.issueDescription}`;
+      if (target === 'tech' && t.technicianPhone) {
+        targetPhone = t.technicianPhone.replace(/\D/g, "");
+      }
+    }
+
+    const encoded = encodeURIComponent(text);
+    let url = `https://wa.me/?text=${encoded}`;
+    
+    if (targetPhone) {
+      const finalPhone = targetPhone.length === 10 ? `91${targetPhone}` : targetPhone;
+      url = `https://wa.me/${finalPhone}?text=${encoded}`;
+    }
+
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   const handleUpdateTicket = async (e: React.FormEvent) => {
@@ -187,7 +212,7 @@ export default function AdminTicketsPage() {
               )}
             </div>
 
-            <div className="flex lg:flex-col gap-3 shrink-0">
+            <div className="flex flex-col gap-2 shrink-0 min-w-[140px]">
               {t.status !== "COMPLETED" && (
                 <button
                   onClick={() => {
@@ -197,16 +222,44 @@ export default function AdminTicketsPage() {
                     setStatusVal(t.status);
                     setResolutionNotes(t.resolutionNotes || "");
                   }}
-                  className="px-5 py-2.5 rounded-xl bg-blue-600/10 hover:bg-blue-600 hover:text-white text-blue-500 text-xs font-bold transition flex-1 lg:flex-none text-center"
+                  className="w-full px-4 py-2 rounded-xl bg-blue-600/10 hover:bg-blue-600 hover:text-white text-blue-500 text-xs font-bold transition text-center"
                 >
                   Update / Assign
                 </button>
               )}
               {t.status === "COMPLETED" && (
-                <div className="px-5 py-2.5 rounded-xl bg-emerald-500/10 text-emerald-500 text-xs font-bold flex items-center justify-center gap-2 flex-1 lg:flex-none">
+                <div className="w-full px-4 py-2 rounded-xl bg-emerald-500/10 text-emerald-500 text-xs font-bold flex items-center justify-center gap-2">
                   <CheckCircle2 className="w-4 h-4" /> Solved
                 </div>
               )}
+              
+              <div className="flex gap-2 w-full mt-1">
+                {t.phone && (
+                  <button
+                    onClick={() => handleShareTicket(t, 'customer')}
+                    title="Send to Customer"
+                    className="flex-1 py-2 rounded-xl bg-purple-600/10 hover:bg-purple-600 hover:text-white text-purple-500 flex items-center justify-center transition"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                  </button>
+                )}
+                {t.technicianPhone && (
+                  <button
+                    onClick={() => handleShareTicket(t, 'tech')}
+                    title="Send to Assigned Technician"
+                    className="flex-1 py-2 rounded-xl bg-green-600/10 hover:bg-green-600 hover:text-white text-green-500 flex items-center justify-center transition"
+                  >
+                    <Wrench className="w-4 h-4" />
+                  </button>
+                )}
+                <button
+                  onClick={() => handleShareTicket(t, 'anyone')}
+                  title="Forward/Share with Anyone"
+                  className="flex-1 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition"
+                >
+                  <Share2 className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </div>
         ))}

@@ -15,6 +15,11 @@ export async function GET(req: NextRequest) {
         email: true,
         role: true,
         createdAt: true,
+        phone: true,
+        joiningDate: true,
+        salary: true,
+        attendance: true,
+        staffType: true
       },
       orderBy: { createdAt: 'desc' }
     });
@@ -31,7 +36,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { name, email, password, role } = body;
+    const { name, email, password, role, phone, joiningDate, salary, attendance, staffType } = body;
 
     if (!name || !email || !password) {
       return NextResponse.json({ success: false, error: 'Name, email, and password are required' }, { status: 400 });
@@ -58,6 +63,11 @@ export async function POST(req: NextRequest) {
         email: String(email).trim().slice(0, 150),
         passwordHash: hashedPassword,
         role: role || 'STAFF',
+        phone: phone || null,
+        joiningDate: joiningDate ? new Date(joiningDate) : null,
+        salary: salary || null,
+        attendance: attendance || null,
+        staffType: staffType || 'SALES',
       },
       select: { id: true, name: true, email: true, role: true }
     });

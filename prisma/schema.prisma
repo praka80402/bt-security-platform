@@ -51,6 +51,11 @@ model AdminUser {
   role         Role     @default(ADMIN)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  phone        String?
+  joiningDate  DateTime?
+  salary       String?
+  attendance   String?
+  staffType    String? @default("SALES")
   sessions     Session[]
 
   @@map("admin_users")
