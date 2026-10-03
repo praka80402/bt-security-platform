@@ -1,4 +1,4 @@
-﻿import Hero from "@/components/public/Hero";
+import Hero from "@/components/public/Hero";
 import ServiceAreas from "@/components/public/ServiceAreas";
 import EcosystemSection from "@/components/public/EcosystemSection";
 import ClientsMarquee from "@/components/public/ClientsMarquee";
@@ -42,6 +42,7 @@ export default async function HomePage() {
             <span className="text-xl md:text-2xl font-black tracking-wider text-slate-900 hover:scale-105 transition">CP PLUS</span>
             <span className="text-xl md:text-2xl font-black tracking-wider text-red-600 hover:scale-105 transition">HIKVISION</span>
             <span className="text-xl md:text-2xl font-black tracking-wider text-sky-700 hover:scale-105 transition">DAHUA</span>
+            <span className="text-xl md:text-2xl font-black tracking-wider text-orange-600 hover:scale-105 transition">SPARSH</span>
             <span className="text-xl md:text-2xl font-black tracking-wider text-emerald-800 hover:scale-105 transition">eSSL</span>
             <span className="text-xl md:text-2xl font-black tracking-wider text-amber-900 hover:scale-105 transition">MATRIX</span>
             <span className="text-xl md:text-2xl font-black tracking-wider text-purple-800 hover:scale-105 transition">REALTIME</span>
@@ -244,7 +245,7 @@ export default async function HomePage() {
                     <div>
                       <span className="text-xs text-slate-400 block">Price</span>
                       <span className="text-base font-black text-slate-900">
-                        {prod.price ? `₹${Number(prod.price).toLocaleString("en-IN")}` : "Get Quote"}
+                        {prod.price ? `?${Number(prod.price).toLocaleString("en-IN")}` : "Get Quote"}
                       </span>
                     </div>
                     <a
@@ -321,3 +322,4 @@ export default async function HomePage() {
     </>
   );
 }
+

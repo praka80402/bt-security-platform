@@ -38,7 +38,7 @@ export default async function ProductsPage({
     { label: "Access Control & Locks", value: "ACCESS_CONTROL" },
   ];
 
-  const brands = ["All", "CP Plus", "Hikvision", "Dahua", "eSSL", "Matrix", "Realtime"];
+  const brands = ["All", "CP Plus", "Hikvision", "Dahua", "Sparsh", "eSSL", "Matrix", "Realtime"];
 
   return (
     <div className="bg-slate-50 py-12">

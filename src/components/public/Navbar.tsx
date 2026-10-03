@@ -79,9 +79,8 @@ export default function Navbar() {
               <Link href="/services" className="hover:text-blue-600 transition px-2 py-1 rounded-md hover:bg-slate-50">
                 Installation & Repair
               </Link>
-              <Link href="/amc" className="hover:text-blue-600 transition px-2 py-1 rounded-md hover:bg-slate-50">
-                AMC Plans
-              </Link>
+              <Link href="/amc" className="hover:text-blue-600 transition px-2 py-1 rounded-md hover:bg-slate-50">AMC Plans</Link>
+                <Link href="/calculator" className="hover:text-blue-600 transition px-2 py-1 rounded-md hover:bg-slate-50">Storage Calculator</Link>
               <Link
                 href="/track"
                 className="flex items-center gap-1.5 text-blue-600 bg-blue-50 hover:bg-blue-100 px-3.5 py-1.5 rounded-full transition"
@@ -136,9 +135,8 @@ export default function Navbar() {
           <Link href="/services" onClick={() => setMobileMenuOpen(false)} className="block py-2 font-semibold text-slate-800">
             Installation & Repair Services
           </Link>
-          <Link href="/amc" onClick={() => setMobileMenuOpen(false)} className="block py-2 font-semibold text-slate-800">
-            AMC Annual Maintenance Contracts
-          </Link>
+          <Link href="/amc" onClick={() => setMobileMenuOpen(false)} className="block py-2 font-semibold text-slate-800">AMC Annual Maintenance Contracts</Link>
+            <Link href="/calculator" onClick={() => setMobileMenuOpen(false)} className="block py-2 font-semibold text-slate-800">HDD Storage Calculator</Link>
           <Link href="/track" onClick={() => setMobileMenuOpen(false)} className="block py-2 font-semibold text-blue-600">
             Track Service Ticket
           </Link>
@@ -165,3 +163,4 @@ export default function Navbar() {
     </header>
   );
 }
+

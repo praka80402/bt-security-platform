@@ -30,7 +30,7 @@ export default function Footer() {
             </p>
             <div className="text-xs space-y-2">
               <div className="flex items-center gap-2 text-emerald-400 font-medium">
-                <CheckCircle className="w-4 h-4 shrink-0" /> Certified CP Plus, Hikvision & eSSL Partner
+                <CheckCircle className="w-4 h-4 shrink-0" /> Certified CP Plus, Hikvision, Sparsh & eSSL Partner
               </div>
               <div className="flex items-center gap-2 text-emerald-400 font-medium">
                 <CheckCircle className="w-4 h-4 shrink-0" /> 1-Year Comprehensive Warranty & Free Site Visits
@@ -58,6 +58,7 @@ export default function Footer() {
               <li><Link href="/products?brand=CP+Plus" className="hover:text-white transition">CP Plus Orange & Indigo</Link></li>
               <li><Link href="/products?brand=Hikvision" className="hover:text-white transition">Hikvision ColorVu & AcuSense</Link></li>
               <li><Link href="/products?brand=Dahua" className="hover:text-white transition">Dahua TiOC & 4K NVR</Link></li>
+              <li><Link href="/products?brand=Sparsh" className="hover:text-white transition">Sparsh NDAA Compliant</Link></li>
               <li><Link href="/products?brand=eSSL" className="hover:text-white transition">eSSL Time & Attendance</Link></li>
               <li><Link href="/products?brand=Matrix" className="hover:text-white transition">Matrix COSEC Access Control</Link></li>
               <li><Link href="/products?brand=Realtime" className="hover:text-white transition">Realtime Cloud Devices</Link></li>
@@ -82,27 +83,38 @@ export default function Footer() {
               </li>
             </ul>
             
-            <a
-              href="https://g.page/r/CTM5PhyYtmlZEBM/review"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition"
-            >
-              Review us on Google
-            </a>
-
-            <div className="mt-6 p-4 rounded-xl bg-slate-900 border border-slate-800">
-              <h5 className="text-xs font-bold text-white mb-2 uppercase tracking-wide text-blue-400">Our Service Areas in Bihar</h5>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                <strong className="text-slate-300">Patna (Head Office)</strong>, Khagaul, Arrah, Buxar, Hajipur, Chapra, Muzaffarpur, Masaurhi, Barh, Bakhtiarpur, Jehanabad, Nalanda, Gaya, and Gopalganj.
-              </p>
+            <div className="mt-6 flex flex-col items-center gap-3 bg-slate-900/80 p-5 rounded-2xl border border-slate-800 text-center">
+              <div className="w-32 h-32 bg-white rounded-xl p-2 shadow-sm shrink-0">
+                <Image src="/images/review-qr.png" alt="Scan to Review us on Google" width={128} height={128} className="w-full h-full object-cover" />
+              </div>
+              <div className="w-full">
+                <p className="text-sm font-bold text-white mb-1">Rate Your Experience!</p>
+                <p className="text-[10px] text-slate-400 mb-3">Scan QR code to leave a Google Review</p>
+                <a
+                  href="https://g.page/r/CTM5PhyYtmlZEBM/review"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition uppercase tracking-wider w-full justify-center"
+                >
+                  Or Click Here
+                </a>
+              </div>
             </div>
           </div>
         </div>
 
+        {/* Full-width Service Areas */}
+        <div className="mb-10 p-6 rounded-2xl bg-slate-900/40 border border-slate-800/60 text-center max-w-4xl mx-auto">
+          <h5 className="text-sm font-bold text-white mb-2 uppercase tracking-wide text-blue-400">Our Service Areas in Bihar</h5>
+          <p className="text-sm text-slate-400 leading-relaxed">
+            <strong className="text-slate-200">Patna (Head Office)</strong>, Khagaul, Arrah, Buxar, Hajipur, Chapra, Muzaffarpur, Masaurhi, Barh, Bakhtiarpur, Jehanabad, Nalanda, Gaya, and Gopalganj.
+          </p>
+        </div>
+
         <div className="pt-8 border-t border-slate-800 text-xs flex flex-col md:flex-row justify-between items-center gap-4">
           <p>&copy; {new Date().getFullYear()} Yash Enterprises (bestcctvservice.com). All rights reserved.</p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap justify-center items-center gap-6">
+            <Link href="/terms" className="hover:text-white">Terms &amp; Conditions</Link>
             <Link href="/track" className="hover:text-white">Track Repair Status</Link>
             <Link href="/admin/login" className="hover:text-white text-slate-500">Admin Login</Link>
           </div>
@@ -111,3 +123,5 @@ export default function Footer() {
     </footer>
   );
 }
+
+

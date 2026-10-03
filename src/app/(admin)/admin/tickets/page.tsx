@@ -8,6 +8,7 @@ export default function AdminTicketsPage() {
   const [tickets, setTickets] = useState<ServiceTicketItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedTicket, setSelectedTicket] = useState<ServiceTicketItem | null>(null);
+  const [activeTab, setActiveTab] = useState<"SUPPORT" | "PROJECTS">("SUPPORT");
   
   // States for updating a ticket
   const [assignName, setAssignName] = useState("");
@@ -132,6 +133,10 @@ export default function AdminTicketsPage() {
     }
   };
 
+  const supportTickets = tickets.filter(t => t.serviceType !== "PROJECT_QUOTATION");
+  const projectTickets = tickets.filter(t => t.serviceType === "PROJECT_QUOTATION");
+  const displayedTickets = activeTab === "SUPPORT" ? supportTickets : projectTickets;
+
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -157,9 +162,29 @@ export default function AdminTicketsPage() {
         </div>
       </div>
 
+      {/* Tabs */}
+      <div className="flex items-center gap-2 border-b border-slate-800 pb-px">
+        <button
+          onClick={() => setActiveTab("SUPPORT")}
+          className={`px-5 py-2.5 text-sm font-bold border-b-2 transition-colors ${
+            activeTab === "SUPPORT" ? "border-blue-500 text-blue-400" : "border-transparent text-slate-400 hover:text-slate-300"
+          }`}
+        >
+          Support & Repair ({supportTickets.length})
+        </button>
+        <button
+          onClick={() => setActiveTab("PROJECTS")}
+          className={`px-5 py-2.5 text-sm font-bold border-b-2 transition-colors ${
+            activeTab === "PROJECTS" ? "border-emerald-500 text-emerald-400" : "border-transparent text-slate-400 hover:text-slate-300"
+          }`}
+        >
+          Approved Projects ({projectTickets.length})
+        </button>
+      </div>
+
       {/* Tickets List */}
       <div className="grid grid-cols-1 gap-4">
-        {tickets.map((t) => (
+        {displayedTickets.map((t) => (
           <div
             key={t.id}
             className="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-md flex flex-col lg:flex-row lg:items-center justify-between gap-6"

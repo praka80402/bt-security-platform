@@ -36,7 +36,7 @@ export default function PublicLayout({
     "sameAs": [
       "https://g.page/r/CTM5PhyYtmlZEBM"
     ],
-    "description": "CCTV installation, biometric attendance and AMC maintenance in Patna and across Bihar. Authorised for CP Plus, Hikvision, Dahua, eSSL and Matrix."
+    "description": "CCTV installation, biometric attendance and AMC maintenance in Patna and across Bihar. Authorised for CP Plus, Hikvision, Dahua, Sparsh, eSSL and Matrix."
   };
 
   return (
@@ -55,3 +55,4 @@ export default function PublicLayout({
     </CallModalProvider>
   );
 }
+

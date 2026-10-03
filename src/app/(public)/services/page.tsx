@@ -55,11 +55,9 @@ export default function ServicesPage() {
           <span className="text-xs uppercase font-extrabold tracking-widest text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
             Doorstep Service & Installation
           </span>
-          <h1 className="text-3xl sm:text-5xl font-black text-slate-900">
-            Book A Certified Engineer Visit
-          </h1>
+          <h1 className="text-[26px] sm:text-4xl lg:text-[2.75rem] font-black text-slate-900 tracking-tight md:whitespace-nowrap">Book Experienced Engineer Visit</h1>
           <p className="text-slate-600 text-sm sm:text-base">
-            Need new CCTV cameras installed or existing setup repaired? Yash Enterprises guarantees fast doorstep support within 4 business hours.
+            Need new CCTV cameras installed or existing setup repaired? Yash Enterprises strives to provide fast doorstep support within 4-6 business hours*.
           </p>
         </div>
 
@@ -99,10 +97,22 @@ export default function ServicesPage() {
                     className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md transition"
                   >
                     Track Ticket Live
-                  </Link>
-                  <button
-                    onClick={() => {
-                      setCreatedTicket(null);
+                    </Link>
+                    <button
+                      onClick={() => {
+                        const text = `*Service Ticket Booked!*\n\n*Ticket No:* ${createdTicket.ticketNumber}\n*Customer:* ${formData.customerName}\n*Issue:* ${formData.issueDescription}\n\nTrack your ticket live here:\nhttps://www.bestcctvservice.com/track?ticket=${createdTicket.ticketNumber}\n\n- Yash Enterprises`;
+                        const phoneStr = formData.phone.replace(/\D/g, "");
+                        const finalPhone = phoneStr.length === 10 ? `91${phoneStr}` : phoneStr;
+                        const waUrl = `https://wa.me/${finalPhone}?text=${encodeURIComponent(text)}`;
+                        window.open(waUrl, "_blank", "noopener,noreferrer");
+                      }}
+                      className="px-6 py-2.5 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold text-sm shadow-md transition"
+                    >
+                      WhatsApp Ticket
+                    </button>
+                    <button
+                      onClick={() => {
+                        setCreatedTicket(null);
                       setFormData({
                         customerName: "",
                         phone: "",
@@ -230,20 +240,20 @@ export default function ServicesPage() {
                 </div>
                 <div className="flex justify-between py-2 border-b border-slate-700/60">
                   <span className="text-slate-300">Camera Installation (Per Point)</span>
-                  <span className="font-bold text-emerald-400">From ₹250 / point</span>
+                  <span className="font-bold text-emerald-400">From ₹250 / point*</span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-slate-700/60">
                   <span className="text-slate-300">DVR / NVR Configuration</span>
-                  <span className="font-bold text-emerald-400">₹450</span>
+                  <span className="font-bold text-emerald-400">From ₹450*</span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-slate-700/60">
                   <span className="text-slate-300">Biometric Software Installation</span>
-                  <span className="font-bold text-emerald-400">₹650</span>
+                  <span className="font-bold text-emerald-400">From ₹650*</span>
                 </div>
               </div>
               <div className="mt-6 pt-4 border-t border-slate-700 text-xs text-slate-400 flex items-center gap-2">
                 <Clock className="w-4 h-4 text-sky-400 shrink-0" />
-                <span>Doorstep visit in 4 hours across major city areas.</span>
+                <span>Doorstep visit in 4-6 hours across major city areas.*</span>
               </div>
             </div>
 
@@ -253,18 +263,27 @@ export default function ServicesPage() {
               <p className="text-xs text-slate-600 leading-relaxed">
                 Call our technical support desk directly to schedule priority repairs or emergency society camera blackout service.
               </p>
+              {/* Desktop: Plain Text (No Popup) */}
+              <div className="hidden md:flex items-center gap-2 font-bold text-blue-700 text-sm select-all">
+                Direct Call: +91 93089 07319
+              </div>
+
+              {/* Mobile: Clickable Link to Dialer */}
               <a
                 href="tel:+919308907319"
-                className="inline-flex items-center gap-2 font-bold text-blue-700 hover:text-blue-800 text-sm"
+                className="inline-flex md:hidden items-center gap-2 font-bold text-blue-700 hover:text-blue-800 text-sm"
               >
                 Direct Call: +91 93089 07319 <ArrowRight className="w-4 h-4" />
               </a>
+            
+              {/* Disclaimer */}
+              <div className="mt-4 text-[10px] text-slate-400 px-2 leading-relaxed">
+                * Terms & Conditions apply. Service timelines are estimated and subject to technician availability, distance, and weather conditions. Prices mentioned are starting estimates; actual costs may vary after physical inspection of the site.
+              </div>
             </div>
-          </div>
-
         </div>
-
       </div>
+    </div>
     </div>
   );
 }

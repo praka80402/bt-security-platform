@@ -76,11 +76,11 @@ export default function Hero() {
               </div>
               <div className="flex items-center gap-2.5 text-xs font-bold text-slate-800 bg-slate-50 px-3.5 py-2.5 rounded-xl shadow-sm border border-slate-200">
                 <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0" />
-                <span>1-Year Warranty</span>
+                <span>365-Day Brand Warranty*</span>
               </div>
               <div className="flex items-center gap-2.5 text-xs font-bold text-slate-800 bg-slate-50 px-3.5 py-2.5 rounded-xl shadow-sm border border-slate-200">
                 <Clock className="w-4 h-4 text-amber-600 shrink-0" />
-                <span>Doorstep Repair in 4 Hrs</span>
+                <span>Express 4-Hr Doorstep Support*</span>
               </div>
             </div>
 
@@ -208,3 +208,4 @@ export default function Hero() {
     </section>
   );
 }
+

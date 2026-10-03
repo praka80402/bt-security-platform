@@ -14,6 +14,35 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       where: { id: parseInt(id) }, 
       data: { status } 
     });
+
+    if (status === 'ACCEPTED') {
+      // Check if project ticket already exists
+      const existingTicket = await db.serviceTicket.findFirst({
+        where: { issueDescription: { startsWith: `[PROJECT-${updated.quotationNo}]` } }
+      });
+
+      if (!existingTicket) {
+        // Auto-create Service Ticket for the project
+        const last = await db.serviceTicket.findFirst({
+          orderBy: { id: "desc" }, select: { id: true },
+        });
+        const ticketNumber = `PRJ-${1001 + (last?.id ?? 0)}`;
+
+        await db.serviceTicket.create({
+          data: {
+            ticketNumber,
+            customerName: updated.customerName,
+            phone: updated.phone,
+            address: updated.address || 'Address not provided',
+            serviceType: 'PROJECT_QUOTATION',
+            issueDescription: `[PROJECT-${updated.quotationNo}] Approved Quotation Execution. Total: ₹${updated.totalAmount}`,
+            priority: 'Normal',
+            status: 'PENDING'
+          }
+        });
+      }
+    }
+
     return NextResponse.json({ success: true, quotation: updated });
   } catch (err: any) {
     console.error(err);
