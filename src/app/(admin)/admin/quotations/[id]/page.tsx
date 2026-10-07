@@ -83,6 +83,11 @@ export default function ViewQuotationPage() {
           <button onClick={handleDownloadWord} className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition">
             <FileDown className="w-4 h-4" /> Word
           </button>
+          {quotation.status === 'ACCEPTED' && (
+            <Link href={`/admin/finance/invoice/new?quotationId=${id}`} className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg transition">
+              <FileText className="w-4 h-4" /> Generate Bill
+            </Link>
+          )}
         </div>
       </div>
 

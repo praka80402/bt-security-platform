@@ -35,3 +35,16 @@ export async function PATCH(
     return NextResponse.json({ error: "Failed to update ticket" }, { status: 500 });
   }
 }
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const ticketId = parseInt(params.id, 10);
+    const ticket = await db.serviceTicket.findUnique({ where: { id: ticketId } });
+    if (!ticket) return NextResponse.json({ error: 'Ticket not found' }, { status: 404 });
+    return NextResponse.json({ success: true, ticket });
+  } catch (err) {
+    return NextResponse.json({ error: 'Failed to fetch ticket' }, { status: 500 });
+  }
+}

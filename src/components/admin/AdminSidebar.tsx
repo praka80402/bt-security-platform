@@ -35,6 +35,7 @@ export default function AdminSidebar({ onClose }: { onClose?: () => void }) {
     { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
     { label: "Customer Leads", href: "/admin/leads", icon: Users },
     { label: "Quotations", href: "/admin/quotations", icon: FileText },
+    { label: "Finance & Bills", href: "/admin/finance", icon: FileText },
     { label: "Service Tickets", href: "/admin/tickets", icon: Wrench },
     { label: "Product Catalog", href: "/admin/products", icon: Package },
     { label: "AMC Contracts", href: "/admin/amc", icon: FileText },

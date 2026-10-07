@@ -82,8 +82,42 @@ export default function CreateQuotationPage() {
     }
   };
 
+  const [editId, setEditId] = useState<string | null>(null);
+
   useEffect(() => {
-    loadCCTVTemplate("HD");
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("editId");
+    if (id) {
+      setEditId(id);
+      fetch(`/api/admin/quotations/${id}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.quotation) {
+            const q = data.quotation;
+            setClientInfo({
+              name: q.customerName || "",
+              company: q.companyName || "",
+              phone: q.phone || "",
+              email: q.email || "",
+              address: q.address || ""
+            });
+            setType(q.type || "CCTV");
+            setDiscount(Number(q.discount) || 0);
+            if (q.items && q.items.length > 0) {
+              setItems(q.items.map((it: any) => ({
+                id: it.id,
+                name: it.name,
+                description: it.description,
+                qty: it.quantity,
+                price: Number(it.unitPrice),
+                options: null
+              })));
+            }
+          }
+        });
+    } else {
+      loadCCTVTemplate("HD");
+    }
   }, []);
 
   const handleCCTVTypeChange = (newCctvType: string) => {
@@ -124,8 +158,11 @@ export default function CreateQuotationPage() {
     
     setIsSaving(true);
     try {
-      const response = await fetch('/api/admin/quotations', {
-        method: 'POST',
+      const url = editId ? `/api/admin/quotations/${editId}` : '/api/admin/quotations';
+      const method = editId ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           type,

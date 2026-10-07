@@ -67,3 +67,61 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
   }
 }
+
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+  const { error } = await requireStaff(req);
+  if (error) return error;
+
+  try {
+    await db.quotation.delete({ where: { id: parseInt(params.id) } });
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ success: false, error: 'Failed to delete' }, { status: 500 });
+  }
+}
+
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+  const { error } = await requireStaff(req);
+  if (error) return error;
+
+  try {
+    const body = await req.json();
+    const { type, customerName, companyName, phone, email, address, subTotal, discount, taxAmount, totalAmount, notes, terms, items } = body;
+    const qid = parseInt(params.id);
+
+    await db.quotationItem.deleteMany({ where: { quotationId: qid } });
+    
+    const updated = await db.quotation.update({
+      where: { id: qid },
+      data: {
+        type,
+        customerName: String(customerName || 'Unknown Client').slice(0, 120),
+        companyName: companyName ? String(companyName).slice(0, 120) : null,
+        phone: String(phone || '').slice(0, 20),
+        email: email ? String(email).slice(0, 120) : null,
+        address: address ? String(address).slice(0, 500) : null,
+        subTotal: subTotal || 0,
+        discount: discount || 0,
+        taxAmount: taxAmount || 0,
+        totalAmount: totalAmount || 0,
+        notes: notes ? String(notes).slice(0, 2000) : null,
+        terms: terms ? String(terms).slice(0, 2000) : null,
+        items: {
+          create: items.map((item: any) => ({
+            name: String(item.name).slice(0, 120),
+            description: item.description ? String(item.description).slice(0, 500) : '',
+            quantity: item.qty || 1,
+            unitPrice: item.price || 0,
+            totalPrice: (item.qty || 1) * (item.price || 0)
+          }))
+        }
+      }
+    });
+
+    return NextResponse.json({ success: true, quotation: updated });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ success: false, error: 'Failed to update' }, { status: 500 });
+  }
+}

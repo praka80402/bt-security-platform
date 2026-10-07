@@ -22,6 +22,23 @@ export default function QuotationsListPage() {
       .catch(() => setLoading(false));
   }, []);
 
+  const deleteQuotation = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this quotation?")) return;
+    try {
+      const res = await fetch(`/api/admin/quotations/${id}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        setQuotations(quotations.filter(q => q.id !== id));
+        setPopup({ show: true, message: "Quotation deleted!", type: "success" });
+      } else {
+        setPopup({ show: true, message: "Failed to delete.", type: "error" });
+      }
+    } catch (err) {
+      setPopup({ show: true, message: "Error deleting.", type: "error" });
+    }
+  };
+
   const updateStatus = async (id: string, newStatus: string) => {
     try {
       const res = await fetch(`/api/admin/quotations/${id}`, {
@@ -217,11 +234,26 @@ export default function QuotationsListPage() {
                         <option value="REJECTED">Reject</option>
                       </select>
                       <Link 
-                        href={`/admin/quotations/${q.id}`} 
-                        className="bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white px-3 py-1.5 rounded text-xs font-semibold transition flex items-center gap-1"
+                        href={`/admin/quotations/new?editId=${q.id}`} 
+                        className="bg-amber-600/20 text-amber-400 hover:bg-amber-600 hover:text-white px-2 py-1.5 rounded text-xs font-semibold transition"
+                        title="Edit Quotation"
                       >
-                        <FileText className="w-3 h-3" /> View
+                        Edit
                       </Link>
+                      <Link 
+                        href={`/admin/quotations/${q.id}`} 
+                        className="bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white px-2 py-1.5 rounded text-xs font-semibold transition"
+                        title="View Quotation"
+                      >
+                        View
+                      </Link>
+                      <button 
+                        onClick={() => deleteQuotation(q.id)}
+                        className="bg-rose-600/20 text-rose-400 hover:bg-rose-600 hover:text-white px-2 py-1.5 rounded text-xs font-semibold transition"
+                        title="Delete Quotation"
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}

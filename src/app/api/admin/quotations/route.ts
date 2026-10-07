@@ -74,6 +74,12 @@ export async function GET(req: NextRequest) {
 
   try {
     const quotations = await db.quotation.findMany({ 
+      where: {
+        NOT: [
+          { quotationNo: { startsWith: 'YE/' } },
+          { quotationNo: { startsWith: 'REC/' } }
+        ]
+      },
       orderBy: { createdAt: 'desc' },
       take: 500
     });

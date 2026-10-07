@@ -10,7 +10,14 @@ export default async function AdminDashboardPage() {
     db.serviceTicket.count(),
     db.product.count(),
     db.amcContract.count(),
-    db.quotation.count(),
+    db.quotation.count({
+      where: {
+        NOT: [
+          { quotationNo: { startsWith: 'YE/' } },
+          { quotationNo: { startsWith: 'REC/' } }
+        ]
+      }
+    }),
   ]);
 
   const recentLeads = await db.lead.findMany({

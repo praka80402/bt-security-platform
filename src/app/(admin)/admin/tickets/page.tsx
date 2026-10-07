@@ -253,8 +253,17 @@ export default function AdminTicketsPage() {
                 </button>
               )}
               {t.status === "COMPLETED" && (
-                <div className="w-full px-4 py-2 rounded-xl bg-emerald-500/10 text-emerald-500 text-xs font-bold flex items-center justify-center gap-2">
-                  <CheckCircle2 className="w-4 h-4" /> Solved
+                <div className="flex flex-col gap-2 w-full">
+                  <div className="w-full px-4 py-2 rounded-xl bg-emerald-500/10 text-emerald-500 text-xs font-bold flex items-center justify-center gap-2">
+                    <CheckCircle2 className="w-4 h-4" /> Solved
+                  </div>
+                  <a
+                    href={`/admin/finance/invoice/new?ticketId=${t.id}`}
+                    
+                    className="w-full px-4 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-600 hover:text-white text-amber-500 text-xs font-bold transition flex items-center justify-center text-center"
+                  >
+                    Generate Bill
+                  </a>
                 </div>
               )}
               

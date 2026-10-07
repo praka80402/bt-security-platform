@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Download, FileText, FileSpreadsheet, File, Printer, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 type DataType = "QUOTATIONS" | "TICKETS" | "LEADS";
 type PeriodType = "MONTH" | "QUARTER" | "HALF_YEAR" | "YEAR" | "ALL";
@@ -147,6 +148,10 @@ export default function ReportsPage() {
               <button onClick={() => setDataType("QUOTATIONS")} className={`px-4 py-2 rounded-lg text-sm font-bold transition ${dataType === 'QUOTATIONS' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>Quotations</button>
               <button onClick={() => setDataType("TICKETS")} className={`px-4 py-2 rounded-lg text-sm font-bold transition ${dataType === 'TICKETS' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>Service Tickets</button>
               <button onClick={() => setDataType("LEADS")} className={`px-4 py-2 rounded-lg text-sm font-bold transition ${dataType === 'LEADS' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>Sales Leads</button>
+              
+              <Link href="/admin/reports/income" className="px-4 py-2 rounded-lg text-sm font-bold bg-emerald-100 text-emerald-700 hover:bg-emerald-200 transition ml-auto flex items-center gap-1">
+                Income Dashboard <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
           </div>
           <div>
