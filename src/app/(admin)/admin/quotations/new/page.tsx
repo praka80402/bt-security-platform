@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Save, Plus, Trash2, Camera, Wifi, Sun, Server, Loader2 } from "lucide-react";
+import { ArrowLeft, Save, Plus, Trash2, Camera, Wifi, Sun, Server, Loader2, Phone, Contact } from "lucide-react";
 
 export default function CreateQuotationPage() {
   const router = useRouter();
@@ -326,13 +326,54 @@ export default function CreateQuotationPage() {
                 onChange={(e) => setClientInfo({...clientInfo, company: e.target.value})}
                 className="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-blue-500" 
               />
-              <input 
-                type="text" 
-                placeholder="Phone Number *" 
-                value={clientInfo.phone}
-                onChange={(e) => setClientInfo({...clientInfo, phone: e.target.value})}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-blue-500" 
-              />
+              <div className="relative">
+                <input 
+                  type="tel" 
+                  placeholder="Phone Number *" 
+                  value={clientInfo.phone}
+                  onChange={(e) => setClientInfo({...clientInfo, phone: e.target.value})}
+                  className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-4 pr-20 py-2 text-sm text-white focus:outline-none focus:border-blue-500" 
+                />
+                <div className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      if ("contacts" in navigator && "select" in (navigator as any).contacts) {
+                        try {
+                          const contacts = await (navigator as any).contacts.select(["name", "tel"], { multiple: false });
+                          if (contacts && contacts[0]) {
+                            const c = contacts[0];
+                            const rawPhone = (c.tel && c.tel[0]) ? c.tel[0].replace(/\s+/g, "") : "";
+                            const contactName = (c.name && c.name[0]) || "";
+                            setClientInfo(prev => ({
+                              ...prev,
+                              phone: rawPhone || prev.phone,
+                              name: prev.name || contactName
+                            }));
+                          }
+                        } catch (err) {
+                          console.log("Contact pick cancelled or not supported");
+                        }
+                      } else {
+                        alert("Contact Picker mobile phone Chrome/Edge browser me kaam karta hai. Agar number pehle se hai toh call button use karein.");
+                      }
+                    }}
+                    title="Select from Phone Contacts"
+                    className="p-1.5 text-blue-400 hover:text-blue-300 hover:bg-blue-950/60 rounded transition flex items-center gap-1 text-[11px] font-bold"
+                  >
+                    <Contact className="w-4 h-4" />
+                  </button>
+                  {clientInfo.phone && (
+                    <a
+                      href={`tel:${clientInfo.phone}`}
+                      title="Call this number"
+                      className="p-1.5 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-950/60 rounded transition"
+                    >
+                      <Phone className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+                </div>
+              </div>
               <input 
                 type="email" 
                 placeholder="Email Address" 

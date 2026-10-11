@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Wrench, Phone, MapPin, UserCheck, RefreshCw, CheckCircle2, Plus, X, Share2, MessageCircle } from "lucide-react";
+import { Wrench, Phone, MapPin, UserCheck, RefreshCw, CheckCircle2, Plus, X, Share2, MessageCircle, Contact } from "lucide-react";
 import { ServiceTicketItem } from "@/types";
 
 export default function AdminTicketsPage() {
@@ -401,7 +401,55 @@ export default function AdminTicketsPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1.5">Phone Number *</label>
-                  <input type="text" required value={newTicket.phone} onChange={e => setNewTicket({...newTicket, phone: e.target.value})} className="w-full px-3 py-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-white text-sm focus:outline-none focus:border-blue-500" placeholder="98XXXXXXXX" />
+                  <div className="relative">
+                    <input 
+                      type="tel" 
+                      required 
+                      value={newTicket.phone} 
+                      onChange={e => setNewTicket({...newTicket, phone: e.target.value})} 
+                      className="w-full pl-3 pr-20 py-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-white text-sm focus:outline-none focus:border-blue-500" 
+                      placeholder="98XXXXXXXX" 
+                    />
+                    <div className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          if ("contacts" in navigator && "select" in (navigator as any).contacts) {
+                            try {
+                              const contacts = await (navigator as any).contacts.select(["name", "tel"], { multiple: false });
+                              if (contacts && contacts[0]) {
+                                const c = contacts[0];
+                                const rawPhone = (c.tel && c.tel[0]) ? c.tel[0].replace(/\s+/g, "") : "";
+                                const contactName = (c.name && c.name[0]) || "";
+                                setNewTicket(prev => ({
+                                  ...prev,
+                                  phone: rawPhone || prev.phone,
+                                  customerName: prev.customerName || contactName
+                                }));
+                              }
+                            } catch (err) {
+                              console.log("Contact pick cancelled or not supported");
+                            }
+                          } else {
+                            alert("Contact Picker mobile phone Chrome/Edge browser me kaam karta hai.");
+                          }
+                        }}
+                        title="Pick from Phone Contacts"
+                        className="p-1.5 text-blue-400 hover:text-blue-300 hover:bg-blue-950/60 rounded transition flex items-center gap-1 text-[11px] font-bold"
+                      >
+                        <Contact className="w-4 h-4" />
+                      </button>
+                      {newTicket.phone && (
+                        <a
+                          href={`tel:${newTicket.phone}`}
+                          title="Call this number"
+                          className="p-1.5 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-950/60 rounded transition"
+                        >
+                          <Phone className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-xs font-semibold text-slate-300 mb-1.5">Address *</label>
