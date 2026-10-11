@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { UserPlus, Shield, User, Wrench, Trash2, Key, Loader2, AlertCircle, CheckCircle, X, Users, BadgeIndianRupee, Calendar } from "lucide-react";
+import { UserPlus, Shield, User, Wrench, Trash2, Key, Loader2, AlertCircle, CheckCircle, X, Users, BadgeIndianRupee, Calendar, Pencil } from "lucide-react";
 
 export default function TeamManagementPage() {
   const [users, setUsers] = useState<any[]>([]);
@@ -9,6 +9,8 @@ export default function TeamManagementPage() {
   const [activeTab, setActiveTab] = useState("SALES");
   
   const [showModal, setShowModal] = useState(false);
+  const [editingUserId, setEditingUserId] = useState<number | null>(null);
+
   const [formData, setFormData] = useState({ 
     name: "", email: "", password: "", role: "STAFF", staffType: "SALES",
     phone: "", joiningDate: "", salary: "", attendance: ""
@@ -39,6 +41,24 @@ export default function TeamManagementPage() {
     fetchUsers();
   }, []);
 
+  const handleEditClick = (u: any) => {
+    setEditingUserId(u.id);
+    setFormData({
+      name: u.name || "",
+      email: u.email || "",
+      password: "", // leave blank unless updating
+      role: u.role || "STAFF",
+      staffType: u.staffType || (u.role === "TECHNICIAN" ? "SERVICE" : "SALES"),
+      phone: u.phone || "",
+      joiningDate: u.joiningDate ? new Date(u.joiningDate).toISOString().split("T")[0] : "",
+      salary: u.salary || "",
+      attendance: u.attendance || ""
+    });
+    setErrorMsg("");
+    setSuccessMsg("");
+    setShowModal(true);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitLoading(true);
@@ -46,23 +66,27 @@ export default function TeamManagementPage() {
     setSuccessMsg("");
 
     try {
-      const res = await fetch("/api/admin/team", {
-        method: "POST",
+      const url = editingUserId ? `/api/admin/team/${editingUserId}` : "/api/admin/team";
+      const method = editingUserId ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
       });
       const data = await res.json();
       
       if (data.success) {
-        setSuccessMsg("Staff member added successfully!");
+        setSuccessMsg(editingUserId ? "Staff member updated successfully!" : "Staff member added successfully!");
         setFormData({ name: "", email: "", password: "", role: formData.role, staffType: formData.staffType, phone: "", joiningDate: "", salary: "", attendance: "" });
         fetchUsers();
         setTimeout(() => {
           setShowModal(false);
+          setEditingUserId(null);
           setSuccessMsg("");
-        }, 2000);
+        }, 1500);
       } else {
-        setErrorMsg(data.error || "Failed to create user");
+        setErrorMsg(data.error || "Failed to save user");
       }
     } catch (error) {
       setErrorMsg("An error occurred");
@@ -221,6 +245,13 @@ export default function TeamManagementPage() {
                           </span>
                         </td>
                         <td className="p-4 text-right flex items-center justify-end gap-2">
+                          <button 
+                            onClick={() => handleEditClick(u)}
+                            className="p-2 bg-blue-500/10 text-blue-400 hover:bg-blue-600 hover:text-white rounded-lg transition"
+                            title="Edit Staff Member"
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </button>
                           {u.id !== 1 && (
                             <button 
                               onClick={() => setDeleteConfirm({ show: true, id: u.id })}
@@ -251,14 +282,24 @@ export default function TeamManagementPage() {
                         <td className="p-4 text-amber-400">{u.attendance || "-"}</td>
                         <td className="p-4">{u.joiningDate ? new Date(u.joiningDate).toLocaleDateString() : "-"}</td>
                         <td className="p-4 text-right">
-                          {u.id !== 1 && (
+                          <div className="flex items-center justify-end gap-2">
                             <button 
-                              onClick={() => setDeleteConfirm({ show: true, id: u.id })}
-                              className="p-2 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white rounded-lg transition"
+                              onClick={() => handleEditClick(u)}
+                              className="p-2 bg-blue-500/10 text-blue-400 hover:bg-blue-600 hover:text-white rounded-lg transition"
+                              title="Edit Staff Member"
                             >
-                              <Trash2 className="w-4 h-4" />
+                              <Pencil className="w-4 h-4" />
                             </button>
-                          )}
+                            {u.id !== 1 && (
+                              <button 
+                                onClick={() => setDeleteConfirm({ show: true, id: u.id })}
+                                className="p-2 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white rounded-lg transition"
+                                title="Delete User"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            )}
+                          </div>
                         </td>
                       </>
                     )}
@@ -335,9 +376,10 @@ export default function TeamManagementPage() {
           <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden my-8">
             <div className="p-5 border-b border-slate-800 flex justify-between items-center bg-slate-900/50 sticky top-0 z-10">
               <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                <UserPlus className="w-5 h-5 text-blue-500" /> Add Staff Member
+                {editingUserId ? <Pencil className="w-5 h-5 text-blue-500" /> : <UserPlus className="w-5 h-5 text-blue-500" />} 
+                {editingUserId ? "Edit Staff Member" : "Add Staff Member"}
               </h3>
-              <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition">
+              <button onClick={() => { setShowModal(false); setEditingUserId(null); }} className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -367,8 +409,18 @@ export default function TeamManagementPage() {
                     <input type="email" required value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-blue-500" placeholder="rahul@yash.com" />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">Password *</label>
-                    <input type="text" required minLength={8} value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-blue-500" placeholder="Min 8 chars" />
+                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                      {editingUserId ? "Password (Leave blank to keep same)" : "Password *"}
+                    </label>
+                    <input 
+                      type="text" 
+                      required={!editingUserId} 
+                      minLength={editingUserId ? undefined : 8} 
+                      value={formData.password} 
+                      onChange={e => setFormData({...formData, password: e.target.value})} 
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-blue-500" 
+                      placeholder={editingUserId ? "Leave blank to keep current" : "Min 8 chars"} 
+                    />
                   </div>
 
                   <div>

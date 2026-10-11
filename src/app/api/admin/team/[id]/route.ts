@@ -29,7 +29,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
   }
 }
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   const { error } = await requireAdmin(req);
   if (error) return error;
 
@@ -37,24 +37,32 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     const { id } = params;
     const targetId = parseInt(id);
     const body = await req.json();
-    const { password } = body;
+    const { name, email, phone, role, staffType, salary, attendance, joiningDate, password } = body;
 
-    if (!password || String(password).length < 8) {
-       return NextResponse.json({ success: false, error: 'New password must be at least 8 characters long' }, { status: 400 });
+    const updateData: any = {};
+    if (name) updateData.name = String(name).trim().slice(0, 100);
+    if (email) updateData.email = String(email).trim().slice(0, 150);
+    if (phone !== undefined) updateData.phone = phone || null;
+    if (role) updateData.role = role;
+    if (staffType) updateData.staffType = staffType;
+    if (salary !== undefined) updateData.salary = salary || null;
+    if (attendance !== undefined) updateData.attendance = attendance || null;
+    if (joiningDate !== undefined) updateData.joiningDate = joiningDate ? new Date(joiningDate) : null;
+
+    if (password && String(password).length >= 8) {
+      updateData.passwordHash = await bcrypt.hash(password, 10);
+      await destroyAllSessionsForUser(targetId);
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    
-    await db.adminUser.update({
+    const updated = await db.adminUser.update({
       where: { id: targetId },
-      data: { passwordHash: hashedPassword }
+      data: updateData
     });
 
-    await destroyAllSessionsForUser(targetId);
-    
-    return NextResponse.json({ success: true, message: 'Password updated successfully' });
+    return NextResponse.json({ success: true, user: updated });
   } catch (err: any) {
     console.error(err);
-    return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ success: false, error: err?.code === 'P2002' ? 'Email already in use' : 'Failed to update staff' }, { status: 500 });
   }
 }
+
