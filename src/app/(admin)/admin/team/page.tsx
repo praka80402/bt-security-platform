@@ -135,7 +135,15 @@ export default function TeamManagementPage() {
           <p className="text-sm text-slate-400 mt-1">Manage admin access, sales staff, and service technicians.</p>
         </div>
         <button 
-          onClick={() => setShowModal(true)}
+          onClick={() => {
+            const initialStaffType = activeTab === "SERVICE" ? "SERVICE" : "SALES";
+            const initialRole = activeTab === "SERVICE" ? "TECHNICIAN" : "STAFF";
+            setFormData({
+              name: "", email: "", password: "", role: initialRole, staffType: initialStaffType,
+              phone: "", joiningDate: "", salary: "", attendance: ""
+            });
+            setShowModal(true);
+          }}
           className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-lg shadow-blue-500/20"
         >
           <UserPlus className="w-4 h-4" /> Add New Staff

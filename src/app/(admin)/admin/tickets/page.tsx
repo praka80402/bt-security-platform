@@ -31,12 +31,22 @@ export default function AdminTicketsPage() {
     status: "PENDING"
   });
 
+  const [technicians, setTechnicians] = useState<any[]>([]);
+
   const fetchTickets = async () => {
     setLoading(true);
     try {
       const res = await fetch("/api/tickets");
       const data = await res.json();
       if (data.tickets) setTickets(data.tickets);
+
+      // Also fetch service staff / technicians
+      const teamRes = await fetch("/api/admin/team");
+      const teamData = await teamRes.json();
+      if (teamData.success && teamData.users) {
+        const techList = teamData.users.filter((u: any) => u.staffType === "SERVICE" || u.role === "TECHNICIAN");
+        setTechnicians(techList);
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -312,6 +322,31 @@ export default function AdminTicketsPage() {
               Update Ticket: <span className="text-blue-400">{selectedTicket.ticketNumber}</span>
             </h3>
             <form onSubmit={handleUpdateTicket} className="space-y-4">
+              {technicians.length > 0 && (
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">Select from Service Staff</label>
+                  <select
+                    value=""
+                    onChange={(e) => {
+                      const selected = technicians.find(t => String(t.id) === e.target.value);
+                      if (selected) {
+                        setAssignName(selected.name || "");
+                        setAssignPhone(selected.phone || "");
+                        setStatusVal("ASSIGNED");
+                      }
+                    }}
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-blue-500/40 text-blue-300 text-xs focus:outline-none focus:border-blue-500 mb-2 cursor-pointer"
+                  >
+                    <option value="">-- Choose Staff Member --</option>
+                    {technicians.map(t => (
+                      <option key={t.id} value={t.id}>
+                        {t.name} {t.phone ? `(${t.phone})` : ""}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1.5">Technician Name</label>
@@ -320,6 +355,7 @@ export default function AdminTicketsPage() {
                     value={assignName}
                     onChange={(e) => setAssignName(e.target.value)}
                     className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-blue-500"
+                    placeholder="Engineer Name"
                   />
                 </div>
                 <div>
@@ -329,6 +365,7 @@ export default function AdminTicketsPage() {
                     value={assignPhone}
                     onChange={(e) => setAssignPhone(e.target.value)}
                     className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-blue-500"
+                    placeholder="98XXXXXXXX"
                   />
                 </div>
               </div>
