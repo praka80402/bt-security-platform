@@ -62,10 +62,10 @@ function NewInvoiceForm() {
                 try { itemMeta = { ...itemMeta, ...JSON.parse(it.description || "{}") }; } catch(e) {}
                 return {
                   name: it.name,
-                  hsn: editId ? itemMeta.hsn : "",
+                  hsn: itemMeta.hsn || "",
                   quantity: it.quantity,
                   unitPrice: Number(it.unitPrice),
-                  warranty: editId ? itemMeta.warranty : "01 Yr"
+                  warranty: itemMeta.warranty || "01 Yr"
                 };
               }));
             }
@@ -86,13 +86,20 @@ function NewInvoiceForm() {
             }));
             
             let serviceDesc = "Service Charge";
-            if (data.ticket.serviceType === "REPAIR") serviceDesc = `Repair Service (${data.ticket.issue})`;
+            let defaultSac = "995461";
+            if (data.ticket.serviceType === "REPAIR") {
+              serviceDesc = `Repair Service (${data.ticket.issue})`;
+              defaultSac = "9987";
+            }
             if (data.ticket.serviceType === "CCTV_INSTALL") serviceDesc = `CCTV Installation (${data.ticket.issue})`;
             if (data.ticket.serviceType === "BIOMETRIC_SETUP") serviceDesc = `Biometric Setup (${data.ticket.issue})`;
-            if (data.ticket.serviceType === "AMC_VISIT") serviceDesc = `AMC Visit (${data.ticket.issue})`;
+            if (data.ticket.serviceType === "AMC_VISIT") {
+              serviceDesc = `AMC Visit (${data.ticket.issue})`;
+              defaultSac = "9987";
+            }
 
             setItems([
-              { name: serviceDesc, hsn: "9987", quantity: 1, unitPrice: 0, warranty: "N/A" }
+              { name: serviceDesc, hsn: defaultSac, quantity: 1, unitPrice: 0, warranty: "N/A" }
             ]);
           }
           setInitLoading(false);

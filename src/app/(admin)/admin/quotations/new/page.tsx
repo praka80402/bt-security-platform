@@ -12,6 +12,8 @@ export default function CreateQuotationPage() {
   const [cctvType, setCctvType] = useState("HD");
   
   // Client Details
+  // Client Details & Quotation Date
+  const [quotationDate, setQuotationDate] = useState(new Date().toISOString().split("T")[0]);
   const [clientInfo, setClientInfo] = useState({
     name: "", company: "", phone: "", email: "", address: ""
   });
@@ -20,42 +22,42 @@ export default function CreateQuotationPage() {
   const [items, setItems] = useState<any[]>([]);
   const [discount, setDiscount] = useState(0);
 
-  // Load CCTV Templates... (rest of the functions remain the same)
+  // Load CCTV Templates with standard HSN Codes
   const loadCCTVTemplate = (cameraType: string) => {
     if (cameraType === "HD") {
       setItems([
-        { id: 1, name: "DVR", description: "4 Channel 2.4MP", qty: 1, price: 0, options: ["4 Channel 2.4MP", "4 Channel 5MP", "8 Channel 2.4MP", "8 Channel 5MP", "16 Channel 2.4MP", "16 Channel 5MP"] },
-        { id: 2, name: "HD Dome Camera", description: "2.4MP Basic", qty: 2, price: 0, options: ["2.4MP Basic", "2.4MP with Audio", "2.4MP Color+Audio", "5MP Basic", "5MP with Audio", "5MP Color+Audio"] },
-        { id: 3, name: "HD Bullet Camera", description: "2.4MP Basic", qty: 2, price: 0, options: ["2.4MP Basic", "2.4MP with Audio", "2.4MP Color+Audio", "5MP Basic", "5MP with Audio", "5MP Color+Audio"] },
-        { id: 4, name: "Hard Disk", description: "1TB Surveillance", qty: 1, price: 0, options: ["500GB Surveillance", "1TB Surveillance", "2TB Surveillance", "4TB Surveillance", "8TB Surveillance"] },
-        { id: 5, name: "Power Supply", description: "4 CH SMPS", qty: 1, price: 0, options: ["4 CH SMPS", "8 CH SMPS", "16 CH SMPS"] },
-        { id: 6, name: "Wire Roll (3+1 CCTV Cable)", description: "Per Bundle (90m)", qty: 1, price: 0, options: null },
-        { id: 7, name: "BNC & DC Connector Set", description: "1 Set (2 BNC, 1 DC)", qty: 4, price: 0, options: null },
-        { id: 8, name: "Installation Charges", description: "Per camera labor", qty: 4, price: 0, options: null },
+        { id: 1, name: "DVR", hsn: "852190", description: "4 Channel 2.4MP", qty: 1, price: 0, options: ["4 Channel 2.4MP", "4 Channel 5MP", "8 Channel 2.4MP", "8 Channel 5MP", "16 Channel 2.4MP", "16 Channel 5MP"] },
+        { id: 2, name: "HD Dome Camera", hsn: "852580", description: "2.4MP Basic", qty: 2, price: 0, options: ["2.4MP Basic", "2.4MP with Audio", "2.4MP Color+Audio", "5MP Basic", "5MP with Audio", "5MP Color+Audio"] },
+        { id: 3, name: "HD Bullet Camera", hsn: "852580", description: "2.4MP Basic", qty: 2, price: 0, options: ["2.4MP Basic", "2.4MP with Audio", "2.4MP Color+Audio", "5MP Basic", "5MP with Audio", "5MP Color+Audio"] },
+        { id: 4, name: "Hard Disk", hsn: "847170", description: "1TB Surveillance", qty: 1, price: 0, options: ["500GB Surveillance", "1TB Surveillance", "2TB Surveillance", "4TB Surveillance", "8TB Surveillance"] },
+        { id: 5, name: "Power Supply", hsn: "850440", description: "4 CH SMPS", qty: 1, price: 0, options: ["4 CH SMPS", "8 CH SMPS", "16 CH SMPS"] },
+        { id: 6, name: "Wire Roll (3+1 CCTV Cable)", hsn: "854449", description: "Per Bundle (90m)", qty: 1, price: 0, options: null },
+        { id: 7, name: "BNC & DC Connector Set", hsn: "853690", description: "1 Set (2 BNC, 1 DC)", qty: 4, price: 0, options: null },
+        { id: 8, name: "Installation Charges", hsn: "995461", description: "Per camera labor", qty: 4, price: 0, options: null },
       ]);
     } else if (cameraType === "IP") {
       setItems([
-        { id: 1, name: "NVR", description: "4 Channel", qty: 1, price: 0, options: ["4 Channel", "8 Channel", "16 Channel", "32 Channel", "64 Channel"] },
-        { id: 2, name: "IP Dome Camera", description: "2MP IP Basic", qty: 2, price: 0, options: ["2MP IP Basic", "2MP IP with Audio", "2MP IP Color+Audio", "5MP IP Basic", "5MP IP with Audio", "5MP IP Color+Audio"] },
-        { id: 3, name: "IP Bullet Camera", description: "2MP IP Basic", qty: 2, price: 0, options: ["2MP IP Basic", "2MP IP with Audio", "2MP IP Color+Audio", "5MP IP Basic", "5MP IP with Audio", "5MP IP Color+Audio"] },
-        { id: 4, name: "Hard Disk", description: "1TB Surveillance", qty: 1, price: 0, options: ["1TB Surveillance", "2TB Surveillance", "4TB Surveillance", "8TB Surveillance"] },
-        { id: 5, name: "POE Switch", description: "4 Port POE", qty: 1, price: 0, options: ["4 Port POE", "8 Port POE", "16 Port POE", "24 Port POE"] },
-        { id: 6, name: "Wire Roll (CAT6 Cable)", description: "Per Bundle (90m) / Box (305m)", qty: 1, price: 0, options: ["Bundle (90m)", "Box (305m)"] },
-        { id: 7, name: "RJ45 Connectors", description: "Per Piece", qty: 8, price: 0, options: null },
-        { id: 8, name: "Installation Charges", description: "Per camera labor", qty: 4, price: 0, options: null },
+        { id: 1, name: "NVR", hsn: "852190", description: "4 Channel", qty: 1, price: 0, options: ["4 Channel", "8 Channel", "16 Channel", "32 Channel", "64 Channel"] },
+        { id: 2, name: "IP Dome Camera", hsn: "852580", description: "2MP IP Basic", qty: 2, price: 0, options: ["2MP IP Basic", "2MP IP with Audio", "2MP IP Color+Audio", "5MP IP Basic", "5MP IP with Audio", "5MP IP Color+Audio"] },
+        { id: 3, name: "IP Bullet Camera", hsn: "852580", description: "2MP IP Basic", qty: 2, price: 0, options: ["2MP IP Basic", "2MP IP with Audio", "2MP IP Color+Audio", "5MP IP Basic", "5MP IP with Audio", "5MP IP Color+Audio"] },
+        { id: 4, name: "Hard Disk", hsn: "847170", description: "1TB Surveillance", qty: 1, price: 0, options: ["1TB Surveillance", "2TB Surveillance", "4TB Surveillance", "8TB Surveillance"] },
+        { id: 5, name: "POE Switch", hsn: "850440", description: "4 Port POE", qty: 1, price: 0, options: ["4 Port POE", "8 Port POE", "16 Port POE", "24 Port POE"] },
+        { id: 6, name: "Wire Roll (CAT6 Cable)", hsn: "854449", description: "Per Bundle (90m) / Box (305m)", qty: 1, price: 0, options: ["Bundle (90m)", "Box (305m)"] },
+        { id: 7, name: "RJ45 Connectors", hsn: "853669", description: "Per Piece", qty: 8, price: 0, options: null },
+        { id: 8, name: "Installation Charges", hsn: "995461", description: "Per camera labor", qty: 4, price: 0, options: null },
       ]);
     } else if (cameraType === "WIFI") {
       setItems([
-        { id: 1, name: "Wi-Fi Camera", description: "Indoor PTZ", qty: 1, price: 0, options: ["Indoor PTZ", "Outdoor Bullet", "Outdoor PTZ Dual Lens"] },
-        { id: 2, name: "MicroSD Memory Card", description: "64GB", qty: 1, price: 0, options: ["32GB", "64GB", "128GB", "256GB"] },
-        { id: 3, name: "Installation Charges", description: "Setup & Config", qty: 1, price: 0, options: null },
+        { id: 1, name: "Wi-Fi Camera", hsn: "852580", description: "Indoor PTZ", qty: 1, price: 0, options: ["Indoor PTZ", "Outdoor Bullet", "Outdoor PTZ Dual Lens"] },
+        { id: 2, name: "MicroSD Memory Card", hsn: "852351", description: "64GB", qty: 1, price: 0, options: ["32GB", "64GB", "128GB", "256GB"] },
+        { id: 3, name: "Installation Charges", hsn: "995461", description: "Setup & Config", qty: 1, price: 0, options: null },
       ]);
     } else if (cameraType === "SOLAR") {
       setItems([
-        { id: 1, name: "4G Solar Camera", description: "PTZ with Solar Panel", qty: 1, price: 0, options: ["PTZ with Solar Panel", "Fixed Bullet Solar"] },
-        { id: 2, name: "MicroSD Memory Card", description: "128GB", qty: 1, price: 0, options: ["64GB", "128GB", "256GB"] },
-        { id: 3, name: "Pole Mount Bracket", description: "Heavy Duty", qty: 1, price: 0, options: null },
-        { id: 4, name: "Installation Charges", description: "Labor & Config", qty: 1, price: 0, options: null },
+        { id: 1, name: "4G Solar Camera", hsn: "852580", description: "PTZ with Solar Panel", qty: 1, price: 0, options: ["PTZ with Solar Panel", "Fixed Bullet Solar"] },
+        { id: 2, name: "MicroSD Memory Card", hsn: "852351", description: "128GB", qty: 1, price: 0, options: ["64GB", "128GB", "256GB"] },
+        { id: 3, name: "Pole Mount Bracket", hsn: "853890", description: "Heavy Duty", qty: 1, price: 0, options: null },
+        { id: 4, name: "Installation Charges", hsn: "995461", description: "Labor & Config", qty: 1, price: 0, options: null },
       ]);
     }
   };
@@ -66,19 +68,19 @@ export default function CreateQuotationPage() {
       loadCCTVTemplate(cctvType);
     } else if (newType === "BIOMETRIC") {
       setItems([
-        { id: 1, name: "Attendance Machine", description: "Fingerprint + Face", qty: 1, price: 0, options: null },
-        { id: 2, name: "EM Lock", description: "Magnetic Door Lock", qty: 1, price: 0, options: null },
-        { id: 3, name: "Exit Switch", description: "Push to exit button", qty: 1, price: 0, options: null },
-        { id: 4, name: "Installation & Training", description: "Setup and config", qty: 1, price: 0, options: null },
+        { id: 1, name: "Attendance Machine", hsn: "847160", description: "Fingerprint + Face", qty: 1, price: 0, options: null },
+        { id: 2, name: "EM Lock", hsn: "830140", description: "Magnetic Door Lock", qty: 1, price: 0, options: null },
+        { id: 3, name: "Exit Switch", hsn: "853650", description: "Push to exit button", qty: 1, price: 0, options: null },
+        { id: 4, name: "Installation & Training", hsn: "995461", description: "Setup and config", qty: 1, price: 0, options: null },
       ]);
     } else if (newType === "FIRE") {
       setItems([
-        { id: 1, name: "Fire Extinguisher ABC", description: "4 KG", qty: 1, price: 0, options: ["2 KG", "4 KG", "6 KG", "9 KG"] },
-        { id: 2, name: "Fire Extinguisher CO2", description: "2 KG", qty: 1, price: 0, options: ["2 KG", "4.5 KG", "6.5 KG"] },
-        { id: 3, name: "Refilling Charges", description: "", qty: 1, price: 0, options: null },
+        { id: 1, name: "Fire Extinguisher ABC", hsn: "842410", description: "4 KG", qty: 1, price: 0, options: ["2 KG", "4 KG", "6 KG", "9 KG"] },
+        { id: 2, name: "Fire Extinguisher CO2", hsn: "842410", description: "2 KG", qty: 1, price: 0, options: ["2 KG", "4.5 KG", "6.5 KG"] },
+        { id: 3, name: "Refilling Charges", hsn: "842410", description: "", qty: 1, price: 0, options: null },
       ]);
     } else {
-      setItems([{ id: 1, name: "", description: "", qty: 1, price: 0, options: null }]);
+      setItems([{ id: 1, name: "", hsn: "", description: "", qty: 1, price: 0, options: null }]);
     }
   };
 
@@ -101,17 +103,33 @@ export default function CreateQuotationPage() {
               email: q.email || "",
               address: q.address || ""
             });
+            if (q.createdAt) {
+              setQuotationDate(new Date(q.createdAt).toISOString().split("T")[0]);
+            }
             setType(q.type || "CCTV");
             setDiscount(Number(q.discount) || 0);
             if (q.items && q.items.length > 0) {
-              setItems(q.items.map((it: any) => ({
-                id: it.id,
-                name: it.name,
-                description: it.description,
-                qty: it.quantity,
-                price: Number(it.unitPrice),
-                options: null
-              })));
+              setItems(q.items.map((it: any) => {
+                let parsedHsn = "";
+                let parsedDesc = it.description || "";
+                try {
+                  if (it.description && it.description.startsWith("{")) {
+                    const parsed = JSON.parse(it.description);
+                    parsedHsn = parsed.hsn || "";
+                    parsedDesc = parsed.spec || parsed.warranty || "";
+                  }
+                } catch(e) {}
+
+                return {
+                  id: it.id,
+                  name: it.name,
+                  hsn: parsedHsn,
+                  description: parsedDesc,
+                  qty: it.quantity,
+                  price: Number(it.unitPrice),
+                  options: null
+                };
+              }));
             }
           }
         });
@@ -125,7 +143,7 @@ export default function CreateQuotationPage() {
     loadCCTVTemplate(newCctvType);
   };
 
-  const addItem = () => setItems([...items, { id: Date.now(), name: "", description: "", qty: 1, price: 0, options: null }]);
+  const addItem = () => setItems([...items, { id: Date.now(), name: "", hsn: "", description: "", qty: 1, price: 0, options: null }]);
   const removeItem = (id: number) => setItems(items.filter(item => item.id !== id));
   const updateItem = (id: number, field: string, value: any) => setItems(items.map(item => item.id === id ? { ...item, [field]: value } : item));
 
@@ -133,15 +151,15 @@ export default function CreateQuotationPage() {
     const val = e.target.value;
     if (!val) return;
     
-    let newItem = { id: Date.now(), name: "", description: "", qty: 1, price: 0, options: null as any };
+    let newItem = { id: Date.now(), name: "", hsn: "", description: "", qty: 1, price: 0, options: null as any };
     
-    if (val === "MONITOR") newItem = { ...newItem, name: "Monitor / LED Display", description: "19 inch", options: ["19 inch", "24 inch", "32 inch"] };
-    if (val === "RACK") newItem = { ...newItem, name: "Equipment Rack", description: "2U DVR Rack", options: ["2U DVR Rack", "4U Network Rack"] };
-    if (val === "BOX") newItem = { ...newItem, name: "Camera Box", description: "PVC Weatherproof Box", qty: 4 };
-    if (val === "HDMI") newItem = { ...newItem, name: "HDMI Cable", description: "1.5 Meter", options: ["1.5 Meter", "3 Meter", "5 Meter", "10 Meter"] };
-    if (val === "MOUSE") newItem = { ...newItem, name: "Wireless Mouse", description: "2.4GHz Wireless Mouse" };
-    if (val === "USB") newItem = { ...newItem, name: "USB Extension Cable", description: "3 Meter", options: ["3 Meter", "5 Meter", "10 Meter"] };
-    if (val === "ROUTER") newItem = { ...newItem, name: "4G Router / Dongle", description: "For Internet Access" };
+    if (val === "MONITOR") newItem = { ...newItem, name: "Monitor / LED Display", hsn: "852859", description: "19 inch", options: ["19 inch", "24 inch", "32 inch"] };
+    if (val === "RACK") newItem = { ...newItem, name: "Equipment Rack", hsn: "851762", description: "2U DVR Rack", options: ["2U DVR Rack", "4U Network Rack"] };
+    if (val === "BOX") newItem = { ...newItem, name: "Camera Box", hsn: "853890", description: "PVC Weatherproof Box", qty: 4 };
+    if (val === "HDMI") newItem = { ...newItem, name: "HDMI Cable", hsn: "854442", description: "1.5 Meter", options: ["1.5 Meter", "3 Meter", "5 Meter", "10 Meter"] };
+    if (val === "MOUSE") newItem = { ...newItem, name: "Wireless Mouse", hsn: "847160", description: "2.4GHz Wireless Mouse" };
+    if (val === "USB") newItem = { ...newItem, name: "USB Extension Cable", hsn: "854442", description: "3 Meter", options: ["3 Meter", "5 Meter", "10 Meter"] };
+    if (val === "ROUTER") newItem = { ...newItem, name: "4G Router / Dongle", hsn: "851762", description: "For Internet Access" };
 
     setItems([...items, newItem]);
     e.target.value = "";
@@ -166,6 +184,7 @@ export default function CreateQuotationPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           type,
+          quotationDate,
           customerName: clientInfo.name,
           companyName: clientInfo.company,
           phone: clientInfo.phone,
@@ -175,7 +194,13 @@ export default function CreateQuotationPage() {
           discount,
           taxAmount: 0,
           totalAmount,
-          items: items.filter(i => i.name && i.price >= 0) // only save valid items
+          items: items.filter(i => i.name && i.price >= 0).map(i => ({
+            name: i.name,
+            hsn: i.hsn || "",
+            description: i.description || "",
+            qty: i.qty,
+            price: i.price
+          }))
         })
       });
       
@@ -276,8 +301,17 @@ export default function CreateQuotationPage() {
 
           {/* Client Info */}
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
-            <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider">2. Client Details</h3>
+            <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider">2. Client & Date</h3>
             <div className="space-y-3">
+              <div>
+                <label className="text-[11px] font-semibold text-slate-400 block mb-1">Quotation Date (Backdating Allowed)</label>
+                <input 
+                  type="date" 
+                  value={quotationDate}
+                  onChange={(e) => setQuotationDate(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-blue-500" 
+                />
+              </div>
               <input 
                 type="text" 
                 placeholder="Client / Lead Name *" 
@@ -348,33 +382,46 @@ export default function CreateQuotationPage() {
                 <div key={item.id} className="flex flex-col sm:flex-row gap-3 items-start sm:items-center bg-slate-950/50 p-3 rounded-lg border border-slate-800/50">
                   <div className="text-xs font-bold text-slate-600 w-6 text-center">{index + 1}.</div>
                   
-                  <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
-                    <input 
-                      type="text" 
-                      aria-label="Item name" placeholder="Item Name" 
-                      value={item.name}
-                      onChange={(e) => updateItem(item.id, 'name', e.target.value)}
-                      className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white" 
-                    />
-                    {item.options ? (
-                      <select
-                        value={item.description}
-                        onChange={(e) => updateItem(item.id, 'description', e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white focus:outline-none focus:border-blue-500"
-                      >
-                        {item.options.map((opt: string) => (
-                          <option key={opt} value={opt}>{opt}</option>
-                        ))}
-                      </select>
-                    ) : (
+                  <div className="flex-1 grid grid-cols-1 sm:grid-cols-12 gap-2 w-full">
+                    <div className="sm:col-span-5">
                       <input 
                         type="text" 
-                        aria-label="Item description" placeholder="Description / Spec" 
-                        value={item.description}
-                        onChange={(e) => updateItem(item.id, 'description', e.target.value)}
+                        aria-label="Item name" placeholder="Item Name" 
+                        value={item.name}
+                        onChange={(e) => updateItem(item.id, 'name', e.target.value)}
                         className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white" 
                       />
-                    )}
+                    </div>
+                    <div className="sm:col-span-3">
+                      <input 
+                        type="text" 
+                        aria-label="HSN code" placeholder="HSN (Optional)" 
+                        value={item.hsn || ""}
+                        onChange={(e) => updateItem(item.id, 'hsn', e.target.value)}
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-amber-400 placeholder:text-slate-600 font-mono" 
+                      />
+                    </div>
+                    <div className="sm:col-span-4">
+                      {item.options ? (
+                        <select
+                          value={item.description}
+                          onChange={(e) => updateItem(item.id, 'description', e.target.value)}
+                          className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white focus:outline-none focus:border-blue-500"
+                        >
+                          {item.options.map((opt: string) => (
+                            <option key={opt} value={opt}>{opt}</option>
+                          ))}
+                        </select>
+                      ) : (
+                        <input 
+                          type="text" 
+                          aria-label="Item description" placeholder="Description / Spec" 
+                          value={item.description}
+                          onChange={(e) => updateItem(item.id, 'description', e.target.value)}
+                          className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white" 
+                        />
+                      )}
+                    </div>
                   </div>
 
                   <div className="flex gap-3 w-full sm:w-auto">

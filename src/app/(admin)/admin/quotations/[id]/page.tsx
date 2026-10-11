@@ -157,24 +157,40 @@ export default function ViewQuotationPage() {
                 <tr className="bg-blue-600 text-white rounded-t-lg">
                   <th className="py-2 px-3 text-xs font-bold w-10 sm:w-12 rounded-tl-lg">S.No</th>
                   <th className="py-2 px-3 text-xs font-bold">Item & Description</th>
+                  <th className="py-2 px-3 text-xs font-bold text-center w-16 sm:w-20">HSN</th>
                   <th className="py-2 px-3 text-xs font-bold text-center w-12 sm:w-16">Qty</th>
                   <th className="py-2 px-3 text-xs font-bold text-right w-20 sm:w-24">Unit Price</th>
                   <th className="py-2 px-3 text-xs font-bold text-right w-24 sm:w-28 rounded-tr-lg">Total</th>
                 </tr>
               </thead>
               <tbody>
-                {quotation.items.map((item: any, index: number) => (
-                  <tr key={item.id} className="border-b border-slate-200 hover:bg-slate-50/50">
-                    <td className="py-1.5 px-3 text-xs font-bold text-slate-500 align-top">{index + 1}</td>
-                    <td className="py-1.5 px-3 align-top">
-                      <div className="font-bold text-sm text-slate-800 leading-tight">{item.name}</div>
-                      {item.description && <div className="text-[11px] text-slate-500 mt-0.5 leading-tight">{item.description}</div>}
-                    </td>
-                    <td className="py-1.5 px-3 text-xs text-center font-bold text-slate-700 align-top">{item.quantity}</td>
-                    <td className="py-1.5 px-3 text-xs text-right font-medium text-slate-700 align-top">Rs. {item.unitPrice.toLocaleString()}</td>
-                    <td className="py-1.5 px-3 text-xs text-right font-black text-slate-900 align-top">Rs. {item.totalPrice.toLocaleString()}</td>
-                  </tr>
-                ))}
+                {quotation.items.map((item: any, index: number) => {
+                  let displayDesc = item.description || "";
+                  let displayHsn = "";
+                  try {
+                    if (item.description && item.description.startsWith("{")) {
+                      const parsed = JSON.parse(item.description);
+                      displayHsn = parsed.hsn || "";
+                      displayDesc = parsed.spec || parsed.warranty || "";
+                    }
+                  } catch(e) {}
+
+                  return (
+                    <tr key={item.id} className="border-b border-slate-200 hover:bg-slate-50/50">
+                      <td className="py-1.5 px-3 text-xs font-bold text-slate-500 align-top">{index + 1}</td>
+                      <td className="py-1.5 px-3 align-top">
+                        <div className="font-bold text-sm text-slate-800 leading-tight">{item.name}</div>
+                        {displayDesc && <div className="text-[11px] text-slate-500 mt-0.5 leading-tight">{displayDesc}</div>}
+                      </td>
+                      <td className="py-1.5 px-3 text-xs text-center font-mono font-semibold text-slate-600 align-top">
+                        {displayHsn || "-"}
+                      </td>
+                      <td className="py-1.5 px-3 text-xs text-center font-bold text-slate-700 align-top">{item.quantity}</td>
+                      <td className="py-1.5 px-3 text-xs text-right font-medium text-slate-700 align-top">Rs. {item.unitPrice.toLocaleString()}</td>
+                      <td className="py-1.5 px-3 text-xs text-right font-black text-slate-900 align-top">Rs. {item.totalPrice.toLocaleString()}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

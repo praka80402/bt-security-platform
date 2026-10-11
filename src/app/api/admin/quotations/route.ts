@@ -9,17 +9,21 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { type, customerName, companyName, phone, email, address, subTotal, discount, taxAmount, totalAmount, notes, terms, items } = body;
+    const { type, quotationDate, customerName, companyName, phone, email, address, subTotal, discount, taxAmount, totalAmount, notes, terms, items } = body;
 
     const maxAttempts = 5;
     let newQuotation;
+
+    // Use backdate if provided, else current date
+    const quoteCreatedAt = quotationDate ? new Date(`${quotationDate}T12:00:00Z`) : new Date();
+    const quoteYear = quoteCreatedAt.getFullYear();
 
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
       const last = await db.quotation.findFirst({
         orderBy: { id: "desc" }, select: { id: true },
       });
       const nextId = (last?.id ?? 0) + 1 + attempt;
-      const quotationNo = `YE-QT-${new Date().getFullYear()}-${String(nextId).padStart(3, '0')}`;
+      const quotationNo = `YE-QT-${quoteYear}-${String(nextId).padStart(3, '0')}`;
 
       try {
         const publicToken = crypto.randomBytes(16).toString("hex");
@@ -28,6 +32,7 @@ export async function POST(req: NextRequest) {
             quotationNo,
             publicToken,
             type,
+            createdAt: quoteCreatedAt,
             customerName: String(customerName || 'Unknown Client').slice(0, 120),
             companyName: companyName ? String(companyName).slice(0, 120) : null,
             phone: String(phone || '').slice(0, 20),
@@ -42,7 +47,9 @@ export async function POST(req: NextRequest) {
             items: {
               create: items.map((item: any) => ({
                 name: String(item.name).slice(0, 120),
-                description: item.description ? String(item.description).slice(0, 500) : '',
+                description: item.hsn 
+                  ? JSON.stringify({ hsn: String(item.hsn).trim(), spec: String(item.description || '').trim() })
+                  : (item.description ? String(item.description).slice(0, 500) : ''),
                 quantity: item.qty || 1,
                 unitPrice: item.price || 0,
                 totalPrice: (item.qty || 1) * (item.price || 0)

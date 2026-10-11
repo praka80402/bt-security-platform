@@ -1,5 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt";
+
+export const viewport: Viewport = {
+  themeColor: '#0f172a',
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.bestcctvservice.com'),
@@ -8,6 +13,11 @@ export const metadata: Metadata = {
   keywords: "cctv installation patna, biometric attendance bihar, cp plus dealer patna, hikvision patna, yash enterprises, amc cctv patna, best cctv service bihar",
   alternates: {
     canonical: '/',
+  },
+  manifest: '/manifest.json',
+  icons: {
+    icon: '/icon-192.png',
+    apple: '/icon-192.png',
   },
   verification: {
     google: 'ZDa0zwVqkIt_-4tmvclUzPgS8PI4IM4RcEUXN9gWzUI',
@@ -23,6 +33,7 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans antialiased">
         {children}
+        <PWAInstallPrompt />
       </body>
     </html>
   );
