@@ -1,3 +1,13 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms & Conditions | Yash Enterprises Patna",
+  description: "Terms and conditions, warranty guidelines, and service policies for Yash Enterprises CCTV installation, biometric attendance, and security services.",
+  alternates: {
+    canonical: "/terms",
+  },
+};
+
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-slate-50 pt-32 pb-20">

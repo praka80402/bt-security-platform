@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Hero from "@/components/public/Hero";
 import ServiceAreas from "@/components/public/ServiceAreas";
 import EcosystemSection from "@/components/public/EcosystemSection";
@@ -14,6 +15,14 @@ import {
   HardDrive
 } from "lucide-react";
 import { db } from "@/lib/db";
+
+export const metadata: Metadata = {
+  title: "Yash Enterprises | CCTV Installation & Biometric Services in Patna, Bihar",
+  description: "Yash Enterprises (bestcctvservice.com) provides CCTV installation, biometric attendance and AMC maintenance in Patna, Khagaul, Arrah, Buxar, Hajipur, Chapra, Muzaffarpur, Masaurhi, Barh, Bakhtiarpur, Jehanabad, Nalanda, Gaya and Gopalganj. Authorised CP Plus, Hikvision, Dahua, Sparsh and eSSL partner since 2016.",
+  alternates: {
+    canonical: "/",
+  },
+};
 
 export const dynamic = "force-dynamic";
 

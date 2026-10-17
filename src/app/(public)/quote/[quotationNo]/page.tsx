@@ -16,7 +16,10 @@ export async function generateMetadata({
   });
 
   if (!quotation) {
-    return { title: "Quotation Not Found" };
+    return { 
+      title: "Quotation Not Found",
+      robots: { index: false, follow: false }
+    };
   }
 
   const typeMap: Record<string, string> = {
@@ -31,6 +34,10 @@ export async function generateMetadata({
   
   return {
     title: `${cName}${typeStr} Quotation`,
+    robots: {
+      index: false,
+      follow: false,
+    },
   };
 }
 

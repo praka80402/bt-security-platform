@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description: "Free advanced CCTV Storage and Bandwidth calculator. Accurately estimate required Hard Disk Space (TB/GB) based on cameras, resolution, FPS, and H.265/H.265+ compression.",
   keywords: "CCTV Storage Calculator, HDD Calculator, CCTV Bandwidth Calculator, IP Camera Storage, H.265 Storage Calculator, Security Camera Storage",
   alternates: {
-    canonical: "https://www.bestcctvservice.com/calculator",
+    canonical: "/calculator",
   },
   openGraph: {
     title: "CCTV Storage & HDD Calculator | Yash Enterprises",
