@@ -1,175 +1,155 @@
 "use client";
 
 import React from "react";
-import {
-  Camera,
-  Cpu,
-  Package,
-  HardDrive,
-  ShieldCheck,
-  Zap,
-  Lock,
-  ArrowRight
-} from "lucide-react";
 
 interface CategoryShowcaseProps {
   selectedCategory: string;
-  onSelectCategory: (cat: string) => void;
+  selectedSubCategory?: string;
+  onSelectCategory: (cat: string, subCat?: string) => void;
   counts: Record<string, number>;
 }
 
 export default function CategoryShowcase({
   selectedCategory,
+  selectedSubCategory = "",
   onSelectCategory,
   counts,
 }: CategoryShowcaseProps) {
   const CATEGORIES = [
     {
-      id: "CCTV_CAMERA",
-      title: "CCTV Cameras",
-      subtitle: "IP & Analog HD (Color Night Vision)",
-      count: counts["CCTV_CAMERA"] || 0,
-      icon: Camera,
-      gradient: "from-blue-600 to-indigo-700",
-      bgLight: "bg-blue-50/70 border-blue-200/80 hover:border-blue-500",
-      iconColor: "text-blue-600",
+      id: "CCTV_CAMERA_IP",
+      title: "IP Camera",
+      category: "CCTV_CAMERA",
+      subCategory: "IP_CAMERA",
+      image: "/images/categories/ip_camera.png",
     },
     {
-      id: "NVR_DVR",
-      title: "DVR & NVR Storage",
-      subtitle: "4CH, 8CH, 16CH, 4K PoE Systems",
-      count: counts["NVR_DVR"] || 0,
-      icon: Cpu,
-      gradient: "from-cyan-600 to-blue-700",
-      bgLight: "bg-cyan-50/70 border-cyan-200/80 hover:border-cyan-500",
-      iconColor: "text-cyan-600",
+      id: "CCTV_CAMERA_ANALOG",
+      title: "Analog Camera",
+      category: "CCTV_CAMERA",
+      subCategory: "ANALOG_BULLET",
+      image: "/images/categories/analog_camera.png",
     },
     {
-      id: "CCTV_KIT",
-      title: "CCTV Combo Kits",
-      subtitle: "Complete 4 & 8 Camera Setup with HDD",
-      count: counts["CCTV_KIT"] || 0,
-      icon: Package,
-      gradient: "from-purple-600 to-indigo-800",
-      bgLight: "bg-purple-50/70 border-purple-200/80 hover:border-purple-500",
-      iconColor: "text-purple-600",
-      badge: "MOST POPULAR",
+      id: "NVR_DVR_DVR",
+      title: "DVR",
+      category: "NVR_DVR",
+      subCategory: "DVR",
+      image: "/images/categories/dvr.png",
+    },
+    {
+      id: "NVR_DVR_NVR",
+      title: "NVR",
+      category: "NVR_DVR",
+      subCategory: "NVR",
+      image: "/images/categories/nvr.png",
     },
     {
       id: "STORAGE_HDD",
-      title: "Surveillance HDDs",
-      subtitle: "Seagate SkyHawk & WD Purple 24x7",
-      count: counts["STORAGE_HDD"] || 0,
-      icon: HardDrive,
-      gradient: "from-sky-600 to-blue-800",
-      bgLight: "bg-sky-50/70 border-sky-200/80 hover:border-sky-500",
-      iconColor: "text-sky-600",
+      title: "Hard Drives",
+      category: "STORAGE_HDD",
+      subCategory: "",
+      image: "/images/categories/hard_drives.png",
     },
     {
       id: "BIOMETRIC_ATTENDANCE",
-      title: "Biometrics & Face AI",
-      subtitle: "eSSL & Realtime Attendance Machines",
-      count: counts["BIOMETRIC_ATTENDANCE"] || 0,
-      icon: ShieldCheck,
-      gradient: "from-emerald-600 to-teal-800",
-      bgLight: "bg-emerald-50/70 border-emerald-200/80 hover:border-emerald-500",
-      iconColor: "text-emerald-600",
+      title: "Access Control",
+      category: "BIOMETRIC_ATTENDANCE",
+      subCategory: "",
+      image: "/images/categories/access_control.png",
     },
     {
-      id: "ACCESSORIES",
-      title: "Cables, SMPS & PoE",
-      subtitle: "3+1 Pure Copper, Cat6 & Power Supplies",
-      count: counts["ACCESSORIES"] || 0,
-      icon: Zap,
-      gradient: "from-amber-600 to-orange-700",
-      bgLight: "bg-amber-50/70 border-amber-200/80 hover:border-amber-500",
-      iconColor: "text-amber-600",
+      id: "ACCESSORIES_VDP",
+      title: "Video Door Phone",
+      category: "ACCESSORIES",
+      subCategory: "VDP",
+      image: "/images/categories/video_door_phone.png",
+    },
+    {
+      id: "ACCESSORIES_PANEL",
+      title: "Interactive Panels",
+      category: "ACCESSORIES",
+      subCategory: "IFPD",
+      image: "/images/categories/interactive_panels.png",
     },
   ];
 
   return (
-    <div className="mb-10 space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <span className="text-xs uppercase font-extrabold tracking-wider text-blue-600">
-            Explore Surveillance Hardware
-          </span>
-          <h2 className="text-xl sm:text-2xl font-black text-slate-900">
-            Shop by Category
-          </h2>
+    <section className="mb-14 pt-4">
+      {/* Section Header with 2-Tone Underline */}
+      <div className="text-center mb-9">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight uppercase">
+          SHOP BY CATEGORY
+        </h2>
+        {/* Dual-color accent line (Blue to Teal) */}
+        <div className="flex items-center justify-center mt-2.5 mb-2.5">
+          <div className="h-1 w-12 bg-[#0077B6] rounded-l-full"></div>
+          <div className="h-1 w-12 bg-[#2EC4B6] rounded-r-full"></div>
         </div>
+        <p className="text-sm sm:text-base text-slate-500 font-medium">
+          Discover our curated collections
+        </p>
+
         {selectedCategory && (
-          <button
-            onClick={() => onSelectCategory("")}
-            className="text-xs font-bold text-blue-600 hover:underline"
-          >
-            View All Categories ({counts["ALL"] || 0})
-          </button>
+          <div className="mt-3">
+            <button
+              onClick={() => onSelectCategory("", "")}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-600 hover:bg-blue-100 transition"
+            >
+              <span>Showing: {selectedCategory.replace(/_/g, " ")}</span>
+              <span className="text-[10px] ml-1 font-extrabold underline">Clear filter</span>
+            </button>
+          </div>
         )}
       </div>
 
-      {/* Grid of Visual Category Tiles */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
+      {/* 4 Columns x 2 Rows Grid matching cctvcart.in */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
         {CATEGORIES.map((cat) => {
-          const IconComp = cat.icon;
-          const isActive = selectedCategory === cat.id;
+          const isCategoryMatch = selectedCategory === cat.category;
+          const isSubMatch = !cat.subCategory || selectedSubCategory === cat.subCategory;
+          const isActive = isCategoryMatch && isSubMatch;
 
           return (
             <div
               key={cat.id}
-              onClick={() => onSelectCategory(isActive ? "" : cat.id)}
-              className={`p-4 rounded-2xl border transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between group ${
+              onClick={() => {
+                if (isActive) {
+                  onSelectCategory("", "");
+                } else {
+                  onSelectCategory(cat.category, cat.subCategory);
+                }
+              }}
+              className={`group relative rounded-3xl bg-white border-2 transition-all duration-300 p-5 sm:p-6 flex flex-col items-center justify-between text-center cursor-pointer shadow-sm hover:shadow-xl hover:-translate-y-1.5 select-none ${
                 isActive
-                  ? "bg-slate-900 border-slate-900 text-white shadow-xl scale-[1.02]"
-                  : `${cat.bgLight} shadow-sm hover:shadow-md hover:-translate-y-0.5`
+                  ? "border-[#0077B6] shadow-[0_12px_28px_rgba(0,119,182,0.18)] ring-2 ring-[#0077B6]/20 bg-sky-50/20"
+                  : "border-slate-200/80 hover:border-[#00B4D8] hover:shadow-[0_14px_32px_rgba(0,180,216,0.18)]"
               }`}
             >
-              {/* Badge if present */}
-              {cat.badge && (
-                <span className="absolute top-2 right-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full uppercase tracking-wider">
-                  {cat.badge}
-                </span>
-              )}
-
-              <div>
-                <div
-                  className={`w-11 h-11 rounded-xl flex items-center justify-center mb-3 transition-transform group-hover:scale-110 ${
-                    isActive ? "bg-white/20 text-white" : "bg-white shadow-sm " + cat.iconColor
-                  }`}
-                >
-                  <IconComp className="w-6 h-6" />
-                </div>
-
-                <h3
-                  className={`font-black text-xs sm:text-sm leading-snug ${
-                    isActive ? "text-white" : "text-slate-900"
-                  }`}
-                >
-                  {cat.title}
-                </h3>
-                <p
-                  className={`text-[10px] mt-1 line-clamp-2 leading-tight ${
-                    isActive ? "text-slate-300" : "text-slate-500"
-                  }`}
-                >
-                  {cat.subtitle}
-                </p>
+              {/* Inner Floating Squircle Tile with Soft Drop-Shadow */}
+              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl bg-white shadow-md border border-slate-100 flex items-center justify-center p-3 sm:p-4 mb-3 sm:mb-4 transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg">
+                <img
+                  src={cat.image}
+                  alt={cat.title}
+                  className="max-w-full max-h-full object-contain filter drop-shadow-sm pointer-events-none"
+                  loading="lazy"
+                />
               </div>
 
-              <div
-                className={`mt-3 pt-2 border-t flex items-center justify-between text-[11px] font-bold ${
+              {/* Category Title below tile */}
+              <h3
+                className={`font-bold text-sm sm:text-base tracking-tight transition-colors duration-200 ${
                   isActive
-                    ? "border-white/20 text-blue-400"
-                    : "border-slate-200/60 text-slate-600 group-hover:text-blue-600"
+                    ? "text-[#0077B6] font-extrabold"
+                    : "text-slate-900 group-hover:text-[#0077B6]"
                 }`}
               >
-                <span>{cat.count} Items</span>
-                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-              </div>
+                {cat.title}
+              </h3>
             </div>
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }

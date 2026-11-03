@@ -218,9 +218,10 @@ export default function ProductsStoreClient({ initialProducts }: ProductsStoreCl
         {/* 3. Visual "Shop by Category" Showcase */}
         <CategoryShowcase
           selectedCategory={selectedCategory}
-          onSelectCategory={(cat) => {
+          selectedSubCategory={selectedSubCategory}
+          onSelectCategory={(cat, subCat) => {
             setSelectedCategory(cat);
-            setSelectedSubCategory("");
+            setSelectedSubCategory(subCat || "");
           }}
           counts={categoryCounts}
         />
@@ -230,6 +231,11 @@ export default function ProductsStoreClient({ initialProducts }: ProductsStoreCl
           selectedBrand={selectedBrand}
           onSelectBrand={(b) => setSelectedBrand(b)}
           brandCounts={brandCounts}
+          onSelectKit={() => {
+            setSelectedCategory(selectedCategory === "CCTV_KIT" ? "" : "CCTV_KIT");
+            setSelectedSubCategory("");
+          }}
+          isKitSelected={selectedCategory === "CCTV_KIT"}
         />
 
         {/* 5. Main Store Layout (Sidebar Filters + Products Grid) */}

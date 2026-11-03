@@ -1,91 +1,124 @@
 "use client";
 
 import React from "react";
-import { Sparkles, Check } from "lucide-react";
 
 interface BrandShowcaseProps {
   selectedBrand: string;
   onSelectBrand: (brand: string) => void;
-  brandCounts: Record<string, number>;
+  brandCounts?: Record<string, number>;
+  onSelectKit?: () => void;
+  isKitSelected?: boolean;
 }
 
 export default function BrandShowcase({
   selectedBrand,
   onSelectBrand,
-  brandCounts,
+  onSelectKit,
+  isKitSelected = false,
 }: BrandShowcaseProps) {
   const BRANDS = [
-    { name: "CP Plus", color: "text-slate-900 border-slate-300" },
-    { name: "Hikvision", color: "text-red-600 border-red-200" },
-    { name: "Dahua", color: "text-sky-700 border-sky-200" },
-    { name: "Prama", color: "text-emerald-700 border-emerald-200" },
-    { name: "eSSL", color: "text-emerald-800 border-emerald-200" },
-    { name: "Realtime", color: "text-purple-800 border-purple-200" },
-    { name: "Seagate", color: "text-teal-700 border-teal-200" },
-    { name: "Western Digital", color: "text-indigo-800 border-indigo-200" },
-    { name: "Matrix", color: "text-amber-900 border-amber-200" },
-    { name: "Sparsh", color: "text-orange-700 border-orange-200" },
+    {
+      id: "hikvision",
+      name: "Hikvision",
+      logo: "/images/brands/hikvision.png",
+      isKit: false,
+    },
+    {
+      id: "prama",
+      name: "Prama",
+      logo: "/images/brands/prama.png",
+      isKit: false,
+    },
+    {
+      id: "ezviz",
+      name: "EZVIZ",
+      logo: "/images/brands/ezviz.png",
+      isKit: false,
+    },
+    {
+      id: "seagate",
+      name: "Seagate",
+      logo: "/images/brands/seagate.png",
+      isKit: false,
+    },
+    {
+      id: "cpplus",
+      name: "CP Plus",
+      logo: "/images/brands/cpplus.png",
+      isKit: false,
+    },
+    {
+      id: "cctvkits",
+      name: "CCTV Kits",
+      logo: "/images/brands/cctvkits.png",
+      isKit: true,
+    },
   ];
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-sm mb-8 space-y-3">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-amber-500" />
-          <span className="text-xs uppercase font-extrabold tracking-wider text-slate-700">
-            Shop by Authorized Brand
+    <section className="mb-14 pt-2">
+      {/* Section Header with 2-Tone Colors and Underline */}
+      <div className="text-center mb-9">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight uppercase">
+          <span className="text-[#0077B6]">SHOP BY </span>
+          <span className="bg-gradient-to-r from-[#00B4D8] to-[#2EC4B6] bg-clip-text text-transparent">
+            BRAND
           </span>
+        </h2>
+        {/* Dual-color accent line (Blue to Teal) */}
+        <div className="flex items-center justify-center mt-2.5 mb-2.5">
+          <div className="h-1 w-12 bg-[#0077B6] rounded-l-full"></div>
+          <div className="h-1 w-12 bg-[#2EC4B6] rounded-r-full"></div>
         </div>
-        {selectedBrand && (
-          <button
-            onClick={() => onSelectBrand("")}
-            className="text-[11px] font-bold text-blue-600 hover:underline"
-          >
-            Clear Brand Filter
-          </button>
+        <p className="text-sm sm:text-base text-slate-500 font-medium">
+          Discover our trusted brands
+        </p>
+
+        {(selectedBrand || isKitSelected) && (
+          <div className="mt-3">
+            <button
+              onClick={() => onSelectBrand("")}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-600 hover:bg-blue-100 transition"
+            >
+              <span>Selected: {isKitSelected ? "CCTV Kits" : selectedBrand}</span>
+              <span className="text-[10px] ml-1 font-extrabold underline">Clear filter</span>
+            </button>
+          </div>
         )}
       </div>
 
-      <div className="flex flex-wrap items-center gap-2">
-        <button
-          onClick={() => onSelectBrand("")}
-          className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
-            !selectedBrand
-              ? "bg-slate-900 text-white shadow-md shadow-slate-900/20"
-              : "bg-slate-100 hover:bg-slate-200 text-slate-700"
-          }`}
-        >
-          <span>All Brands</span>
-        </button>
-
+      {/* 3 Columns Grid matching cctvcart.in */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
         {BRANDS.map((b) => {
-          const isActive = selectedBrand === b.name;
-          const count = brandCounts[b.name] || 0;
+          const isActive = b.isKit ? isKitSelected : selectedBrand === b.name;
 
           return (
-            <button
-              key={b.name}
-              onClick={() => onSelectBrand(isActive ? "" : b.name)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 border ${
+            <div
+              key={b.id}
+              onClick={() => {
+                if (b.isKit) {
+                  if (onSelectKit) onSelectKit();
+                  else onSelectBrand(isActive ? "" : "CCTV_KIT");
+                } else {
+                  onSelectBrand(isActive ? "" : b.name);
+                }
+              }}
+              className={`group relative h-36 sm:h-44 rounded-3xl border transition-all duration-300 flex items-center justify-center p-6 sm:p-8 cursor-pointer select-none overflow-hidden ${
                 isActive
-                  ? "bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-600/30 scale-105"
-                  : `bg-slate-50/80 hover:bg-white text-slate-800 border-slate-200 hover:border-slate-300`
+                  ? "bg-gradient-to-r from-[#2998ec] via-[#38bdf8] to-[#48d597] border-transparent shadow-xl shadow-cyan-500/25 scale-[1.02] ring-2 ring-[#0077B6]/30"
+                  : "bg-white border-slate-200/80 shadow-sm hover:bg-gradient-to-r hover:from-[#2998ec] hover:via-[#38bdf8] hover:to-[#48d597] hover:border-transparent hover:shadow-xl hover:shadow-cyan-500/25 hover:-translate-y-1.5 hover:scale-[1.02]"
               }`}
             >
-              <span>{b.name}</span>
-              {count > 0 && (
-                <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-extrabold ${
-                    isActive ? "bg-white/20 text-white" : "bg-slate-200/80 text-slate-600"
-                  }`}
-                >
-                  {count}
-                </span>
-              )}
-            </button>
+              <img
+                src={b.logo}
+                alt={b.name}
+                className="max-h-12 sm:max-h-16 max-w-[78%] object-contain transition-transform duration-300 group-hover:scale-105 pointer-events-none drop-shadow-sm"
+                loading="lazy"
+              />
+            </div>
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }
