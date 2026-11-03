@@ -77,7 +77,7 @@ export default function CategoryShowcase({
   return (
     <section className="mb-14 pt-4">
       {/* Section Header with 2-Tone Underline */}
-      <div className="text-center mb-9">
+      <div className="text-center mb-10">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight uppercase">
           SHOP BY CATEGORY
         </h2>
@@ -111,6 +111,7 @@ export default function CategoryShowcase({
           const isActive = isCategoryMatch && isSubMatch;
 
           return (
+            /* Outer stationary card wrapper with dual-gradient border transition */
             <div
               key={cat.id}
               onClick={() => {
@@ -120,32 +121,36 @@ export default function CategoryShowcase({
                   onSelectCategory(cat.category, cat.subCategory);
                 }
               }}
-              className={`group relative rounded-3xl bg-white border-2 transition-all duration-300 p-5 sm:p-6 flex flex-col items-center justify-between text-center cursor-pointer shadow-sm hover:shadow-xl hover:-translate-y-1.5 select-none ${
+              className={`group relative rounded-3xl p-[2px] transition-all duration-300 cursor-pointer select-none ${
                 isActive
-                  ? "border-[#0077B6] shadow-[0_12px_28px_rgba(0,119,182,0.18)] ring-2 ring-[#0077B6]/20 bg-sky-50/20"
-                  : "border-slate-200/80 hover:border-[#00B4D8] hover:shadow-[0_14px_32px_rgba(0,180,216,0.18)]"
+                  ? "bg-gradient-to-tr from-[#0077B6] via-[#00B4D8] to-[#2EC4B6] shadow-[0_12px_28px_rgba(0,119,182,0.2)]"
+                  : "bg-slate-200/80 hover:bg-gradient-to-tr hover:from-[#0077B6] hover:via-[#00B4D8] hover:to-[#2EC4B6] hover:shadow-[0_14px_32px_rgba(0,180,216,0.22)]"
               }`}
             >
-              {/* Inner Floating Squircle Tile with Soft Drop-Shadow */}
-              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl bg-white shadow-md border border-slate-100 flex items-center justify-center p-3 sm:p-4 mb-3 sm:mb-4 transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg">
-                <img
-                  src={cat.image}
-                  alt={cat.title}
-                  className="max-w-full max-h-full object-contain filter drop-shadow-sm pointer-events-none"
-                  loading="lazy"
-                />
-              </div>
+              {/* Inner card surface - completely stationary */}
+              <div className="w-full h-full bg-white rounded-[22px] p-5 sm:p-6 flex flex-col items-center justify-between text-center min-h-[195px] sm:min-h-[225px] overflow-visible relative">
+                
+                {/* Inner Floating Squircle Tile with 100% Exact High-Lift Zoom & Elevation */}
+                <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl bg-white shadow-md border border-slate-100 flex items-center justify-center p-3 sm:p-4 mb-2 transition-all duration-300 ease-out group-hover:-translate-y-6 group-hover:scale-115 group-hover:shadow-2xl group-hover:shadow-slate-900/15 group-hover:border-slate-200 z-10">
+                  <img
+                    src={cat.image}
+                    alt={cat.title}
+                    className="max-w-full max-h-full object-contain filter drop-shadow-sm pointer-events-none transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
 
-              {/* Category Title below tile */}
-              <h3
-                className={`font-bold text-sm sm:text-base tracking-tight transition-colors duration-200 ${
-                  isActive
-                    ? "text-[#0077B6] font-extrabold"
-                    : "text-slate-900 group-hover:text-[#0077B6]"
-                }`}
-              >
-                {cat.title}
-              </h3>
+                {/* Category Title below tile (stays anchored, transitions to blue) */}
+                <h3
+                  className={`font-bold text-sm sm:text-base tracking-tight transition-colors duration-200 mt-auto ${
+                    isActive
+                      ? "text-[#0077B6] font-extrabold"
+                      : "text-slate-900 group-hover:text-[#0077B6]"
+                  }`}
+                >
+                  {cat.title}
+                </h3>
+              </div>
             </div>
           );
         })}

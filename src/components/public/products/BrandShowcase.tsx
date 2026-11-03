@@ -58,7 +58,7 @@ export default function BrandShowcase({
   return (
     <section className="mb-14 pt-2">
       {/* Section Header with 2-Tone Colors and Underline */}
-      <div className="text-center mb-9">
+      <div className="text-center mb-10">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight uppercase">
           <span className="text-[#0077B6]">SHOP BY </span>
           <span className="bg-gradient-to-r from-[#00B4D8] to-[#2EC4B6] bg-clip-text text-transparent">
@@ -105,14 +105,14 @@ export default function BrandShowcase({
               }}
               className={`group relative h-36 sm:h-44 rounded-3xl border transition-all duration-300 flex items-center justify-center p-6 sm:p-8 cursor-pointer select-none overflow-hidden ${
                 isActive
-                  ? "bg-gradient-to-r from-[#2998ec] via-[#38bdf8] to-[#48d597] border-transparent shadow-xl shadow-cyan-500/25 scale-[1.02] ring-2 ring-[#0077B6]/30"
-                  : "bg-white border-slate-200/80 shadow-sm hover:bg-gradient-to-r hover:from-[#2998ec] hover:via-[#38bdf8] hover:to-[#48d597] hover:border-transparent hover:shadow-xl hover:shadow-cyan-500/25 hover:-translate-y-1.5 hover:scale-[1.02]"
+                  ? "bg-gradient-to-r from-[#2998ec] via-[#38bdf8] to-[#48d597] border-transparent shadow-xl shadow-cyan-500/25 ring-2 ring-[#0077B6]/30"
+                  : "bg-white border-slate-200/80 shadow-sm hover:bg-gradient-to-r hover:from-[#2998ec] hover:via-[#38bdf8] hover:to-[#48d597] hover:border-transparent hover:shadow-xl hover:shadow-cyan-500/25"
               }`}
             >
               <img
                 src={b.logo}
                 alt={b.name}
-                className="max-h-12 sm:max-h-16 max-w-[78%] object-contain transition-transform duration-300 group-hover:scale-105 pointer-events-none drop-shadow-sm"
+                className="max-h-12 sm:max-h-16 max-w-[78%] object-contain transition-transform duration-300 ease-out group-hover:scale-110 pointer-events-none drop-shadow-sm"
                 loading="lazy"
               />
             </div>
