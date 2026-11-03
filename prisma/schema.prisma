@@ -1,229 +1,240 @@
-generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-3.0.x", "debian-openssl-3.0.x", "rhel-openssl-1.0.x", "rhel-openssl-1.1.x", "debian-openssl-1.1.x"]
-}
-
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
-
-enum Role {
-  ADMIN
-  STAFF
-  TECHNICIAN
-}
-
-enum ProductCategory {
-  CCTV_CAMERA
-  NVR_DVR
-  BIOMETRIC_ATTENDANCE
-  ACCESS_CONTROL
-  ACCESSORIES
-}
-
-enum LeadStatus {
-  NEW
-  CONTACTED
-  CONVERTED
-  CLOSED
-}
-
-enum TicketStatus {
-  PENDING
-  ASSIGNED
-  IN_PROGRESS
-  COMPLETED
-  CANCELLED
-}
-
-enum AmcStatus {
-  ACTIVE
-  EXPIRING_SOON
-  EXPIRED
-}
-
-model AdminUser {
-  id           Int      @id @default(autoincrement())
-  name         String
-  email        String   @unique
-  passwordHash String
-  role         Role     @default(ADMIN)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  phone        String?
-  joiningDate  DateTime?
-  salary       String?
-  attendance   String?
-  staffType    String? @default("SALES")
-  sessions     Session[]
-
-  @@map("admin_users")
-}
-
-model Product {
-  id             Int             @id @default(autoincrement())
-  name           String
-  slug           String          @unique
-  category       ProductCategory
-  brand          String          // CP Plus, Hikvision, eSSL, Dahua, Matrix, etc.
-  modelNumber    String?
-  price          Decimal?        @db.Decimal(10, 2)
-  description    String?         @db.Text
-  features       String?         @db.Text // Stored as JSON string or comma-separated
-  imageUrl       String?
-  inStock        Boolean         @default(true)
-  featured       Boolean         @default(false)
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-
-  @@map("products")
-}
-
-model Lead {
-  id          Int        @id @default(autoincrement())
-  name        String
-  phone       String
-  email       String?
-  serviceType String     // e.g., "CCTV Installation", "Biometric Attendance", "Repair"
-  message     String?    @db.Text
-  status      LeadStatus @default(NEW)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-
-  @@map("leads")
-}
-
-model ServiceTicket {
-  id               Int          @id @default(autoincrement())
-  ticketNumber     String       @unique // e.g., TKT-1001
-  customerName     String
-  phone            String
-  address          String       @db.Text
-  city             String?      @default("Local")
-  serviceType      String       // CCTV_INSTALL, REPAIR, BIOMETRIC_SETUP, AMC_VISIT
-  issueDescription String       @db.Text
-  status           TicketStatus @default(PENDING)
-  priority         String       @default("Normal") // Normal, High, Urgent
-  technicianName   String?
-  technicianPhone  String?
-  scheduledDate    DateTime?
-  resolutionNotes  String?      @db.Text
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
-
-  @@map("service_tickets")
-}
-
-model AmcContract {
-  id              Int       @id @default(autoincrement())
-  contractNumber  String    @unique // e.g., AMC-2026-001
-  customerName    String
-  companyName     String?
-  phone           String
-  email           String?
-  address         String    @db.Text
-  planType        String    // Standard, Silver, Gold, Corporate
-  totalCameras    Int       @default(0)
-  totalBiometrics Int       @default(0)
-  amount          Decimal?  @db.Decimal(10, 2)
-  startDate       DateTime
-  endDate         DateTime
-  status          AmcStatus @default(ACTIVE)
-  notes           String?   @db.Text
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-
-  @@map("amc_contracts")
-}
-
-model Client {
-  id        Int      @id @default(autoincrement())
-  name      String
-  category  String   // e.g. Retail, School, Hospital, Warehouse, Corporate
-  badge     String   // e.g. "64 Cameras + AMC", "Biometric + AI"
-  logoUrl   String?
-  sortOrder Int      @default(0)
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("clients")
-}
-
-
-
-enum QuotationType {
-  CCTV
-  BIOMETRIC
-  FIRE
-  OTHER
-}
-
-enum QuotationStatus {
-  DRAFT
-  SENT
-  ACCEPTED
-  REJECTED
-}
-
-model Quotation {
-  id             Int             @id @default(autoincrement())
-  quotationNo    String          @unique
-  publicToken    String?         @unique @db.VarChar(32)
-  type           QuotationType
-  status         QuotationStatus @default(DRAFT)
-
-  customerName   String
-  companyName    String?
-  phone          String
-  email          String?
-  address        String?         @db.Text
-
-  subTotal       Decimal         @db.Decimal(10, 2)
-  discount       Decimal?        @default(0) @db.Decimal(10, 2)
-  taxAmount      Decimal?        @default(0) @db.Decimal(10, 2)
-  totalAmount    Decimal         @db.Decimal(10, 2)
-
-  notes          String?         @db.Text
-  terms          String?         @db.Text
-
-  items          QuotationItem[]
-
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-
-  @@map("quotations")
-}
-
-model QuotationItem {
-  id          Int       @id @default(autoincrement())
-  quotationId Int
-  quotation   Quotation @relation(fields: [quotationId], references: [id], onDelete: Cascade)
-
-  name        String
-  description String?
-  quantity    Int
-  unitPrice   Decimal   @db.Decimal(10, 2)
-  totalPrice  Decimal   @db.Decimal(10, 2)
-
-  @@map("quotation_items")
-}
-
-/// Active login sessions. A token is only valid while its row exists here,
-/// so logout or deleting a user kills their access immediately.
-model Session {
-  id           Int      @id @default(autoincrement())
-  tokenHash    String   @unique @db.VarChar(64)
-  userId       Int
-  user         AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userAgent    String?  @db.Text
-  ipAddress    String?  @db.VarChar(64)
-  expiresAt    DateTime
-  lastUsedAt   DateTime @default(now())
-  createdAt    DateTime @default(now())
-
-  @@index([userId])
-  @@index([expiresAt])
-  @@map("sessions")
-}
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x", "debian-openssl-3.0.x", "rhel-openssl-1.0.x", "rhel-openssl-1.1.x", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  STAFF
+  TECHNICIAN
+}
+
+enum ProductCategory {
+  CCTV_CAMERA
+  NVR_DVR
+  CCTV_KIT
+  STORAGE_HDD
+  BIOMETRIC_ATTENDANCE
+  ACCESS_CONTROL
+  ACCESSORIES
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  CONVERTED
+  CLOSED
+}
+
+enum TicketStatus {
+  PENDING
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum AmcStatus {
+  ACTIVE
+  EXPIRING_SOON
+  EXPIRED
+}
+
+model AdminUser {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  phone        String?
+  joiningDate  DateTime?
+  salary       String?
+  attendance   String?
+  staffType    String? @default("SALES")
+  sessions     Session[]
+
+  @@map("admin_users")
+}
+
+model Product {
+  id              Int             @id @default(autoincrement())
+  name            String
+  slug            String          @unique
+  category        ProductCategory
+  subCategory     String?         // e.g. IP_BULLET, IP_DOME, ANALOG_BULLET, ANALOG_DOME, WIFI_360, PTZ, 4CH_DVR, 8CH_NVR, SURVEILLANCE_HDD, 4CH_KIT, 8CH_KIT, FINGERPRINT, FACE_ATTENDANCE
+  brand           String          // CP Plus, Hikvision, Dahua, Prama, eSSL, Realtime, Seagate, Western Digital, Matrix, Sparsh
+  modelNumber     String?
+  mrp             Decimal?        @db.Decimal(10, 2)
+  price           Decimal?        @db.Decimal(10, 2)
+  discountPercent Int?            @default(0)
+  description     String?         @db.Text
+  features        String?         @db.Text // Stored as JSON string or comma-separated
+  specs           String?         @db.Text // JSON string: { "Resolution": "2.4 MP", "Lens": "3.6mm", "IR Distance": "20m", ... }
+  imageUrl        String?
+  galleryImages   String?         @db.Text // JSON string array of image URLs
+  warranty        String?         @default("2 Years Brand Warranty")
+  hsnCode         String?         // e.g. 852580
+  isKit           Boolean         @default(false)
+  kitConfig       String?         @db.Text // JSON string for kit builder options
+  inStock         Boolean         @default(true)
+  featured        Boolean         @default(false)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@map("products")
+}
+
+model Lead {
+  id          Int        @id @default(autoincrement())
+  name        String
+  phone       String
+  email       String?
+  serviceType String     // e.g., "CCTV Installation", "Biometric Attendance", "Repair"
+  message     String?    @db.Text
+  status      LeadStatus @default(NEW)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@map("leads")
+}
+
+model ServiceTicket {
+  id               Int          @id @default(autoincrement())
+  ticketNumber     String       @unique // e.g., TKT-1001
+  customerName     String
+  phone            String
+  address          String       @db.Text
+  city             String?      @default("Local")
+  serviceType      String       // CCTV_INSTALL, REPAIR, BIOMETRIC_SETUP, AMC_VISIT
+  issueDescription String       @db.Text
+  status           TicketStatus @default(PENDING)
+  priority         String       @default("Normal") // Normal, High, Urgent
+  technicianName   String?
+  technicianPhone  String?
+  scheduledDate    DateTime?
+  resolutionNotes  String?      @db.Text
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  @@map("service_tickets")
+}
+
+model AmcContract {
+  id              Int       @id @default(autoincrement())
+  contractNumber  String    @unique // e.g., AMC-2026-001
+  customerName    String
+  companyName     String?
+  phone           String
+  email           String?
+  address         String    @db.Text
+  planType        String    // Standard, Silver, Gold, Corporate
+  totalCameras    Int       @default(0)
+  totalBiometrics Int       @default(0)
+  amount          Decimal?  @db.Decimal(10, 2)
+  startDate       DateTime
+  endDate         DateTime
+  status          AmcStatus @default(ACTIVE)
+  notes           String?   @db.Text
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("amc_contracts")
+}
+
+model Client {
+  id        Int      @id @default(autoincrement())
+  name      String
+  category  String   // e.g. Retail, School, Hospital, Warehouse, Corporate
+  badge     String   // e.g. "64 Cameras + AMC", "Biometric + AI"
+  logoUrl   String?
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("clients")
+}
+
+
+
+enum QuotationType {
+  CCTV
+  BIOMETRIC
+  FIRE
+  OTHER
+}
+
+enum QuotationStatus {
+  DRAFT
+  SENT
+  ACCEPTED
+  REJECTED
+}
+
+model Quotation {
+  id             Int             @id @default(autoincrement())
+  quotationNo    String          @unique
+  publicToken    String?         @unique @db.VarChar(32)
+  type           QuotationType
+  status         QuotationStatus @default(DRAFT)
+
+  customerName   String
+  companyName    String?
+  phone          String
+  email          String?
+  address        String?         @db.Text
+
+  subTotal       Decimal         @db.Decimal(10, 2)
+  discount       Decimal?        @default(0) @db.Decimal(10, 2)
+  taxAmount      Decimal?        @default(0) @db.Decimal(10, 2)
+  totalAmount    Decimal         @db.Decimal(10, 2)
+
+  notes          String?         @db.Text
+  terms          String?         @db.Text
+
+  items          QuotationItem[]
+
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@map("quotations")
+}
+
+model QuotationItem {
+  id          Int       @id @default(autoincrement())
+  quotationId Int
+  quotation   Quotation @relation(fields: [quotationId], references: [id], onDelete: Cascade)
+
+  name        String
+  description String?
+  quantity    Int
+  unitPrice   Decimal   @db.Decimal(10, 2)
+  totalPrice  Decimal   @db.Decimal(10, 2)
+
+  @@map("quotation_items")
+}
+
+/// Active login sessions. A token is only valid while its row exists here,
+/// so logout or deleting a user kills their access immediately.
+model Session {
+  id           Int      @id @default(autoincrement())
+  tokenHash    String   @unique @db.VarChar(64)
+  userId       Int
+  user         AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userAgent    String?  @db.Text
+  ipAddress    String?  @db.VarChar(64)
+  expiresAt    DateTime
+  lastUsedAt   DateTime @default(now())
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("sessions")
+}

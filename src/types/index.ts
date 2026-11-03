@@ -1,6 +1,8 @@
 export type ProductCategory =
   | "CCTV_CAMERA"
   | "NVR_DVR"
+  | "CCTV_KIT"
+  | "STORAGE_HDD"
   | "BIOMETRIC_ATTENDANCE"
   | "ACCESS_CONTROL"
   | "ACCESSORIES";
@@ -14,12 +16,21 @@ export interface ProductItem {
   name: string;
   slug: string;
   category: ProductCategory;
+  subCategory?: string | null;
   brand: string;
   modelNumber?: string | null;
+  mrp?: number | null;
   price?: number | null;
+  discountPercent?: number | null;
   description?: string | null;
   features?: string | null;
+  specs?: string | null;
   imageUrl?: string | null;
+  galleryImages?: string | null;
+  warranty?: string | null;
+  hsnCode?: string | null;
+  isKit?: boolean;
+  kitConfig?: string | null;
   inStock: boolean;
   featured: boolean;
 }

@@ -3,12 +3,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Shield, Phone, MessageSquare, Menu, X, Wrench, Clock, ShieldCheck } from "lucide-react";
+import { Shield, Phone, MessageSquare, Menu, X, Wrench, Clock, ShieldCheck, ShoppingBag } from "lucide-react";
 import { useCallModal } from "@/context/CallModalContext";
+import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { openCallModal } = useCallModal();
+  const { openCart, totalCount } = useCart();
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
@@ -21,7 +23,7 @@ export default function Navbar() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
             <span className="text-slate-200 font-medium">
-              <span className="text-blue-400 font-bold">Yash Enterprises</span> — Authorised CCTV & Biometric Sales, Service & AMC
+              <span className="text-blue-400 font-bold">Yash Enterprises</span> — Authorised CCTV &amp; Biometric Sales, Service &amp; AMC
             </span>
           </div>
           <div className="flex items-center gap-5 text-xs">
@@ -73,14 +75,24 @@ export default function Navbar() {
               <Link href="/" className="hover:text-blue-600 transition px-2 py-1 rounded-md hover:bg-slate-50">
                 Home
               </Link>
-              <Link href="/products" className="hover:text-blue-600 transition px-2 py-1 rounded-md hover:bg-slate-50">
-                CCTV & Biometrics
+              <Link
+                href="/products"
+                className="hover:text-blue-600 transition px-2.5 py-1 rounded-md hover:bg-blue-50/60 font-bold text-slate-900 flex items-center gap-1"
+              >
+                <span>CCTV &amp; Biometrics</span>
+                <span className="bg-blue-600 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded-full uppercase tracking-wider">
+                  Store
+                </span>
               </Link>
               <Link href="/services" className="hover:text-blue-600 transition px-2 py-1 rounded-md hover:bg-slate-50">
-                Installation & Repair
+                Installation &amp; Repair
               </Link>
-              <Link href="/amc" className="hover:text-blue-600 transition px-2 py-1 rounded-md hover:bg-slate-50">AMC Plans</Link>
-                <Link href="/calculator" className="hover:text-blue-600 transition px-2 py-1 rounded-md hover:bg-slate-50">Storage Calculator</Link>
+              <Link href="/amc" className="hover:text-blue-600 transition px-2 py-1 rounded-md hover:bg-slate-50">
+                AMC Plans
+              </Link>
+              <Link href="/calculator" className="hover:text-blue-600 transition px-2 py-1 rounded-md hover:bg-slate-50">
+                Storage Calculator
+              </Link>
               <Link
                 href="/track"
                 className="flex items-center gap-1.5 text-blue-600 bg-blue-50 hover:bg-blue-100 px-3.5 py-1.5 rounded-full transition"
@@ -90,8 +102,24 @@ export default function Navbar() {
             </nav>
           </div>
 
-          {/* CTAs (Strictly Single Line with generous gap from Track Ticket) */}
+          {/* CTAs & Cart Drawer Button */}
           <div className="hidden lg:flex items-center gap-3 shrink-0 flex-nowrap ml-6 xl:ml-10">
+            {/* Live Cart Button */}
+            <button
+              type="button"
+              onClick={openCart}
+              className="relative flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition shrink-0 shadow-sm border border-slate-200/80 cursor-pointer"
+              title="Open Shopping Cart"
+            >
+              <ShoppingBag className="w-4 h-4 text-blue-600" />
+              <span>Cart</span>
+              {totalCount > 0 && (
+                <span className="bg-blue-600 text-white text-[10px] font-black px-1.5 py-0.2 rounded-full min-w-[18px] text-center">
+                  {totalCount}
+                </span>
+              )}
+            </button>
+
             <button
               type="button"
               onClick={openCallModal}
@@ -111,11 +139,25 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Mobile menu toggle */}
-          <div className="md:hidden flex items-center">
+          {/* Mobile Right: Cart + Hamburger */}
+          <div className="md:hidden flex items-center gap-2">
+            <button
+              type="button"
+              onClick={openCart}
+              className="relative p-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition"
+              aria-label="View Cart"
+            >
+              <ShoppingBag className="w-5 h-5 text-blue-600" />
+              {totalCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] font-black px-1.5 py-0.2 rounded-full shadow-sm">
+                  {totalCount}
+                </span>
+              )}
+            </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-lg text-slate-700 hover:bg-slate-100"
+              aria-label="Toggle mobile menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -129,14 +171,25 @@ export default function Navbar() {
           <Link href="/" onClick={() => setMobileMenuOpen(false)} className="block py-2 font-semibold text-slate-800">
             Home
           </Link>
-          <Link href="/products" onClick={() => setMobileMenuOpen(false)} className="block py-2 font-semibold text-slate-800">
-            CCTV & Biometric Catalog
+          <Link
+            href="/products"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block py-2 font-bold text-blue-600 flex items-center justify-between"
+          >
+            <span>CCTV &amp; Biometrics Store</span>
+            <span className="bg-blue-50 text-blue-600 text-[10px] px-2 py-0.5 rounded-full font-bold">
+              Shop Now
+            </span>
           </Link>
           <Link href="/services" onClick={() => setMobileMenuOpen(false)} className="block py-2 font-semibold text-slate-800">
-            Installation & Repair Services
+            Installation &amp; Repair Services
           </Link>
-          <Link href="/amc" onClick={() => setMobileMenuOpen(false)} className="block py-2 font-semibold text-slate-800">AMC Annual Maintenance Contracts</Link>
-            <Link href="/calculator" onClick={() => setMobileMenuOpen(false)} className="block py-2 font-semibold text-slate-800">HDD Storage Calculator</Link>
+          <Link href="/amc" onClick={() => setMobileMenuOpen(false)} className="block py-2 font-semibold text-slate-800">
+            AMC Annual Maintenance Contracts
+          </Link>
+          <Link href="/calculator" onClick={() => setMobileMenuOpen(false)} className="block py-2 font-semibold text-slate-800">
+            HDD Storage Calculator
+          </Link>
           <Link href="/track" onClick={() => setMobileMenuOpen(false)} className="block py-2 font-semibold text-blue-600">
             Track Service Ticket
           </Link>
@@ -163,4 +216,3 @@ export default function Navbar() {
     </header>
   );
 }
-

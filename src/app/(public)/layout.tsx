@@ -3,6 +3,8 @@ import Navbar from "@/components/public/Navbar";
 import Footer from "@/components/public/Footer";
 import WhatsAppButton from "@/components/public/WhatsAppButton";
 import { CallModalProvider } from "@/context/CallModalContext";
+import { CartProvider } from "@/context/CartContext";
+import CartDrawer from "@/components/public/CartDrawer";
 
 export default function PublicLayout({
   children,
@@ -41,18 +43,27 @@ export default function PublicLayout({
 
   return (
     <CallModalProvider>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <div className="flex flex-col min-h-screen">
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-blue-600 focus:text-white focus:font-bold focus:shadow-xl">Skip to content</a>
-        <Navbar />
-        <main id="main-content" className="flex-1">{children}</main>
-        <Footer />
-        <WhatsAppButton />
-      </div>
+      <CartProvider>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <div className="flex flex-col min-h-screen">
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-blue-600 focus:text-white focus:font-bold focus:shadow-xl"
+          >
+            Skip to content
+          </a>
+          <Navbar />
+          <main id="main-content" className="flex-1">
+            {children}
+          </main>
+          <Footer />
+          <WhatsAppButton />
+          <CartDrawer />
+        </div>
+      </CartProvider>
     </CallModalProvider>
   );
 }
-
